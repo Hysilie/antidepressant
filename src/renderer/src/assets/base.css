@@ -1,0 +1,249 @@
+/* ----DEBUGGING----
+/* * {
+  box-shadow: 0px 0px 0px 3px cyan inset;
+  border-style: dotted;
+  border-color: cyan;
+} */
+
+:root {
+  /* ----Primary colors ----*/
+  --md-sys-color-on-primary: #333333;
+  --md-sys-color-on-primary-container: #333333;
+  --md-sys-color-primary: #f8d7a5;
+  --md-sys-color-primary-container: #fceed6;
+
+  /* ---- Secondary colors ----*/
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-on-secondary-container: #333333;
+  --md-sys-color-secondary: #46b7a7;
+  --md-sys-color-secondary-container: #c995cd;
+
+  /* ---- Tertiary colors ----*/
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-on-tertiary-container: #333333;
+  --md-sys-color-tertiary: #fe8d8d;
+  --md-sys-color-tertiary-container: #feea6d;
+
+  /* ---- Neutral colors---- */
+  --md-sys-color-background: #fffaf3;
+  --md-sys-color-on-background: #333333;
+  --md-sys-color-on-surface: #333333;
+  --md-sys-color-on-surface-variant: #5e5e5e;
+  --md-sys-color-surface: #ffffff;
+  --md-sys-color-surface-variant: #f5f5f5;
+
+  /* ---- Spacing (Padding & Margin) ---- */
+  --md-sys-spacing-0: 0px;
+  --md-sys-spacing-1: 4px;
+  --md-sys-spacing-2: 8px;
+  --md-sys-spacing-3: 12px;
+  --md-sys-spacing-4: 16px;
+  --md-sys-spacing-5: 24px;
+  --md-sys-spacing-6: 32px;
+  --md-sys-spacing-7: 40px;
+  --md-sys-spacing-8: 48px;
+
+  /*---- Border Radius ---- */
+  --md-sys-border-radius-full: 999px;
+  --md-sys-border-radius-large: 16px;
+  --md-sys-border-radius-medium: 8px;
+  --md-sys-border-radius-small: 4px;
+}
+
+/* ---- Typography ---- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
+  margin-bottom: var(--md-sys-spacing-2);
+}
+
+h1 {
+  font-size: 2rem;
+}
+h2 {
+  font-size: 1.75rem;
+}
+h3 {
+  font-size: 1.5rem;
+}
+h4 {
+  font-size: 1.25rem;
+}
+h5 {
+  font-size: 1rem;
+}
+h6 {
+  font-size: 0.875rem;
+}
+
+/* ---- Global Styles ---- */
+
+* {
+  box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  color: var(--md-sys-color-on-surface);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  height: 100%;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: var(--md-sys-color-on-surface);
+  font-weight: 600;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+ul {
+  list-style: none;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--md-sys-color-on-background);
+  background: var(--md-sys-color-primary);
+  line-height: 1.6;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---- Responsive Container ---- */
+
+.container {
+  margin: 0 auto;
+  padding: var(--md-sys-spacing-4);
+  width: 100%;
+}
+
+/* ---- Buttons ---- */
+.btn-svg {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-svg:hover {
+  transform: scale(1.5);
+  transition: all 0.3s ease;
+}
+
+/* ---- Cards ---- */
+.card {
+  background: white;
+  border-radius: var(--md-sys-border-radius-medium);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: var(--md-sys-spacing-4);
+  transition: 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ---- Forms ---- */
+input,
+textarea,
+select {
+  border: 1px solid var(--md-sys-color-on-surface);
+  border-radius: var(--md-sys-border-radius-medium);
+  font-size: 1rem;
+  margin: var(--md-sys-spacing-2) 0;
+  outline: none;
+  padding: var(--md-sys-spacing-3);
+  transition: border 0.3s;
+  width: 100%;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--md-sys-color-primary);
+}
+
+/* ---- Responsive Grid ---- */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--md-sys-spacing-4);
+}
+
+.col {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* ---- Utility Classes ---- */
+.text-center {
+  text-align: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.border {
+  border: 1px solid black;
+}
+.flex {
+  display: flex;
+}
+
+.gap {
+  gap: var(--md-sys-spacing-4);
+}
+
+.mt-1 {
+  margin-top: var(--md-sys-spacing-2);
+}
+.mt-2 {
+  margin-top: var(--md-sys-spacing-4);
+}
+.mt-3 {
+  margin-top: var(--md-sys-spacing-5);
+}
+
+.mb-1 {
+  margin-bottom: var(--md-sys-spacing-2);
+}
+.mb-2 {
+  margin-bottom: var(--md-sys-spacing-4);
+}
+.mb-3 {
+  margin-bottom: var(--md-sys-spacing-5);
+}
