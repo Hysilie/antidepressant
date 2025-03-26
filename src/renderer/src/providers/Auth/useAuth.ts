@@ -7,7 +7,7 @@ export const useAuth = (): AuthContextData => {
   const context = useContext(AuthContext)
 
   if (isEmpty(context)) {
-    throw new Error('useAuth must be used withing a AuthProvider')
+    throw new Error('useAuth must be used within an AuthProvider')
   }
   return context
 }

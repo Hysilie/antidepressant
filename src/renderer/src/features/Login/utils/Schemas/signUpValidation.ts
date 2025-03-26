@@ -4,9 +4,9 @@ import { passwordRegex } from './LoginValidation'
 export const signUpValidationSchema = Yup.object({
   username: Yup.string()
     .min(3, 'Must be 3 characters or more')
-    .max(20, 'Mist be 20 characters or less')
+    .max(20, 'Must be 20 characters or less')
     .required('Required'),
-  email: Yup.string().email('Invalid email adress').required('Required'),
+  email: Yup.string().email('Invalid email address').required('Required'),
   password: Yup.string()
     .min(12, 'Must be 12 characters or more')
     .matches(
