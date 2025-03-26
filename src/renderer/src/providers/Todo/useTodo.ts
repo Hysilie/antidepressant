@@ -7,7 +7,7 @@ export const useTodo = (): TodosContextData => {
   const context = useContext(TodosContext)
 
   if (isEmpty(context)) {
-    throw new Error('useTodo must be used withing a TodoProvider')
+    throw new Error('useTodo must be used within an TodoProvider')
   }
   return context
 }

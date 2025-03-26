@@ -1,8 +1,10 @@
-import { routes } from '@renderer/utils/routes'
+import { useAuth } from '@renderer/providers/Auth/useAuth'
+import { routes } from '@renderer/utils/Routes/routes'
 import { Link } from 'react-router'
 
 const HomeScreen = (): JSX.Element => {
   const { settings, todo, player, journal } = routes
+  const { logout } = useAuth()
 
   return (
     <div>
@@ -19,6 +21,9 @@ const HomeScreen = (): JSX.Element => {
         </li>
         <li>
           <Link to={journal}>Journal Screen</Link>
+        </li>
+        <li>
+          <button onClick={logout}>Logout</button>
         </li>
       </ul>
     </div>

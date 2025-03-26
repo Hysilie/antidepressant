@@ -3,7 +3,11 @@ export interface JournalContextData {
 }
 
 export interface Page {
-  id: number
+  id: string
+  title: string
   content: string
   date: Date
+  tag?: string
+  isLock?: boolean
+  userId?: string
 }
