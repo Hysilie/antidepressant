@@ -4,7 +4,6 @@ import { routes } from './routes'
 
 const ProtectedRoute = (): JSX.Element => {
   const { currentUser, loading } = useAuth()
-  console.log(currentUser)
   if (loading) return <div>Loading...</div>
 
   if (!currentUser) {
