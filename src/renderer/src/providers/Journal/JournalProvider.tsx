@@ -24,7 +24,6 @@ export const JournalProvider: FC<PropsWithChildren> = ({ children }) => {
       const querySnapshot = await getDocs(journalRef)
       const pagesData: Page[] = querySnapshot.docs.map((doc) => {
         const data = doc.data()
-        console.log('Data ', data)
         return {
           id: doc.id,
           title: data.title,
