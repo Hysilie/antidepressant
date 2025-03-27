@@ -1,22 +1,26 @@
-import PreviousButton from '@renderer/components/PreviousButton'
 import { useJournal } from '@renderer/providers/Journal/useJournal'
+import { useNetworkStatus } from '@renderer/providers/utils/useNetworkStatus'
+import { routes } from '@renderer/utils/Routes/routes'
 import { useNavigate } from 'react-router'
 
 const JournalScreen = (): JSX.Element => {
-  const navigate = useNavigate()
-  const navigateToNewNote = (): void | Promise<void> => navigate('/journal/edit')
-  const navigateToEditNote = (id: string): void | Promise<void> => navigate(`/journal/edit/${id}`)
-
   const { pages } = useJournal()
+  const isOnline = useNetworkStatus()
+
+  const navigate = useNavigate()
+  const navigateToEditNote = (id?: string): void | Promise<void> => navigate(routes.journalEdit(id))
+
   return (
     <div>
-      <div className="flex gap">
-        <PreviousButton />
-        JournalScreen
-      </div>
-      <div>{pages[0]?.title}</div>
-      <button onClick={() => navigateToEditNote('1')}>Edit a note </button>
-      <button onClick={navigateToNewNote}>New note </button>
+      <button onClick={() => navigate(routes.home)}> back </button>
+
+      <div className="flex gap">JournalScreen</div>
+      {pages.map((p, index) => (
+        <button disabled={!isOnline} key={index} onClick={() => navigateToEditNote(p.id)}>
+          {p.title}
+        </button>
+      ))}
+      <button onClick={() => navigateToEditNote()}>Create a note </button>
     </div>
   )
 }

@@ -1,9 +1,21 @@
+import { FC } from 'react'
 import { useNavigate } from 'react-router'
 
-const PreviousButton = (): JSX.Element => {
-  const navigate = useNavigate()
+interface PreviousButtonProps {
+  action?: () => void
+}
 
-  return <button onClick={() => navigate(-1)}>Navigate Back</button>
+const PreviousButton: FC<PreviousButtonProps> = ({ action }): JSX.Element => {
+  const navigate = useNavigate()
+  const navigateBack = (): Promise<void> | void => {
+    if (action) {
+      action()
+    } else {
+      navigate(-1)
+    }
+  }
+
+  return <button onClick={navigateBack}>Navigate Back</button>
 }
 
 export default PreviousButton
