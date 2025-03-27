@@ -1,7 +1,7 @@
 export const routes = {
   home: '/',
   journal: '/journal',
-  journalEdit: (id?: string): string => (id ? `/journal/edit/${id}` : '/journal/edit'),
+  journalEdit: (id?: string): string => `/journal/edit${id ? `/${id}` : ''}`,
   login: '/login',
   player: '/player',
   settings: '/settings',

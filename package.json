@@ -23,12 +23,21 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^4.0.0",
+    "@tiptap/extension-color": "^2.11.5",
+    "@tiptap/extension-paragraph": "^2.11.5",
+    "@tiptap/extension-placeholder": "^2.11.5",
+    "@tiptap/extension-text-style": "^2.11.5",
+    "@tiptap/pm": "^2.11.5",
+    "@tiptap/react": "^2.11.5",
+    "@tiptap/starter-kit": "^2.11.5",
     "electron-updater": "^6.3.9",
     "firebase": "^11.5.0",
     "formik": "^2.4.6",
+    "lodash": "^4.17.21",
     "react-router": "^7.4.0",
     "react-toastify": "^11.0.5",
     "remeda": "^2.21.2",
+    "uuid": "^11.1.0",
     "yup": "^1.6.1"
   },
   "devDependencies": {

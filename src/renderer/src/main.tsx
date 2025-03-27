@@ -18,13 +18,20 @@ import { AuthProvider } from './providers/Auth/AuthProvider'
 import ProtectedRoute from './utils/Routes/ProtectedRoutes'
 import HomeScreen from './features/Home/HomeScreen'
 import AppLayout from './AppLayout'
+import { PageProvider } from './providers/Journal/Page/PageProvider'
 
 const routeConfig = [
   // Protected Routes
   { path: routes.home, element: <HomeScreen /> },
   { path: routes.journal, element: <JournalScreen /> },
-  { path: routes.journalEdit(), element: <JournalEditor /> },
-  { path: routes.journalEdit(':id'), element: <JournalEditor /> },
+  {
+    path: '/journal/edit/:id?',
+    element: (
+      <PageProvider>
+        <JournalEditor />
+      </PageProvider>
+    )
+  },
   { path: routes.player, element: <PlayerScreen /> },
   { path: routes.settings, element: <SettingsScreen /> },
   { path: routes.todo, element: <TodoScreen /> },
