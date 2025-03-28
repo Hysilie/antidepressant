@@ -7,7 +7,7 @@ export const useTask = (): TaskContextData => {
   const context = useContext(TaskContext)
 
   if (isEmpty(context)) {
-    throw new Error('useTask must be used within an TaskProvider')
+    throw new Error('useTask must be used within a TaskProvider')
   }
   return context
 }
