@@ -1,9 +1,11 @@
-import PreviousButton from '@renderer/components/PreviousButton'
+import { routes } from '@renderer/utils/Routes/routes'
+import { useNavigate } from 'react-router'
 
 const SettingsScreen = (): JSX.Element => {
+  const navigate = useNavigate()
   return (
     <div>
-      <PreviousButton />
+      <button onClick={() => navigate(routes.home)}>back</button>
       SettingsScreen
     </div>
   )

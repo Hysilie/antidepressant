@@ -4,7 +4,6 @@ import TextStyle from '@tiptap/extension-text-style'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import MenuEditor from './MenuEditor'
-import PreviousButton from '@renderer/components/PreviousButton'
 import { usePage } from '@renderer/providers/Journal/Page/usePage'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
@@ -45,12 +44,15 @@ const JournalEditor = (): JSX.Element => {
 
   return (
     <div className="journal-container">
-      <PreviousButton
-        action={() => {
+      <button
+        onClick={() => {
           save()
           navigate(routes.journal)
         }}
-      />
+      >
+        back
+      </button>
+
       <input
         id="title"
         placeholder="Title…"

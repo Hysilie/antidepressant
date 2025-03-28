@@ -20,6 +20,7 @@ import HomeScreen from './features/Home/HomeScreen'
 import AppLayout from './AppLayout'
 import { PageProvider } from './providers/Journal/Page/PageProvider'
 import { TaskProvider } from './providers/Todo/Task/TaskProvider'
+import { PlayerProvider } from './providers/Player/PlayerProvider'
 
 const routeConfig = [
   // Protected Routes
@@ -50,22 +51,24 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <TodoProvider>
-          <JournalProvider>
-            <Routes>
-              <Route path={routes.signup} element={<SignUpScreen />} />
-              <Route path={routes.login} element={<LoginScreen />} />
+        <PlayerProvider>
+          <TodoProvider>
+            <JournalProvider>
+              <Routes>
+                <Route path={routes.signup} element={<SignUpScreen />} />
+                <Route path={routes.login} element={<LoginScreen />} />
 
-              <Route element={<ProtectedRoute />}>
-                <Route element={<AppLayout />}>
-                  {routeConfig.map(({ path, element }) => (
-                    <Route key={path} path={path} element={element} />
-                  ))}
+                <Route element={<ProtectedRoute />}>
+                  <Route element={<AppLayout />}>
+                    {routeConfig.map(({ path, element }) => (
+                      <Route key={path} path={path} element={element} />
+                    ))}
+                  </Route>
                 </Route>
-              </Route>
-            </Routes>
-          </JournalProvider>
-        </TodoProvider>
+              </Routes>
+            </JournalProvider>
+          </TodoProvider>
+        </PlayerProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>

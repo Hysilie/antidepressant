@@ -1,4 +1,3 @@
-import PreviousButton from '@renderer/components/PreviousButton'
 import { useTodo } from '@renderer/providers/Todo/useTodo'
 import { useNetworkStatus } from '@renderer/providers/utils/useNetworkStatus'
 import { routes } from '@renderer/utils/Routes/routes'
@@ -14,7 +13,7 @@ const TodoScreen = (): JSX.Element => {
   return (
     <div>
       <div className="flex gap">
-        <PreviousButton action={() => navigate(routes.home)} />
+        <button onClick={() => navigate(routes.home)}>back </button>
         Todo Screen
       </div>
 
