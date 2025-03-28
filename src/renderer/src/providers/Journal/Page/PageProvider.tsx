@@ -6,6 +6,7 @@ import { deleteDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore'
 import { db } from '@renderer/providers/Auth/firebase/firebase'
 import { useAuth } from '@renderer/providers/Auth/useAuth'
 import { useJournal } from '../useJournal'
+import { isEmpty } from 'remeda'
 
 export const PageProvider: FC<PropsWithChildren> = ({ children }) => {
   const { currentUser } = useAuth()
@@ -33,7 +34,7 @@ export const PageProvider: FC<PropsWithChildren> = ({ children }) => {
       setTitle(existingPage.title)
       setContent(existingPage.content)
     }
-  }, [localKey, pageId, pages])
+  }, [pageId, pages])
 
   /**
    * Save the current page state to localStorage to minimize Firestore writes
@@ -70,7 +71,7 @@ export const PageProvider: FC<PropsWithChildren> = ({ children }) => {
     const createdAt = existingDoc?.createdAt || serverTimestamp()
 
     await setDoc(docRef, {
-      title: title ?? new Date().toLocaleDateString(),
+      title: isEmpty(title) ? new Date().toLocaleDateString() : title,
       content,
       createdAt,
       updatedAt: serverTimestamp()
