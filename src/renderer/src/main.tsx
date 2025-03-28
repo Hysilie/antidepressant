@@ -19,6 +19,7 @@ import ProtectedRoute from './utils/Routes/ProtectedRoutes'
 import HomeScreen from './features/Home/HomeScreen'
 import AppLayout from './AppLayout'
 import { PageProvider } from './providers/Journal/Page/PageProvider'
+import { TaskProvider } from './providers/Todo/Task/TaskProvider'
 
 const routeConfig = [
   // Protected Routes
@@ -35,8 +36,14 @@ const routeConfig = [
   { path: routes.player, element: <PlayerScreen /> },
   { path: routes.settings, element: <SettingsScreen /> },
   { path: routes.todo, element: <TodoScreen /> },
-  { path: routes.todoEdit(), element: <TodoEditor /> },
-  { path: routes.todoEdit(':id'), element: <TodoEditor /> }
+  {
+    path: '/todo/edit/:id?',
+    element: (
+      <TaskProvider>
+        <TodoEditor />
+      </TaskProvider>
+    )
+  }
 ]
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

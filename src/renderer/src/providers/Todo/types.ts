@@ -1,17 +1,13 @@
-export interface Todo {
-  id: string
-  todo: string
-  isDone: boolean
-}
-
 export interface TodoList {
   id: string
   title: string
-  date: Date
-  todos: Todo[]
+  todos: string
   userid?: number
+  createdAt: Date
+  updatedAt?: Date
 }
 
 export interface TodosContextData {
   todoList: TodoList[]
+  refreshTodos: () => void
 }

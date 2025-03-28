@@ -7,5 +7,5 @@ export const routes = {
   settings: '/settings',
   signup: '/signup',
   todo: '/todo',
-  todoEdit: (id?: string): string => (id ? `/todo/edit/${id}` : '/todo/edit')
+  todoEdit: (id?: string): string => `/todo/edit${id ? `/${id}` : ''}`
 } as const

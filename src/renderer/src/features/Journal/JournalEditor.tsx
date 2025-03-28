@@ -6,21 +6,18 @@ import StarterKit from '@tiptap/starter-kit'
 import MenuEditor from './MenuEditor'
 import PreviousButton from '@renderer/components/PreviousButton'
 import { usePage } from '@renderer/providers/Journal/Page/usePage'
-import { useEffect, useMemo } from 'react'
-import { debounce } from 'lodash'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { routes } from '@renderer/utils/Routes/routes'
+import { useDebouncer } from '@renderer/utils/useDebouncer'
 
 const JournalEditor = (): JSX.Element => {
   const { update, title, content, save, remove } = usePage()
   const navigate = useNavigate()
-  const debouncedUpdate = useMemo(
-    () =>
-      debounce((html: string) => {
-        update({ content: html })
-      }, 300),
-    [update]
-  )
+
+  const debouncedUpdate = useDebouncer((html: string) => {
+    update({ content: html })
+  })
 
   const editor = useEditor({
     extensions: [
