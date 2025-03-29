@@ -1,6 +1,8 @@
 export interface PlayerContextData {
-  username: string
-  isConnected: boolean
-  redirectToSpotifyLogin: () => void
-  isLoading: boolean
+  isPaused: boolean
+  trackName: string
+  togglePlayPause: () => void
+  next: () => void
+  previous: () => void
+  openFolder: () => void
 }

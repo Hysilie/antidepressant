@@ -135,7 +135,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const logout = (): void => {
     if (auth.currentUser) auth.signOut()
     setCurrentUser(undefined)
-    localStorage.removeItem('currentUser')
+    localStorage.clear()
   }
 
   return (
