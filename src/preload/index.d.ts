@@ -16,6 +16,7 @@ declare global {
     electronAPI: {
       selectAudioFiles: () => Promise<string[]>
       readAudioFile: (filePath: string) => Promise<Uint8Array>
+      checkFileExists: (file: string) => Promise<boolean>
     }
     api: unknown
   }

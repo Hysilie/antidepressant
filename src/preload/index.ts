@@ -35,5 +35,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
   readAudioFile: async (filePath: string): Promise<Uint8Array> => {
     const buffer = fs.readFileSync(filePath)
     return new Uint8Array(buffer)
+  },
+  checkFileExists: (filePath) => {
+    try {
+      return fs.existsSync(filePath)
+    } catch (error) {
+      console.log(`Error : ${error}, file not found`)
+      return false
+    }
   }
 })
