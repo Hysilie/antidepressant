@@ -1,5 +1,7 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import fs from 'fs'
+import fsPromises from 'fs/promises'
 
 // Custom APIs for renderer
 const api = {}
@@ -20,3 +22,27 @@ if (process.contextIsolated) {
   // @ts-ignore (define in dts)
   window.api = api
 }
+
+/**
+ * Reads the contents of the specified file into a buffer.
+ *
+ * @constant buffer - A Buffer object containing the data of the file.
+ * @see {@link  https://nodejs.org/api/buffer.html for more information about Buffer objects.}
+ * @see {@link https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options | fs.readFileSync Documentation}
+ */
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  selectAudioFiles: () => ipcRenderer.invoke('select-audio-files'),
+  readAudioFile: async (filePath: string): Promise<Uint8Array> => {
+    const buffer = await fsPromises.readFile(filePath)
+    return new Uint8Array(buffer)
+  },
+  checkFileExists: (filePath) => {
+    try {
+      return fs.existsSync(filePath)
+    } catch (error) {
+      console.log(`Error : ${error}, file not found`)
+      return false
+    }
+  }
+})

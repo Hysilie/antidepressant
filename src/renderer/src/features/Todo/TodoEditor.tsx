@@ -1,4 +1,3 @@
-import PreviousButton from '@renderer/components/PreviousButton'
 import { useTask } from '@renderer/providers/Todo/Task/useTask'
 import Paragraph from '@tiptap/extension-paragraph'
 import TaskItem from '@tiptap/extension-task-item'
@@ -43,12 +42,14 @@ const TodoEditor = (): JSX.Element => {
 
   return (
     <div>
-      <PreviousButton
-        action={() => {
+      <button
+        onClick={() => {
           save()
           navigate(routes.todo)
         }}
-      />
+      >
+        back
+      </button>
 
       <input
         id="title"

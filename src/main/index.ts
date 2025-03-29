@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -85,6 +85,27 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+/**
+ * Opens a file dialog to allow the user to select one or more audio files.
+ *
+ * @returns An object containing:
+ * - `canceled`: A boolean indicating whether the dialog was canceled.
+ * - `filePaths`: An array of strings representing the paths of the selected files.
+ *
+ * The dialog is configured with the following options:
+ * - `properties`: Allows selecting multiple files (`multiSelections`) and ensures only files can be selected (`openFile`).
+ * - `filters`: Restricts the selectable files to audio files with extensions `mp3`, `wav`, or `ogg`.
+ */
+ipcMain.handle('select-audio-files', async () => {
+  const { canceled, filePaths } = await dialog.showOpenDialog({
+    properties: ['openFile', 'multiSelections'],
+    filters: [{ name: 'Audio', extensions: ['mp3', 'wav', 'ogg'] }]
+  })
+
+  if (canceled) return []
+  return filePaths
 })
 
 // In this file you can include the rest of your app's specific main process

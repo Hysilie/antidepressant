@@ -4,11 +4,22 @@
     <meta charset="UTF-8" />
     <title>Antidepressant</title>
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-     <!-- We spread CSP with firebase domains -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://identitytoolkit.googleapis.com; script-src 'self'; style-src 'self' 'unsafe-inline';"
-    />
+    <!-- This file contains the main HTML structure for the renderer process of the application.
+    Content Security Policy (CSP) is configured to ensure secure loading of resources.
+    Firebase domains are included in the CSP to allow integration with Firebase services.
+    Blob is included in order to use Audio Player.
+  -->
+<meta
+  http-equiv="Content-Security-Policy"
+  content="
+    default-src 'self';
+    connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://identitytoolkit.googleapis.com;
+    script-src 'self' https://sdk.scdn.co;
+    frame-src 'self' https://sdk.scdn.co;
+    style-src 'self' 'unsafe-inline';
+     media-src 'self' blob:;
+  "
+/>
   </head>
 
   <body>
