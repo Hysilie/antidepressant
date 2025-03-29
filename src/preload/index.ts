@@ -1,6 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import fs from 'fs'
+import fsPromises from 'fs/promises'
 
 // Custom APIs for renderer
 const api = {}
@@ -33,7 +34,7 @@ if (process.contextIsolated) {
 contextBridge.exposeInMainWorld('electronAPI', {
   selectAudioFiles: () => ipcRenderer.invoke('select-audio-files'),
   readAudioFile: async (filePath: string): Promise<Uint8Array> => {
-    const buffer = fs.readFileSync(filePath)
+    const buffer = await fsPromises.readFile(filePath)
     return new Uint8Array(buffer)
   },
   checkFileExists: (filePath) => {
