@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from 'react-router'
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import SettingsScreen from './features/Settings/SettingsScreen'
 import TodoScreen from './features/Todo/TodoScreen'
 import PlayerScreen from './features/Player/PlayerScreen'
 import JournalScreen from './features/Journal/JournalScreen'
@@ -21,6 +20,8 @@ import AppLayout from './AppLayout'
 import { PageProvider } from './providers/Journal/Page/PageProvider'
 import { TaskProvider } from './providers/Todo/Task/TaskProvider'
 import { PlayerProvider } from './providers/Player/PlayerProvider'
+import PreferencesScreen from './features/Preferences/PreferencesScreen'
+import { PreferencesProvider } from './providers/Preferences/PreferencesProvider'
 
 const routeConfig = [
   // Protected Routes
@@ -35,7 +36,7 @@ const routeConfig = [
     )
   },
   { path: routes.player, element: <PlayerScreen /> },
-  { path: routes.settings, element: <SettingsScreen /> },
+  { path: routes.preferences, element: <PreferencesScreen /> },
   { path: routes.todo, element: <TodoScreen /> },
   {
     path: '/todo/edit/:id?',
@@ -51,24 +52,26 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <PlayerProvider>
-          <TodoProvider>
-            <JournalProvider>
-              <Routes>
-                <Route path={routes.signup} element={<SignUpScreen />} />
-                <Route path={routes.login} element={<LoginScreen />} />
+        <PreferencesProvider>
+          <PlayerProvider>
+            <TodoProvider>
+              <JournalProvider>
+                <Routes>
+                  <Route path={routes.signup} element={<SignUpScreen />} />
+                  <Route path={routes.login} element={<LoginScreen />} />
 
-                <Route element={<ProtectedRoute />}>
-                  <Route element={<AppLayout />}>
-                    {routeConfig.map(({ path, element }) => (
-                      <Route key={path} path={path} element={element} />
-                    ))}
+                  <Route element={<ProtectedRoute />}>
+                    <Route element={<AppLayout />}>
+                      {routeConfig.map(({ path, element }) => (
+                        <Route key={path} path={path} element={element} />
+                      ))}
+                    </Route>
                   </Route>
-                </Route>
-              </Routes>
-            </JournalProvider>
-          </TodoProvider>
-        </PlayerProvider>
+                </Routes>
+              </JournalProvider>
+            </TodoProvider>
+          </PlayerProvider>
+        </PreferencesProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
