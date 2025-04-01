@@ -4,7 +4,7 @@ export const routes = {
   journalEdit: (id?: string): string => `/journal/edit${id ? `/${id}` : ''}`,
   login: '/login',
   player: '/player',
-  settings: '/settings',
+  preferences: '/preferences',
   signup: '/signup',
   todo: '/todo',
   todoEdit: (id?: string): string => `/todo/edit${id ? `/${id}` : ''}`

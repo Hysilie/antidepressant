@@ -26,3 +26,19 @@ export interface PlayerContextData {
   handleReplay: () => void
   handleShuffle: () => void
 }
+
+export interface PlayerState {
+  isPaused: boolean
+  isShuffle: boolean
+  isReplay: boolean
+  volume: number
+  isMuted: boolean
+  volumeBeforeMute: number
+}
+
+export type PlayerAction =
+  | { type: 'play_pause' }
+  | { type: 'replay' }
+  | { type: 'shuffle' }
+  | { type: 'volume'; payload: number }
+  | { type: 'mute' }

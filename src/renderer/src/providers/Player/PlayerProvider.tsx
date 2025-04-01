@@ -2,46 +2,48 @@ import { FC, PropsWithChildren, useCallback, useEffect, useRef, useState, MouseE
 import { PlayerContext } from './PlayerContext'
 import { Track } from './types'
 import { isEmpty } from 'remeda'
+import { usePlayerReducer } from './usePlayerReducer'
+import { useAuth } from '../Auth/useAuth'
 
 export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
+  const { currentUser } = useAuth()
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [playlist, setPlaylist] = useState<Track[]>([])
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0)
   const [trackName, setTrackName] = useState('')
-  const [isPaused, setIsPaused] = useState(true)
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
   const [progress, setProgress] = useState(0)
-  const [isShuffle, setIsShuffle] = useState(false)
-  const [isReplay, setIsReplay] = useState(false)
-  const [volume, setVolume] = useState(1)
-  const [isMuted, setIsMuted] = useState(false)
-  const volumeBeforeMute = useRef(1)
+  const { state, dispatch } = usePlayerReducer()
+  const { isPaused, isShuffle, isReplay, volume, isMuted } = state
 
   const togglePlayPause = (): void => {
-    if (audioRef.current) {
-      if (isPaused) {
-        audioRef.current.play()
-        setIsPaused(false)
-      } else {
-        audioRef.current.pause()
-        setIsPaused(true)
-      }
+    if (!audioRef.current) return
+
+    if (isPaused) {
+      audioRef.current.play()
+    } else {
+      audioRef.current.pause()
     }
+
+    dispatch({ type: 'play_pause' })
   }
 
   const next = (): void => {
-    if (currentTrackIndex >= playlist.length - 1) return
-    setCurrentTrackIndex(currentTrackIndex + 1)
+    if (playlist.length === 0) return
+
+    const nextIndex = (currentTrackIndex + 1) % playlist.length
+    setCurrentTrackIndex(nextIndex)
   }
 
   const previous = (): void => {
-    if (currentTrackIndex <= 0) return
-    setCurrentTrackIndex(currentTrackIndex - 1)
-  }
+    if (playlist.length === 0) return
 
-  const handleReplay = useCallback(() => setIsReplay((prev) => !prev), [])
-  const handleShuffle = useCallback(() => setIsShuffle((prev) => !prev), [])
+    const previousIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length
+    setCurrentTrackIndex(previousIndex)
+  }
+  const handleReplay = useCallback((): void => dispatch({ type: 'replay' }), [dispatch])
+  const handleShuffle = useCallback((): void => dispatch({ type: 'shuffle' }), [dispatch])
 
   /**
    * Handles the click event on the progress bar to update the audio playback position.
@@ -80,29 +82,12 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [])
 
-  const changeVolume = useCallback((value: number): void => {
-    const vol = Math.min(1, Math.max(0, value))
-    setVolume(vol)
-    if (audioRef.current) {
-      audioRef.current.volume = vol
-    }
-  }, [])
+  const changeVolume = useCallback(
+    (value: number) => dispatch({ type: 'volume', payload: Math.max(0, Math.min(1, value)) }),
+    [dispatch]
+  )
 
-  const toggleMute = useCallback((): void => {
-    if (audioRef.current) {
-      if (isMuted) {
-        audioRef.current.volume = volumeBeforeMute.current
-        setVolume(volumeBeforeMute.current)
-        setIsMuted(false)
-      } else {
-        volumeBeforeMute.current = volume
-        audioRef.current.volume = 0
-        setVolume(0)
-        setIsMuted(true)
-      }
-    }
-  }, [isMuted, volume])
-
+  const toggleMute = useCallback(() => dispatch({ type: 'mute' }), [dispatch])
   /**
    * Plays a track from the playlist at the specified index.
    *
@@ -123,13 +108,13 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
           audioRef.current.src = objectURL
           setTrackName(currentTrack.trackname)
           await audioRef.current.play()
-          setIsPaused(false)
+          dispatch({ type: 'play_pause' })
         }
       } catch (error) {
         console.error('An error occurred while trying to play the track:', error)
       }
     },
-    [playlist]
+    [dispatch, playlist]
   )
 
   const loadTrack = useCallback(async (): Promise<void> => {
@@ -139,9 +124,9 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
       audioRef.current.src = objectURL
       setTrackName(currentTrack.trackname)
       await audioRef.current.play()
-      setIsPaused(false)
+      dispatch({ type: 'play_pause' })
     }
-  }, [currentTrackIndex, playlist])
+  }, [currentTrackIndex, dispatch, playlist])
 
   /**
    * Opens a folder dialog to allow the user to select audio files and update playlist.
@@ -217,14 +202,27 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [])
 
-  const resetPlaylist = (): void => {
+  const resetPlaylist = useCallback((): void => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+      audioRef.current.src = ''
+    }
     localStorage.removeItem('playlist')
     setPlaylist([])
-  }
+    setCurrentTrackIndex(0)
+    setTrackName('')
+    dispatch({ type: 'play_pause' })
+    setDuration(0)
+    setCurrentTime(0)
+    setProgress(0)
+  }, [dispatch])
 
   useEffect(() => {
-    loadTrack()
-  }, [currentTrackIndex, loadTrack, playlist])
+    if (currentUser?.preferencesStates.musicAutoplay) {
+      loadTrack()
+    }
+  }, [currentUser?.preferencesStates.musicAutoplay, loadTrack])
 
   useEffect(() => {
     restorePlaylist()
@@ -241,6 +239,12 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
       audioRef.current.volume = volume
     }
   }, [volume])
+
+  useEffect(() => {
+    if (!currentUser) {
+      resetPlaylist()
+    }
+  }, [currentUser, resetPlaylist])
 
   return (
     <PlayerContext.Provider

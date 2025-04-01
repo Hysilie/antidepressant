@@ -1,3 +1,5 @@
+import { PreferencesStates } from '../Preferences/types'
+
 export interface AuthContextData {
   currentUser: User | undefined
   handleConnexion: (email: string, password: string) => void
@@ -7,9 +9,9 @@ export interface AuthContextData {
 }
 
 export interface User {
-  uid: string // Firebase Ref
+  uid: string
   username: string
   email: string
-  isLock?: boolean
-  theme?: string
+  lockScreenCode?: number
+  preferencesStates: PreferencesStates
 }

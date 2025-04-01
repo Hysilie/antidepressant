@@ -3,7 +3,7 @@ import { routes } from '@renderer/utils/Routes/routes'
 import { Link } from 'react-router'
 
 const HomeScreen = (): JSX.Element => {
-  const { settings, todo, player, journal } = routes
+  const { preferences, todo, player, journal } = routes
   const { logout } = useAuth()
 
   return (
@@ -11,7 +11,7 @@ const HomeScreen = (): JSX.Element => {
       Home
       <ul>
         <li>
-          <Link to={settings}>Settings Screen</Link>
+          <Link to={preferences}>Preferences Screen</Link>
         </li>
         <li>
           <Link to={todo}>Todo Screen</Link>

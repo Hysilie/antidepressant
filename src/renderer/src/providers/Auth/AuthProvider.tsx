@@ -42,9 +42,9 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         const docRef = doc(db, 'Users', user.uid)
         const docSnap = await getDoc(docRef)
         if (docSnap.exists()) {
-          const { email, uid, username } = docSnap.data()
-          const userData: User = { email, uid, username }
-          setCurrentUser(userData)
+          const { email, uid, username, preferencesStates, lockScreenCode } = docSnap.data()
+          const userData: User = { email, uid, username, preferencesStates }
+          setCurrentUser({ ...userData, lockScreenCode })
           localStorage.setItem('currentUser', JSON.stringify(userData))
         }
       } catch (error) {
