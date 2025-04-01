@@ -2,7 +2,8 @@ import { PreferencesStates } from './types'
 
 export const defaultPreferencesState: PreferencesStates = {
   theme: 'light',
-  musicAutoplay: false
+  musicAutoplay: false,
+  lockScreenEnabled: false
 }
 
 export function isPreferencesStates(obj: unknown): obj is PreferencesStates {
@@ -16,7 +17,7 @@ export function isPreferencesStates(obj: unknown): obj is PreferencesStates {
     typeof preferences.theme === 'string' &&
     validThemes.includes(preferences.theme) &&
     typeof preferences.musicAutoplay === 'boolean' &&
-    (preferences.lockCode === undefined ||
-      (typeof preferences.lockCode === 'number' && !isNaN(preferences.lockCode)))
+    (preferences.lockScreenEnabled === undefined ||
+      typeof preferences.lockScreenEnabled === 'boolean')
   )
 }

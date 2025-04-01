@@ -3,7 +3,7 @@ import { Dispatch } from 'react'
 export interface PreferencesStates {
   theme: 'light' | 'dark' | 'system'
   musicAutoplay: boolean
-  lockCode?: number
+  lockScreenEnabled: boolean
 }
 
 export type PreferenceActionName = 'set' | 'switch' | 'reset' | 'get'

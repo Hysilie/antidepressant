@@ -41,9 +41,9 @@ export const PreferencesProvider: FC<PropsWithChildren> = ({ children }) => {
       default:
         return action.key != null
           ? {
-              ...state,
-              [action.key]: !state?.[action.key]
-            }
+            ...state,
+            [action.key]: !state?.[action.key]
+          }
           : state
     }
   }
