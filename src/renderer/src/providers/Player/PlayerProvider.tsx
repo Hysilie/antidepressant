@@ -219,10 +219,10 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [dispatch])
 
   useEffect(() => {
-    if (currentUser?.preferencesStates.musicAutoplay) {
+    if (currentUser?.preferencesStates?.musicAutoplay) {
       loadTrack()
     }
-  }, [currentUser?.preferencesStates.musicAutoplay, loadTrack])
+  }, [currentUser?.preferencesStates?.musicAutoplay, loadTrack])
 
   useEffect(() => {
     restorePlaylist()

@@ -39,8 +39,8 @@ export const LockProvider: FC<PropsWithChildren> = ({ children }) => {
   )
 
   useEffect(() => {
-    if (currentUser?.preferencesStates.lockScreenEnabled != null) {
-      setIsScreenLocked(currentUser.preferencesStates.lockScreenEnabled)
+    if (currentUser?.preferencesStates?.lockScreenEnabled != null) {
+      setIsScreenLocked(currentUser?.preferencesStates?.lockScreenEnabled)
     }
   }, [currentUser])
 
