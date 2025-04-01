@@ -15,7 +15,6 @@ export interface PreferencesAction {
 }
 
 export interface PreferencesDataContext {
-  deleteAccount: () => void
   preferencesStates: PreferencesStates
   resetAllPreferences: () => void
   dispatchPreferences: Dispatch<PreferencesAction>

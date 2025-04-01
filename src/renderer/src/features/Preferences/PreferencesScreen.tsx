@@ -1,3 +1,4 @@
+import { useAuth } from '@renderer/providers/Auth/useAuth'
 import { useLock } from '@renderer/providers/Preferences/Lock/useLock'
 import { PreferenceActionName, PreferencesStates } from '@renderer/providers/Preferences/types'
 import { usePreferences } from '@renderer/providers/Preferences/usePreferences'
@@ -7,9 +8,9 @@ import { useNavigate } from 'react-router'
 
 const PreferencesScreen = (): JSX.Element => {
   const navigate = useNavigate()
+  const { deleteAccount } = useAuth()
   const { createLockCode, userAlreadyHasCode, checkCode, updateCodeStep } = useLock()
-  const { deleteAccount, resetAllPreferences, dispatchPreferences, preferencesStates } =
-    usePreferences()
+  const { resetAllPreferences, dispatchPreferences, preferencesStates } = usePreferences()
   const { musicAutoplay, lockScreenEnabled } = preferencesStates
   const handlePreference = useCallback(
     (
@@ -58,7 +59,6 @@ const PreferencesScreen = (): JSX.Element => {
           </button>
         </form>
       ) : null}
-      <div>Delete my data</div>
       <div onClick={resetAllPreferences}>Reset all preferences</div>
       <div onClick={deleteAccount}>Delete my account</div>
       <div onClick={() => setOpenDialog(true)}>Change Lock Code : </div>

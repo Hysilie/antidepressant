@@ -1,13 +1,17 @@
-import { FC, PropsWithChildren, useEffect, useState } from 'react'
+import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import { User } from './types'
 import { AuthContext } from './AuthContext'
 import { useNavigate } from 'react-router'
 import { isDefined } from 'remeda'
 import { routes } from '@renderer/utils/Routes/routes'
 import { toast } from 'react-toastify'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import {
+  createUserWithEmailAndPassword,
+  deleteUser,
+  signInWithEmailAndPassword
+} from 'firebase/auth'
 import { auth, db } from './firebase/firebase'
-import { doc, getDoc, setDoc } from 'firebase/firestore'
+import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore'
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User>()
@@ -129,6 +133,22 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }
 
+  const deleteAccount = useCallback(async (): Promise<void> => {
+    try {
+      if (!currentUser || !auth.currentUser) {
+        throw new Error('User is not defined')
+      }
+      const userRef = doc(db, 'Users', currentUser?.uid)
+      await deleteDoc(userRef)
+      await deleteUser(auth?.currentUser)
+
+      setCurrentUser(undefined)
+      navigate(routes.login, { replace: true })
+    } catch (error) {
+      console.error('Error deleting user account:', error)
+    }
+  }, [currentUser, navigate])
+
   /**
    * Log out the user with firebase method and clean local storage
    */
@@ -139,7 +159,16 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ currentUser, handleConnexion, handleRegister, logout, loading }}>
+    <AuthContext.Provider
+      value={{
+        currentUser,
+        handleConnexion,
+        handleRegister,
+        logout,
+        loading,
+        deleteAccount
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

@@ -9,7 +9,6 @@ import { doc, updateDoc } from 'firebase/firestore'
 
 export const PreferencesProvider: FC<PropsWithChildren> = ({ children }) => {
   const { currentUser } = useAuth()
-
   /**
    * Reducer function to manage the state of preferences.
    *
@@ -41,9 +40,9 @@ export const PreferencesProvider: FC<PropsWithChildren> = ({ children }) => {
       default:
         return action.key != null
           ? {
-            ...state,
-            [action.key]: !state?.[action.key]
-          }
+              ...state,
+              [action.key]: !state?.[action.key]
+            }
           : state
     }
   }
@@ -51,8 +50,6 @@ export const PreferencesProvider: FC<PropsWithChildren> = ({ children }) => {
   const [preferencesStates, dispatch] = useReducer(reducer, defaultPreferencesState)
 
   const resetAllPreferences = (): void => dispatch({ type: 'reset' })
-
-  const deleteAccount = (): void => console.log('Delete Account')
 
   /**
    * Filters out undefined values from the given preferences object.
@@ -115,7 +112,6 @@ export const PreferencesProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <PreferencesContext.Provider
       value={{
-        deleteAccount,
         preferencesStates,
         resetAllPreferences,
         dispatchPreferences: dispatch
