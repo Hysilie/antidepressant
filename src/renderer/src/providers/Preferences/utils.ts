@@ -2,7 +2,7 @@ import { PreferencesStates } from './types'
 
 export const defaultPreferencesState: PreferencesStates = {
   theme: 'light',
-  musicAutoplay: true
+  musicAutoplay: false
 }
 
 export function isPreferencesStates(obj: unknown): obj is PreferencesStates {

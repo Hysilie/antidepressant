@@ -65,13 +65,20 @@ export const PreferencesProvider: FC<PropsWithChildren> = ({ children }) => {
     ) as PreferencesStates
 
   const updatePreferencesInFirestore = useCallback(async () => {
-    if (!currentUser) {
-      throw new Error('User is not defined')
+    try {
+      if (!currentUser) {
+        throw new Error('User is not defined')
+      }
+      const userRef = doc(db, 'Users', currentUser?.uid)
+      const cleanedPreferences = getCleanPreferences(preferencesStates)
+      await updateDoc(userRef, { preferencesStates: cleanedPreferences })
+      localStorage.setItem(
+        'currentUser',
+        JSON.stringify({ ...currentUser, preferencesStates: cleanedPreferences })
+      )
+    } catch (error) {
+      console.error('Failed to update preferences in Firestore:', error)
     }
-    const userRef = doc(db, 'Users', currentUser?.uid)
-    const cleanedPreferences = getCleanPreferences(preferencesStates)
-    await updateDoc(userRef, { preferencesStates: cleanedPreferences })
-    localStorage.setItem('currentUser', JSON.stringify({ ...currentUser, cleanedPreferences }))
   }, [currentUser, preferencesStates])
 
   /**
