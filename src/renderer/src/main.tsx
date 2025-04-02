@@ -1,5 +1,6 @@
-import './assets/main.css'
+//import './assets/main.css'
 import { BrowserRouter, Routes, Route } from 'react-router'
+import './index.css'
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
