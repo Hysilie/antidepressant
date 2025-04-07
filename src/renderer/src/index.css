@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --primary: #feea6d;
+}
+
+@font-face {
+  font-family: 'Lilita One';
+  src: url('assets/fonts/lilita-one-v15-latin-regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Quicksand';
+  src: url('assets/fonts/quicksand-v36-latin-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Quicksand';
+  src: url('assets/fonts/quicksand-v36-latin-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Patrick Hand';
+  src: url('assets/fonts/patrick-hand-v23-latin-regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}

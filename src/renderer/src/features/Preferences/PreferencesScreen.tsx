@@ -1,6 +1,12 @@
 import { useAuth } from '@renderer/providers/Auth/useAuth'
 import { useLock } from '@renderer/providers/Preferences/Lock/useLock'
-import { PreferenceActionName, PreferencesStates } from '@renderer/providers/Preferences/types'
+import { colorOptions } from '@renderer/providers/Preferences/Theme/colors'
+import { useTheme } from '@renderer/providers/Preferences/Theme/useTheme'
+import {
+  PreferenceActionName,
+  PreferencesStates,
+  Theme
+} from '@renderer/providers/Preferences/types'
 import { usePreferences } from '@renderer/providers/Preferences/usePreferences'
 import { routes } from '@renderer/utils/Routes/routes'
 import { useCallback, useState } from 'react'
@@ -25,6 +31,7 @@ const PreferencesScreen = (): JSX.Element => {
   const [displayCode, setDisplayCode] = useState(false)
   const [code, setCode] = useState('')
   const [openDialog, setOpenDialog] = useState(false)
+  const { setColor } = useTheme()
 
   return (
     <div>
@@ -95,6 +102,20 @@ const PreferencesScreen = (): JSX.Element => {
           )}
         </>
       ) : null}
+      <h1 className="font-title text-primary text-3xl">Hello 👋</h1>
+      <div className="flex flex-wrap gap-3 mt-4">
+        {colorOptions.map(({ hex, name }) => (
+          <button
+            key={hex}
+            onClick={() => setColor(name as Theme)}
+            className="border-2 rounded-full w-10 h-10"
+            style={{
+              backgroundColor: hex
+            }}
+            title={hex}
+          />
+        ))}
+      </div>
     </div>
   )
 }

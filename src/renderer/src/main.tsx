@@ -24,6 +24,7 @@ import { PlayerProvider } from './providers/Player/PlayerProvider'
 import PreferencesScreen from './features/Preferences/PreferencesScreen'
 import { PreferencesProvider } from './providers/Preferences/PreferencesProvider'
 import { LockProvider } from './providers/Preferences/Lock/LockProvider'
+import { ThemeProvider } from './providers/Preferences/Theme/ThemeProvider'
 
 const routeConfig = [
   // Protected Routes
@@ -55,26 +56,28 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <BrowserRouter>
       <AuthProvider>
         <PreferencesProvider>
-          <PlayerProvider>
-            <LockProvider>
-              <TodoProvider>
-                <JournalProvider>
-                  <Routes>
-                    <Route path={routes.signup} element={<SignUpScreen />} />
-                    <Route path={routes.login} element={<LoginScreen />} />
+          <ThemeProvider>
+            <PlayerProvider>
+              <LockProvider>
+                <TodoProvider>
+                  <JournalProvider>
+                    <Routes>
+                      <Route path={routes.signup} element={<SignUpScreen />} />
+                      <Route path={routes.login} element={<LoginScreen />} />
 
-                    <Route element={<ProtectedRoute />}>
-                      <Route element={<AppLayout />}>
-                        {routeConfig.map(({ path, element }) => (
-                          <Route key={path} path={path} element={element} />
-                        ))}
+                      <Route element={<ProtectedRoute />}>
+                        <Route element={<AppLayout />}>
+                          {routeConfig.map(({ path, element }) => (
+                            <Route key={path} path={path} element={element} />
+                          ))}
+                        </Route>
                       </Route>
-                    </Route>
-                  </Routes>
-                </JournalProvider>
-              </TodoProvider>
-            </LockProvider>
-          </PlayerProvider>
+                    </Routes>
+                  </JournalProvider>
+                </TodoProvider>
+              </LockProvider>
+            </PlayerProvider>
+          </ThemeProvider>
         </PreferencesProvider>
       </AuthProvider>
     </BrowserRouter>

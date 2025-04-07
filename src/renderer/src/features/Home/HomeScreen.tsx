@@ -10,9 +10,6 @@ const HomeScreen = (): JSX.Element => {
   return (
     <div>
       Home
-      <div className="flex justify-center items-center bg-pink-500 h-screen text-white text-3xl">
-        Hello Tailwind ✨
-      </div>
       <ul>
         <li>
           <Link to={preferences}>Preferences Screen</Link>
