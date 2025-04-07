@@ -25,6 +25,7 @@ import PreferencesScreen from './features/Preferences/PreferencesScreen'
 import { PreferencesProvider } from './providers/Preferences/PreferencesProvider'
 import { LockProvider } from './providers/Preferences/Lock/LockProvider'
 import { ThemeProvider } from './providers/Preferences/Theme/ThemeProvider'
+import './utils/locales/i18n'
 
 const routeConfig = [
   // Protected Routes
@@ -62,11 +63,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                 <TodoProvider>
                   <JournalProvider>
                     <Routes>
-                      <Route path={routes.signup} element={<SignUpScreen />} />
-                      <Route path={routes.login} element={<LoginScreen />} />
-
-                      <Route element={<ProtectedRoute />}>
-                        <Route element={<AppLayout />}>
+                      <Route element={<AppLayout />}>
+                        <Route path={routes.signup} element={<SignUpScreen />} />
+                        <Route path={routes.login} element={<LoginScreen />} />
+                        <Route element={<ProtectedRoute />}>
                           {routeConfig.map(({ path, element }) => (
                             <Route key={path} path={path} element={element} />
                           ))}

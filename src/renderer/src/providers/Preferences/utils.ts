@@ -2,7 +2,7 @@ import { PreferencesStates } from './types'
 
 export const defaultPreferencesState: PreferencesStates = {
   mode: 'light',
-  theme: 'Tangerine Zing',
+  theme: 'Butterscotch Cream',
   musicAutoplay: false,
   lockScreenEnabled: false
 }

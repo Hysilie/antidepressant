@@ -31,12 +31,13 @@ const PreferencesScreen = (): JSX.Element => {
   const [displayCode, setDisplayCode] = useState(false)
   const [code, setCode] = useState('')
   const [openDialog, setOpenDialog] = useState(false)
-  const { setColor } = useTheme()
+  const { setColor, color } = useTheme()
 
   return (
     <div>
       <button onClick={() => navigate(routes.home)}>back</button>
       PreferencesScreen
+      <br />
       <div onClick={() => handlePreference('switch', 'musicAutoplay')}>
         Turn off the music when app start : {musicAutoplay ? 'true' : 'false'}
       </div>
@@ -102,7 +103,7 @@ const PreferencesScreen = (): JSX.Element => {
           )}
         </>
       ) : null}
-      <h1 className="font-title text-primary text-3xl">Hello 👋</h1>
+      <h1 className="font-title text-primary text-3xl">Theme : {color}</h1>
       <div className="flex flex-wrap gap-3 mt-4">
         {colorOptions.map(({ hex, name }) => (
           <button

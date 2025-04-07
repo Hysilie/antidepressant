@@ -1,0 +1,19 @@
+{
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Submit",
+    "signupPrompt": "No account? ",
+    "signupLink": "Sign Up"
+  },
+  "signup": {
+    "title": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "submit": "Submit",
+    "loginPrompt": "Already have an account? ",
+    "loginLink": "Log in"
+  }
+}

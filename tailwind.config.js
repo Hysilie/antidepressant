@@ -7,7 +7,6 @@ export const theme = {
   extend: {
     colors: {
       primary: 'var(--primary)',
-      surface: 'var(--surface)',
       text: 'var(--text)',
       muted: 'var(--muted)',
       background: 'var(--bg)'
