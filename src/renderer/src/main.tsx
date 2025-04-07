@@ -1,4 +1,3 @@
-//import './assets/main.css'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import './index.css'
 
@@ -63,10 +62,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                 <TodoProvider>
                   <JournalProvider>
                     <Routes>
-                      <Route element={<AppLayout />}>
-                        <Route path={routes.signup} element={<SignUpScreen />} />
-                        <Route path={routes.login} element={<LoginScreen />} />
-                        <Route element={<ProtectedRoute />}>
+                      <Route path={routes.signup} element={<SignUpScreen />} />
+                      <Route path={routes.login} element={<LoginScreen />} />
+                      <Route element={<ProtectedRoute />}>
+                        <Route element={<AppLayout />}>
                           {routeConfig.map(({ path, element }) => (
                             <Route key={path} path={path} element={element} />
                           ))}

@@ -1,20 +1,21 @@
+import Button from '@renderer/components/Button'
+import ColorPicker from '@renderer/components/ColorPicker'
+import ConfirmDialog from '@renderer/components/ConfirmDialog'
+import Container from '@renderer/components/Container'
+import Header from '@renderer/components/Header'
+import Logout from '@renderer/components/icons/Logout'
+import Switch from '@renderer/components/Switch'
 import { useAuth } from '@renderer/providers/Auth/useAuth'
 import { useLock } from '@renderer/providers/Preferences/Lock/useLock'
-import { colorOptions } from '@renderer/providers/Preferences/Theme/colors'
-import { useTheme } from '@renderer/providers/Preferences/Theme/useTheme'
-import {
-  PreferenceActionName,
-  PreferencesStates,
-  Theme
-} from '@renderer/providers/Preferences/types'
+import { PreferenceActionName, PreferencesStates } from '@renderer/providers/Preferences/types'
 import { usePreferences } from '@renderer/providers/Preferences/usePreferences'
 import { routes } from '@renderer/utils/Routes/routes'
 import { useCallback, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useTranslation } from 'react-i18next'
+import LockDialog from './LockDialog'
 
 const PreferencesScreen = (): JSX.Element => {
-  const navigate = useNavigate()
-  const { deleteAccount } = useAuth()
+  const { deleteAccount, logout } = useAuth()
   const { createLockCode, userAlreadyHasCode, checkCode, updateCodeStep } = useLock()
   const { resetAllPreferences, dispatchPreferences, preferencesStates } = usePreferences()
   const { musicAutoplay, lockScreenEnabled } = preferencesStates
@@ -29,95 +30,99 @@ const PreferencesScreen = (): JSX.Element => {
     [dispatchPreferences]
   )
   const [displayCode, setDisplayCode] = useState(false)
-  const [code, setCode] = useState('')
-  const [openDialog, setOpenDialog] = useState(false)
-  const { setColor, color } = useTheme()
+
+  const [showResetDialog, setShowResetDialog] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [openLockDialog, setOpenLockDialog] = useState(false)
+
+  const { t } = useTranslation('translation', { keyPrefix: 'preferences' })
 
   return (
-    <div>
-      <button onClick={() => navigate(routes.home)}>back</button>
-      PreferencesScreen
-      <br />
-      <div onClick={() => handlePreference('switch', 'musicAutoplay')}>
-        Turn off the music when app start : {musicAutoplay ? 'true' : 'false'}
+    <Container spacing="large" primary style={{ overflow: 'scroll' }}>
+      <Header icon title={t('title')} target={routes.home} />
+
+      <div className="flex flex-col gap-4 my-2">
+        <Switch
+          label={t('autoplay')}
+          id="ToggleMusic"
+          onChange={() => handlePreference('switch', 'musicAutoplay')}
+          checked={musicAutoplay}
+        />
+        <Switch
+          label={t('lock')}
+          id="LockScreen"
+          onChange={() => {
+            handlePreference('switch', 'lockScreenEnabled')
+            setDisplayCode(!lockScreenEnabled && !userAlreadyHasCode ? true : false)
+          }}
+          checked={lockScreenEnabled}
+        />
+
+        <ColorPicker />
+
+        <div className="my-2 border-b border-black" />
+        {lockScreenEnabled ? (
+          <Button
+            label={t('change')}
+            onClick={() => setOpenLockDialog(true)}
+            type="button"
+            mode="inline"
+          />
+        ) : null}
+        <Button
+          label={t('reset')}
+          onClick={() => setShowResetDialog(true)}
+          type="button"
+          mode="inline"
+        />
+        <Button
+          label={t('delete')}
+          onClick={() => setShowDeleteDialog(true)}
+          type="button"
+          mode="inline"
+        />
       </div>
-      <div
-        onClick={() => {
-          handlePreference('switch', 'lockScreenEnabled')
-          setDisplayCode(!lockScreenEnabled && !userAlreadyHasCode ? true : false)
+
+      <div className="mt-8">
+        <Button label={t('logout')} iconLeft={<Logout />} onClick={logout} type="button" />
+      </div>
+      <ConfirmDialog
+        open={showResetDialog}
+        onOpenChange={setShowResetDialog}
+        title={t('resetDialog.title')}
+        description={t('resetDialog.content')}
+        cancelLabel={t('resetDialog.cancel')}
+        confirmLabel={t('resetDialog.confirm')}
+        onConfirm={() => {
+          resetAllPreferences()
+          setShowResetDialog(false)
         }}
-      >
-        LockCode {lockScreenEnabled ? 'true' : 'false'}
-      </div>
-      {displayCode ? (
-        <form>
-          <input
-            placeholder="display code 4 digit number"
-            value={code}
-            name=""
-            onChange={(e) => setCode(e.target.value)}
-          />
-          <button
-            onClick={() => {
-              createLockCode(parseInt(code, 10))
-              setDisplayCode(false)
-            }}
-          >
-            submit
-          </button>
-        </form>
-      ) : null}
-      <div onClick={resetAllPreferences}>Reset all preferences</div>
-      <div onClick={deleteAccount}>Delete my account</div>
-      <div onClick={() => setOpenDialog(true)}>Change Lock Code : </div>
-      {openDialog ? (
-        <>
-          {updateCodeStep === 'checkCode' ? (
-            <div>
-              <input placeholder="Enter current code" onChange={(e) => setCode(e.target.value)} />
-              <button
-                onClick={() => {
-                  checkCode(parseInt(code, 10))
-                  setCode('')
-                }}
-              >
-                Verify
-              </button>
-            </div>
-          ) : (
-            <div>
-              <input
-                placeholder="Enter new code"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-              />
-              <button
-                onClick={() => {
-                  createLockCode(parseInt(code, 10))
-                  setOpenDialog(false)
-                }}
-              >
-                Submit New Code
-              </button>
-            </div>
-          )}
-        </>
-      ) : null}
-      <h1 className="font-title text-primary text-3xl">Theme : {color}</h1>
-      <div className="flex flex-wrap gap-3 mt-4">
-        {colorOptions.map(({ hex, name }) => (
-          <button
-            key={hex}
-            onClick={() => setColor(name as Theme)}
-            className="border-2 rounded-full w-10 h-10"
-            style={{
-              backgroundColor: hex
-            }}
-            title={hex}
-          />
-        ))}
-      </div>
-    </div>
+      />
+
+      <ConfirmDialog
+        open={showDeleteDialog}
+        onOpenChange={setShowDeleteDialog}
+        title={t('deleteDialog.title')}
+        description={t('deleteDialog.content')}
+        cancelLabel={t('deleteDialog.cancel')}
+        confirmLabel={t('deleteDialog.confirm')}
+        onConfirm={() => {
+          deleteAccount()
+          setShowDeleteDialog(false)
+        }}
+      />
+      <LockDialog
+        open={openLockDialog || displayCode}
+        onClose={() => {
+          setOpenLockDialog(false)
+          setDisplayCode(false)
+        }}
+        mode={displayCode ? 'create' : 'edit'}
+        updateStep={updateCodeStep}
+        onCheckCode={checkCode}
+        onCreateCode={createLockCode}
+      />
+    </Container>
   )
 }
 

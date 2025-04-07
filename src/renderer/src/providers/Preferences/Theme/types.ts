@@ -5,5 +5,6 @@ export interface ThemeContextData {
   mode?: Mode
   setMode?: Dispatch<SetStateAction<Mode>>
   color: Theme
+  hex: string
   setColor: (name: Theme) => void
 }

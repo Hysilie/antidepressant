@@ -16,12 +16,13 @@ export const ThemeProvider: FC<PropsWithChildren> = ({ children }) => {
   const setColor = (name: string): void => {
     dispatchPreferences({ type: 'set', key: 'theme', value: name })
   }
+
   useEffect(() => {
     document.documentElement.style.setProperty('--primary', hex)
   }, [hex])
 
   return (
-    <ThemeContext.Provider value={{ color: name as Theme, setColor }}>
+    <ThemeContext.Provider value={{ color: name as Theme, hex, setColor }}>
       {children}
     </ThemeContext.Provider>
   )

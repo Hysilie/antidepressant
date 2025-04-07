@@ -7,7 +7,7 @@ type ContainerProps = {
   primary?: boolean
 }
 
-const SPACING = { small: 'p-2', medium: 'p-4', large: 'p-6' }
+const SPACING = { small: 'p-2', medium: 'p-4', large: 'px-6 py-2' }
 
 const Container: FC<PropsWithChildren<ContainerProps>> = ({
   children,
