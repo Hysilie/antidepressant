@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Color Options:
+ * 
+ * - **Honey Glimmer** (#FEEA6D)
+ * - **Lavender Fizz** (#C995CD)
+ * - **Minty Splash** (#46B7A7)
+ * - **Candyfloss Bloom** (#F2ABE7)
+ * - **Icy Breeze** (#87DFE2)
+ * - **Tangerine Zing** (#F68052)
+ * - **Butterscotch Cream** (#F8D7A5)
+ * - **Blueberry Dive** (#468FB7)
+ * - **Strawberry Smooch** (#FE8D8D)
+ */
+
+:root {
+  --primary: #f8d7a5;
+  --surface: white, --text: black, --muted: lightgrey, --on-surface: black;
+}
+
+* {
+  box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#root,
+html,
+body {
+  height: 100%;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: 'Lilita One';
+  src: url('assets/fonts/lilita-one-v15-latin-regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Quicksand';
+  src: url('assets/fonts/quicksand-v36-latin-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Quicksand';
+  src: url('assets/fonts/quicksand-v36-latin-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Patrick Hand';
+  src: url('assets/fonts/patrick-hand-v23-latin-regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}

@@ -1,0 +1,51 @@
+{
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Submit",
+    "signupPrompt": "No account? ",
+    "signupLink": "Sign Up"
+  },
+  "signup": {
+    "title": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "submit": "Submit",
+    "loginPrompt": "Already have an account? ",
+    "loginLink": "Log in"
+  },
+  "preferences": {
+    "title": "Preferences",
+    "autoplay": "Launch music on startup",
+    "change": "Change lock code",
+    "lock": "Lock screen",
+    "lockDialog": {
+      "titleVerify": "Verify your code",
+      "titleCreate": "Set up a code",
+      "titleCreateNew": "Set up a new code",
+      "content": "Please remember your code or contact the administrator if you forget it.",
+      "placeholder": "4-digit code",
+      "cancel": "Cancel",
+      "submitVerify": "Verify your code",
+      "submitCreate": "Submit the new code"
+    },
+    "logout": "Log Out",
+    "theme": "Theme",
+    "reset": "Reset all preferences",
+    "resetDialog": {
+      "title": "Reset my preferences",
+      "content": "Resetting will restore preferences to their default values.",
+      "cancel": "Cancel",
+      "confirm": "I reset my preferences"
+    },
+    "delete": "Delete my account",
+    "deleteDialog": {
+      "title": "Delete my account",
+      "content": "Deleting your account will permanently remove all your data.",
+      "cancel": "Cancel",
+      "confirm": "I delete my account"
+    }
+  }
+}
