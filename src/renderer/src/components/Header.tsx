@@ -8,7 +8,7 @@ type HeaderProps = {
   icon?: boolean
   title: string
   target: string
-  className: string
+  className?: string
 }
 
 const Header: FC<HeaderProps> = ({

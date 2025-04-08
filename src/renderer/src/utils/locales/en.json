@@ -1,4 +1,12 @@
 {
+  "journal": {
+    "title": "Journal",
+    "new": "New entry",
+    "empty": {
+      "title": "No entries yet",
+      "content": "Start writing in your journal to capture your thoughts and memories."
+    }
+  },
   "login": {
     "title": "Login",
     "email": "Email",

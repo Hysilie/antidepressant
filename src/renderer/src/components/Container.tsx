@@ -5,6 +5,7 @@ type ContainerProps = {
   spacing: 'small' | 'medium' | 'large'
   style?: CSSProperties
   primary?: boolean
+  className?: string
 }
 
 const SPACING = { small: 'p-2', medium: 'p-4', large: 'px-6 py-2' }
@@ -13,10 +14,14 @@ const Container: FC<PropsWithChildren<ContainerProps>> = ({
   children,
   spacing,
   style,
-  primary
+  primary,
+  className
 }) => {
   return (
-    <div className={clsx('h-full', SPACING[spacing], primary && 'bg-primary')} style={style}>
+    <div
+      className={clsx('h-full', SPACING[spacing], primary && 'bg-primary', className && className)}
+      style={style}
+    >
       {children}
     </div>
   )
