@@ -7,14 +7,17 @@
     "signupPrompt": "No account? ",
     "signupLink": "Sign Up"
   },
-  "signup": {
-    "title": "Sign Up",
-    "email": "Email",
-    "password": "Password",
-    "username": "Username",
-    "submit": "Submit",
-    "loginPrompt": "Already have an account? ",
-    "loginLink": "Log in"
+  "player": {
+    "title": "",
+    "playlist": "Playlist - ({{number}}) tracks",
+    "playing": "playing",
+    "tooltip": {
+      "folder": "Open folder",
+      "playlist": "Open playlist",
+      "shuffle": "Shuffle the playlist",
+      "replay": "Replay current track",
+      "reset": "Remove all tracks"
+    }
   },
   "preferences": {
     "title": "Preferences",
@@ -47,5 +50,14 @@
       "cancel": "Cancel",
       "confirm": "I delete my account"
     }
+  },
+  "signup": {
+    "title": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "submit": "Submit",
+    "loginPrompt": "Already have an account? ",
+    "loginLink": "Log in"
   }
 }

@@ -2,7 +2,6 @@ import { Dispatch, useReducer } from 'react'
 import { PlayerAction, PlayerState } from './types'
 
 const initialPlayerState: PlayerState = {
-  isPaused: true,
   isShuffle: false,
   isReplay: false,
   volume: 1,
@@ -12,9 +11,6 @@ const initialPlayerState: PlayerState = {
 
 function reducer(state: PlayerState, action: PlayerAction): PlayerState {
   switch (action.type) {
-    case 'play_pause':
-      return { ...state, isPaused: !state.isPaused }
-
     case 'replay':
       return { ...state, isReplay: !state.isReplay }
 

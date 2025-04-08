@@ -8,13 +8,20 @@ type HeaderProps = {
   icon?: boolean
   title: string
   target: string
+  className: string
 }
 
-const Header: FC<HeaderProps> = ({ icon = true, extraButton, title, target }): JSX.Element => {
+const Header: FC<HeaderProps> = ({
+  icon = true,
+  extraButton,
+  title,
+  target,
+  className
+}): JSX.Element => {
   const navigate = useNavigate()
 
   return (
-    <div className="flex items-center gap-4">
+    <div className={`flex items-center gap-4 ${className && className}`}>
       {icon && (
         <img
           src={back}

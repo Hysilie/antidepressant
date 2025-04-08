@@ -8,6 +8,8 @@ export interface Track {
 export interface PlayerContextData {
   playlist: Track[]
   isPaused: boolean
+  isReplay: boolean
+  isShuffle: boolean
   trackName: string
   currentTime: number
   duration: number
@@ -28,7 +30,6 @@ export interface PlayerContextData {
 }
 
 export interface PlayerState {
-  isPaused: boolean
   isShuffle: boolean
   isReplay: boolean
   volume: number
@@ -37,7 +38,6 @@ export interface PlayerState {
 }
 
 export type PlayerAction =
-  | { type: 'play_pause' }
   | { type: 'replay' }
   | { type: 'shuffle' }
   | { type: 'volume'; payload: number }

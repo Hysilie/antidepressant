@@ -11,9 +11,9 @@
  * - **Candyfloss Bloom** (#F2ABE7)
  * - **Icy Breeze** (#87DFE2)
  * - **Tangerine Zing** (#F68052)
- * - **Butterscotch Cream** (#F8D7A5)
+ * - **Toffee Touch** (#F8D7A5)
  * - **Blueberry Dive** (#468FB7)
- * - **Strawberry Smooch** (#FE8D8D)
+ * - **Strawberry Kiss** (#FE8D8D)
  */
 
 :root {
@@ -60,4 +60,63 @@ body {
   src: url('assets/fonts/patrick-hand-v23-latin-regular.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.slide-up {
+  animation: slide-up 0.4s ease-out forwards;
+}
+
+.slide-down {
+  animation: slide-down 0.4s ease-in forwards;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  background: black;
+  border-radius: 9999px;
+  cursor: pointer;
+  margin-top: -6px;
+}
+
+.volume-slider::-webkit-slider-runnable-track {
+  height: 2px;
+  border-radius: 9999px;
+}
+
+/* Firefox */
+.volume-slider::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  background: black;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+.volume-slider::-moz-range-track {
+  height: 2px;
+  border-radius: 9999px;
 }

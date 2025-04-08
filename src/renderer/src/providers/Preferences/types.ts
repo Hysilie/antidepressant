@@ -8,8 +8,9 @@ export type Theme =
   | 'Candyfloss Bloom'
   | 'Icy Breeze'
   | 'Tangerine Zing'
-  | 'Butterscotch Cream'
+  | 'Toffee Touch'
   | 'Blueberry Dive'
+  | 'Strawberry Kiss'
 
 export interface PreferencesStates {
   mode: Mode

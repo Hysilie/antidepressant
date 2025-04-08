@@ -1,7 +1,6 @@
 import { FC, PropsWithChildren, useCallback, useEffect, useRef, useState, MouseEvent } from 'react'
 import { PlayerContext } from './PlayerContext'
 import { Track } from './types'
-import { isEmpty } from 'remeda'
 import { usePlayerReducer } from './usePlayerReducer'
 import { useAuth } from '../Auth/useAuth'
 
@@ -14,34 +13,33 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
   const [progress, setProgress] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(false)
+
   const { state, dispatch } = usePlayerReducer()
-  const { isPaused, isShuffle, isReplay, volume, isMuted } = state
+  const { isShuffle, isReplay, volume, isMuted } = state
 
   const togglePlayPause = (): void => {
     if (!audioRef.current) return
 
-    if (isPaused) {
+    if (audioRef.current.paused) {
       audioRef.current.play()
     } else {
       audioRef.current.pause()
     }
-
-    dispatch({ type: 'play_pause' })
   }
 
   const next = (): void => {
     if (playlist.length === 0) return
-
     const nextIndex = (currentTrackIndex + 1) % playlist.length
-    setCurrentTrackIndex(nextIndex)
+    playTrack(nextIndex)
   }
 
   const previous = (): void => {
     if (playlist.length === 0) return
-
     const previousIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length
-    setCurrentTrackIndex(previousIndex)
+    playTrack(previousIndex)
   }
+
   const handleReplay = useCallback((): void => dispatch({ type: 'replay' }), [dispatch])
   const handleShuffle = useCallback((): void => dispatch({ type: 'shuffle' }), [dispatch])
 
@@ -88,35 +86,40 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
   )
 
   const toggleMute = useCallback(() => dispatch({ type: 'mute' }), [dispatch])
+
   /**
    * Plays a track from the playlist at the specified index.
    *
    * @param trackIndex - The index of the track in the playlist to play.
-   * @returns A promise that resolves when the track starts playing.
    */
   const playTrack = useCallback(
-    async (trackIndex: number): Promise<void> => {
+    async (trackOrIndex: Track | number): Promise<void> => {
       try {
-        if (isEmpty(playlist)) {
-          return
-        }
+        const trackIndex =
+          typeof trackOrIndex === 'number'
+            ? trackOrIndex
+            : playlist.findIndex((t) => t.filePath === trackOrIndex.filePath)
 
-        setCurrentTrackIndex(trackIndex)
-        const currentTrack = playlist[trackIndex]
+        const targetTrack = playlist[trackIndex]
+        if (!targetTrack) return
+
+        const { objectURL } = await createAudioSource(targetTrack.filePath)
         if (audioRef.current) {
-          const { objectURL } = await createAudioSource(currentTrack.filePath)
           audioRef.current.src = objectURL
-          setTrackName(currentTrack.trackname)
+          setTrackName(targetTrack.trackname)
+          setCurrentTrackIndex(trackIndex)
           await audioRef.current.play()
-          dispatch({ type: 'play_pause' })
         }
       } catch (error) {
         console.error('An error occurred while trying to play the track:', error)
       }
     },
-    [dispatch, playlist]
+    [playlist]
   )
 
+  /**
+   * Loads the current track from the playlist, sets the audio source, and starts playback.
+   */
   const loadTrack = useCallback(async (): Promise<void> => {
     if (playlist.length > 0 && audioRef.current) {
       const currentTrack = playlist[currentTrackIndex]
@@ -124,14 +127,25 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
       audioRef.current.src = objectURL
       setTrackName(currentTrack.trackname)
       await audioRef.current.play()
-      dispatch({ type: 'play_pause' })
     }
-  }, [currentTrackIndex, dispatch, playlist])
+  }, [currentTrackIndex, playlist])
+
+  /**
+   * Prepares the audio track for playback by setting the audio source and track name.
+   */
+  const prepareTrack = useCallback(async (): Promise<void> => {
+    if (playlist.length > 0 && audioRef.current) {
+      const currentTrack = playlist[currentTrackIndex]
+      const { objectURL } = await createAudioSource(currentTrack.filePath)
+      audioRef.current.src = objectURL
+      setTrackName(currentTrack.trackname)
+    }
+  }, [currentTrackIndex, playlist])
 
   /**
    * Opens a folder dialog to allow the user to select audio files and update playlist.
    */
-  const openFolder = async (): Promise<void> => {
+  const openFolder = useCallback(async (): Promise<void> => {
     try {
       const files = await window.electronAPI.selectAudioFiles()
       if (!files || files.length === 0) return
@@ -144,16 +158,19 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
 
       const merged = [...playlist, ...newTracks]
       const unique = Array.from(new Map(merged.map((track) => [track.filePath, track])).values())
-
       const withIndexes = unique.map((track, i) => ({ ...track, index: i }))
 
       setPlaylist(withIndexes)
       setCurrentTrackIndex(playlist.length === 0 ? 0 : currentTrackIndex)
       localStorage.setItem('playlist', JSON.stringify(withIndexes))
+
+      if (playlist.length === 0 && withIndexes.length > 0) {
+        await playTrack(withIndexes[0])
+      }
     } catch (error) {
       console.error('An error occurred while opening the folder:', error)
     }
-  }
+  }, [currentTrackIndex, playTrack, playlist])
 
   /**
    * Creates an audio source from a given file path and generate a Blob URL for the audio data.
@@ -180,13 +197,15 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }
 
+  /**
+   * Restores the playlist from localStorage and validates the existence of each track's file.
+   */
   const restorePlaylist = useCallback(async () => {
     try {
       const stored = localStorage.getItem('playlist')
       if (!stored) return
 
       const storedTracks: Track[] = JSON.parse(stored)
-
       const validTracks: Track[] = []
       for (const track of storedTracks) {
         const exists = await window.electronAPI.checkFileExists(track.filePath)
@@ -212,39 +231,66 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
     setPlaylist([])
     setCurrentTrackIndex(0)
     setTrackName('')
-    dispatch({ type: 'play_pause' })
     setDuration(0)
     setCurrentTime(0)
     setProgress(0)
-  }, [dispatch])
+  }, [])
 
+  // Autoplay music if the user's preferences allow it
   useEffect(() => {
     if (currentUser?.preferencesStates?.musicAutoplay) {
       loadTrack()
     }
   }, [currentUser?.preferencesStates?.musicAutoplay, loadTrack])
 
+  // Restore the playlist from localStorage on component mount
   useEffect(() => {
     restorePlaylist()
   }, [restorePlaylist])
 
+  // Prepare the first track if the playlist is loaded but no track is currently set
+  useEffect(() => {
+    if (playlist.length > 0 && !trackName) {
+      prepareTrack()
+    }
+  }, [playlist, trackName, prepareTrack])
+
+  // Save the playlist to localStorage whenever it changes
   useEffect(() => {
     if (playlist.length > 0) {
       localStorage.setItem('playlist', JSON.stringify(playlist))
     }
   }, [playlist])
 
+  // Update the audio element's volume whenever the volume state changes
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume
     }
   }, [volume])
 
+  // Reset the playlist if the user logs out
   useEffect(() => {
     if (!currentUser) {
       resetPlaylist()
     }
   }, [currentUser, resetPlaylist])
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    const handlePlay = (): void => setIsPlaying(true)
+    const handlePause = (): void => setIsPlaying(false)
+
+    audio.addEventListener('play', handlePlay)
+    audio.addEventListener('pause', handlePause)
+
+    return (): void => {
+      audio.removeEventListener('play', handlePlay)
+      audio.removeEventListener('pause', handlePause)
+    }
+  }, [])
 
   return (
     <PlayerContext.Provider
@@ -253,7 +299,7 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
         next,
         previous,
         trackName,
-        isPaused,
+        isPaused: !isPlaying,
         openFolder,
         playlist,
         resetPlaylist,
@@ -267,7 +313,9 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
         volume,
         changeVolume,
         isMuted,
-        toggleMute
+        toggleMute,
+        isReplay,
+        isShuffle
       }}
     >
       {children}
