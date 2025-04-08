@@ -1,12 +1,5 @@
 @import './base.css';
 
-body {
-  /*   display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden; */
-}
-
 /* -------------- TEMPORARY CSS FOR JOURNAL FEATURE -------------- */
 .journal-container {
   display: flex;
