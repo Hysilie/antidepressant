@@ -22,14 +22,16 @@ import Link from '@tiptap/extension-link'
 import TextAlign from '@tiptap/extension-text-align'
 import Image from '@tiptap/extension-image'
 import FontFamily from '@tiptap/extension-font-family'
+import { isDefined, isEmpty } from 'remeda'
 
 const JournalEditor = (): JSX.Element => {
   const { update, title, content, save, remove, updatedAt, getImageData, pageId } = usePage()
   const { t } = useTranslation('translation', { keyPrefix: 'journal' })
   const [moreOptions, setMoreOptions] = useState(false)
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false)
-  const [showTitle, setShowTitle] = useState(title ? false : true)
+  const [showTitle, setShowTitle] = useState(false)
   const navigate = useNavigate()
+  const newPage = !isDefined(updatedAt)
 
   const deletePage = useCallback(() => {
     remove()
@@ -139,7 +141,7 @@ const JournalEditor = (): JSX.Element => {
   return (
     <Container spacing="large" className="flex flex-col w-full h-full overflow-x-hidden">
       <Header
-        title={title ?? t('page')}
+        title={title ? title : t('page')}
         target={routes.journal}
         onClick={save}
         extraButton={
@@ -151,7 +153,10 @@ const JournalEditor = (): JSX.Element => {
           mode="inline"
           label={t('modify')}
           type="button"
-          onClick={() => setShowTitle((prev) => !prev)}
+          onClick={() => {
+            setShowTitle((prev) => !prev)
+            setMoreOptions(false)
+          }}
           style={{ fontSize: 'small' }}
         />
         <div className="mb-2 border-b border-black w-full h-2" />
@@ -178,7 +183,7 @@ const JournalEditor = (): JSX.Element => {
             </p>
           )}
 
-          {showTitle && (
+          {newPage || showTitle ? (
             <input
               id="title"
               placeholder={t('titlePlaceholder')}
@@ -186,7 +191,7 @@ const JournalEditor = (): JSX.Element => {
               onChange={(e) => update({ title: e.target.value })}
               className="border-gray-200 border-b outline-none focus:ring-0 focus:ring-none w-full text-lg"
             />
-          )}
+          ) : null}
           <EditorContent
             editor={editor}
             className="tiptap"
