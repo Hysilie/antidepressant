@@ -9,6 +9,7 @@ type HeaderProps = {
   title: string
   target: string
   className?: string
+  onClick?: () => void
 }
 
 const Header: FC<HeaderProps> = ({
@@ -16,7 +17,8 @@ const Header: FC<HeaderProps> = ({
   extraButton,
   title,
   target,
-  className
+  className,
+  onClick: action
 }): JSX.Element => {
   const navigate = useNavigate()
 
@@ -28,7 +30,10 @@ const Header: FC<HeaderProps> = ({
           alt="back"
           height={24}
           width={24}
-          onClick={() => navigate(target)}
+          onClick={() => {
+            navigate(target)
+            if (action) action()
+          }}
           className="hover:scale-110 transition-transform duration-300 cursor-pointer"
         />
       )}

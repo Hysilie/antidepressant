@@ -50,7 +50,7 @@ const JournalScreen = (): JSX.Element => {
     <LockedScreen />
   ) : (
     <Container spacing="large" className="flex flex-col w-full h-full overflow-x-hidden">
-      <Header title={t('title')} icon target={routes.home} />
+      <Header title={t('title')} icon={true} target={routes.home} />
 
       <div className="flex flex-col flex-grow rounded-lg w-full overflow-hidden">
         <div className="flex-grow p-4 overflow-y-auto">
@@ -78,7 +78,9 @@ const JournalScreen = (): JSX.Element => {
                       )}
                     >
                       <p className="truncate">{page?.title || 'pas de titre'}</p>
-                      <p className="text-gray-400 text-xs truncate"> {page?.content}</p>
+                      <p className="text-gray-400 text-xs truncate">
+                        {page?.content.replace(/<img[^>]*>|<\/?[^>]+(>|$)/g, '')}
+                      </p>
                     </button>
                   ))}
                 </div>

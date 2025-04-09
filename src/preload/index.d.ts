@@ -17,6 +17,9 @@ declare global {
       selectAudioFiles: () => Promise<string[]>
       readAudioFile: (filePath: string) => Promise<Uint8Array>
       checkFileExists: (file: string) => Promise<boolean>
+      saveImageFile: (buffer: ArrayBuffer, filename: string, userId: string) => Promise<void>
+      getImageFileUrl: (filename: string, userId: string) => Promise<string>
+      selectImage: () => Promise<string>
     }
     api: unknown
   }
