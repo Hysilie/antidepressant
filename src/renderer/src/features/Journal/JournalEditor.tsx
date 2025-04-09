@@ -88,7 +88,6 @@ const JournalEditor = (): JSX.Element => {
     content,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML()
-      console.log('html', html)
       update({ content: html })
     }
   })
