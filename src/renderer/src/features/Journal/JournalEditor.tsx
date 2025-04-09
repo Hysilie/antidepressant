@@ -22,7 +22,7 @@ import Link from '@tiptap/extension-link'
 import TextAlign from '@tiptap/extension-text-align'
 import Image from '@tiptap/extension-image'
 import FontFamily from '@tiptap/extension-font-family'
-import { isDefined, isEmpty } from 'remeda'
+import { isDefined } from 'remeda'
 
 const JournalEditor = (): JSX.Element => {
   const { update, title, content, save, remove, updatedAt, getImageData, pageId } = usePage()
