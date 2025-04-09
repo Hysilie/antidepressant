@@ -66,8 +66,8 @@ const TodoScreen = (): JSX.Element => {
       const ratioA = completedA / totalA
       const ratioB = completedB / totalB
 
-      const dateA = getTimestampInSeconds(a.createdAt || a.createdAt)
-      const dateB = getTimestampInSeconds(b.createdAt || b.createdAt)
+      const dateA = getTimestampInSeconds(a.createdAt || a.updatedAt)
+      const dateB = getTimestampInSeconds(b.createdAt || b.updatedAt)
       switch (sortBy) {
         case 'completed':
           if (ratioA === ratioB) return dateB - dateA
