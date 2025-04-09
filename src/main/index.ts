@@ -20,8 +20,7 @@ ipcMain.handle('save-image', async (_, buffer: ArrayBuffer, filename: string, us
   if (!fs.existsSync(folder)) fs.mkdirSync(folder, { recursive: true })
 
   const filePath = getUserImagePath(filename, userId)
-  fs.writeFileSync(filePath, Buffer.from(buffer))
-  return true
+  await fs.promises.writeFile(filePath, Buffer.from(buffer))
 })
 
 ipcMain.handle('get-image-url', async (_, filename: string, userId: string) => {
