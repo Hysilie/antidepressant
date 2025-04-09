@@ -4,7 +4,7 @@ import { TaskContext } from './TaskContext'
 import { useAuth } from '@renderer/providers/Auth/useAuth'
 import { useParams } from 'react-router'
 import { v4 as uuidv4 } from 'uuid'
-import { deleteDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { deleteDoc, doc, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore'
 import { db } from '@renderer/providers/Auth/firebase/firebase'
 import { taskList } from '@renderer/features/Journal/constants'
 import { isEmpty } from 'remeda'
@@ -20,6 +20,7 @@ export const TaskProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const [title, setTitle] = useState('')
   const [todos, setTodos] = useState(taskList)
+  const [updatedAt, setUpdatedAt] = useState<Date | undefined>(undefined)
   const [isSaved, setIsSaved] = useState(false)
 
   /*
@@ -34,6 +35,11 @@ export const TaskProvider: FC<PropsWithChildren> = ({ children }) => {
     if (existingTodolist) {
       setTitle(existingTodolist.title)
       setTodos(existingTodolist.todos)
+      setUpdatedAt(
+        existingTodolist.updatedAt instanceof Date
+          ? existingTodolist.updatedAt
+          : (existingTodolist.updatedAt as unknown as Timestamp)?.toDate()
+      )
     }
   }, [todoListArr, todolistId])
 
@@ -89,7 +95,7 @@ export const TaskProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   return (
-    <TaskContext.Provider value={{ title, todos, update, isSaved, save, remove }}>
+    <TaskContext.Provider value={{ updatedAt, title, todos, update, isSaved, save, remove }}>
       {children}
     </TaskContext.Provider>
   )

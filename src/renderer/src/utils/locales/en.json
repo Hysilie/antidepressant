@@ -88,6 +88,7 @@
     "todo": "Todo List",
     "titlePlaceholder": "Title",
     "modify": "Modify title",
+    "lastedit": "last edited : {{time}}",
     "contentPlaceholder": "Start adding your tasks here…",
     "progress": "{{count}}/{{total}} tasks",
     "empty": {
