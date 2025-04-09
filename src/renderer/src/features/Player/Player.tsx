@@ -8,7 +8,7 @@ import replayOnIcon from '../../assets/icons/replayOn.svg'
 import replayOffIcon from '../../assets/icons/replayOff.svg'
 import shuffleOnIcon from '../../assets/icons/shuffleOn.svg'
 import shuffleOffIcon from '../../assets/icons/shuffleOff.svg'
-import SvgButton from './SvgButton'
+import SvgButton from '../../components/SvgButton'
 import AutoScrollText from './AutoScrollText'
 import SoundControl from './SoundControl'
 type PlayerProps = {

@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { usePlayer } from '@renderer/providers/Player/usePlayer'
-import SvgButton from './SvgButton'
+import SvgButton from '../../components/SvgButton'
 import volumeOn from '../../assets/icons/unmute.svg'
 import volumeOff from '../../assets/icons/mute.svg'
 

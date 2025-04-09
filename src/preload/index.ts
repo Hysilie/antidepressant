@@ -44,5 +44,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
       console.log(`Error : ${error}, file not found`)
       return false
     }
-  }
+  },
+  selectImage: () => ipcRenderer.invoke('select-image'),
+  saveImageFile: (buffer: ArrayBuffer, filename: string, userId: string) =>
+    ipcRenderer.invoke('save-image', buffer, filename, userId),
+  getImageFileUrl: (filename: string, userId: string) =>
+    ipcRenderer.invoke('get-image-url', filename, userId)
 })

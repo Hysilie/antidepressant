@@ -7,17 +7,21 @@ import * as Yup from 'yup'
 type LockDialogProps = {
   open: boolean
   onClose: () => void
-  mode: 'create' | 'edit'
+  mode: 'create' | 'edit' | 'check'
   updateStep?: 'checkCode' | 'newCode'
-  onCheckCode: (code: number) => void
-  onCreateCode: (code: number) => void
+  onCheckCode: (code: number, toUnlockScreen?: boolean) => void
+  onCreateCode?: (code: number) => void
+  toUnlockScreen?: boolean
+  onCancel?: () => void
 }
 
 const LockDialog = ({
+  toUnlockScreen,
   open,
   onClose,
   updateStep,
   onCheckCode,
+  onCancel,
   onCreateCode,
   mode
 }: LockDialogProps): JSX.Element | null => {
@@ -32,15 +36,17 @@ const LockDialog = ({
   const handleSubmit = (values: { code: string }): void => {
     const parsedCode = parseInt(values.code, 10)
     if (isNaN(parsedCode)) return
-
-    if (mode === 'create') {
+    if (mode === 'check') {
+      onCheckCode(parsedCode, toUnlockScreen)
+    }
+    if (mode === 'create' && onCreateCode) {
       onCreateCode(parsedCode)
       onClose()
     } else {
       if (updateStep === 'checkCode') {
         onCheckCode(parsedCode)
       } else {
-        onCreateCode(parsedCode)
+        if (onCreateCode) onCreateCode(parsedCode)
         onClose()
       }
     }
@@ -52,9 +58,11 @@ const LockDialog = ({
         <h2 className="mb-2 font-bold text-xl">
           {mode === 'create'
             ? t('titleCreate')
-            : updateStep === 'checkCode'
+            : mode === 'check'
               ? t('titleVerify')
-              : t('titleCreateNew')}
+              : updateStep === 'checkCode'
+                ? t('titleVerify')
+                : t('titleCreateNew')}
         </h2>
         {mode === 'create' || updateStep === 'newCode' ? (
           <p className="mb-6 text-gray-700 text-sm">{t('content')}</p>
@@ -87,7 +95,12 @@ const LockDialog = ({
                 }
                 type="submit"
               />
-              <Button label={t('cancel')} onClick={onClose} type="button" color="bg-primary" />
+              <Button
+                label={t('cancel')}
+                onClick={mode === 'check' ? onCancel : onClose}
+                type="button"
+                color="bg-primary"
+              />
             </div>
           </Form>
         </Formik>

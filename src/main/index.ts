@@ -1,7 +1,8 @@
 import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
-import { join } from 'path'
+import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import fs from 'fs'
 
 /* const iconPath =
   process.platform === 'win32'
@@ -10,6 +11,22 @@ import icon from '../../resources/icon.png?asset'
       ? join(__dirname, '../../build/icon.png') // Linux
       : join(__dirname, '../../build/icon.icns') // macOS
        */
+
+const getUserImagePath = (filename: string, userId: string): string =>
+  path.join(app.getPath('userData'), 'images', userId, filename)
+
+ipcMain.handle('save-image', async (_, buffer: ArrayBuffer, filename: string, userId: string) => {
+  const folder = path.join(app.getPath('userData'), 'images', userId)
+  if (!fs.existsSync(folder)) fs.mkdirSync(folder, { recursive: true })
+
+  const filePath = getUserImagePath(filename, userId)
+  await fs.promises.writeFile(filePath, Buffer.from(buffer))
+})
+
+ipcMain.handle('get-image-url', async (_, filename: string, userId: string) => {
+  const filePath = getUserImagePath(filename, userId)
+  return `file://${filePath}`
+})
 
 function createWindow(): void {
   // Create the browser window.
@@ -106,6 +123,10 @@ ipcMain.handle('select-audio-files', async () => {
 
   if (canceled) return []
   return filePaths
+})
+
+ipcMain.handle('open-external-link', async (_, url) => {
+  await shell.openExternal(url)
 })
 
 // In this file you can include the rest of your app's specific main process

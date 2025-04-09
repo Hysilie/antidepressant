@@ -1,5 +1,5 @@
 import { FC, useCallback, useState } from 'react'
-import SvgButton from './SvgButton'
+import SvgButton from '../../components/SvgButton'
 import folder from '../../assets/icons/folder.svg'
 import reset from '../../assets/icons/trash.svg'
 import playlistIcon from '../../assets/icons/playlist.svg'

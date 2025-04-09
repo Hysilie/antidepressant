@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef } from 'react'
-import SvgButton from './SvgButton'
+import SvgButton from '../../components/SvgButton'
 import close from '../../assets/icons/close.svg'
 import { usePlayer } from '@renderer/providers/Player/usePlayer'
 import { useTranslation } from 'react-i18next'
@@ -62,7 +62,7 @@ const PlaylistBottomSheet: FC<PlaylistBottomSheetProps> = ({
                     ${
                       isCurrent
                         ? 'bg-white text-black font-body ring-2 ring-black'
-                        : 'bg-white/10 text-white/80 hover:bg-white/20'
+                        : 'bg-black/5 text-black/80 hover:bg-white/20'
                     }
                   `}
                 >
