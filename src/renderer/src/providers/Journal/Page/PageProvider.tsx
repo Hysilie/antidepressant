@@ -23,7 +23,6 @@ export const PageProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isSaved, setIsSaved] = useState(false)
   const [updatedAt, setUpdatedAt] = useState<Date | undefined>(undefined)
 
-  console.log('updated : ', updatedAt)
   /**
    * Update page content
    */

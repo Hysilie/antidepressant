@@ -81,5 +81,27 @@
     "submit": "Submit",
     "loginPrompt": "Already have an account? ",
     "loginLink": "Log in"
+  },
+  "todo": {
+    "title": "Todo",
+    "new": "New todo",
+    "todo": "Todo List",
+    "titlePlaceholder": "Title",
+    "modify": "Modify title",
+    "contentPlaceholder": "Start adding your tasks here…",
+    "progress": "{{count}}/{{total}} tasks",
+    "empty": {
+      "title": "No todos yet",
+      "content": "Start adding tasks to your todo list to stay organized."
+    },
+    "extraButtons": {
+      "remove": "Delete the todo list"
+    },
+    "dialog": {
+      "title": "Delete this todo list",
+      "content": "Are you sure you want to delete this todo list?",
+      "cancel": "Cancel",
+      "confirm": "Yes, delete this todo list"
+    }
   }
 }

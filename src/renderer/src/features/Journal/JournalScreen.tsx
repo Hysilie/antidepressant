@@ -77,7 +77,7 @@ const JournalScreen = (): JSX.Element => {
                         { 'border-b': pages?.indexOf(page) !== pages?.length - 1 }
                       )}
                     >
-                      <p className="truncate">{page?.title || 'pas de titre'}</p>
+                      <p className="truncate">{page?.title}</p>
                       <p className="text-gray-400 text-xs truncate">
                         {page?.content.replace(/<img[^>]*>|<\/?[^>]+(>|$)/g, '')}
                       </p>
