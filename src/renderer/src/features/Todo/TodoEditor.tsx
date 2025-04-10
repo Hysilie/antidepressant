@@ -4,11 +4,10 @@ import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 import Document from '@tiptap/extension-document'
 import Text from '@tiptap/extension-text'
-import { useEditor } from '@tiptap/react'
+import { EditorContent, useEditor } from '@tiptap/react'
 import { useCallback, useEffect, useState } from 'react'
 import { routes } from '@renderer/utils/Routes/routes'
 import { useNavigate } from 'react-router'
-import { useDebouncer } from '@renderer/utils/useDebouncer'
 import Button from '@renderer/components/Button'
 import Container from '@renderer/components/Container'
 import DropDownMenu from '@renderer/components/DropdownMenu'
@@ -18,6 +17,13 @@ import { useTranslation } from 'react-i18next'
 import ConfirmDialog from '@renderer/components/ConfirmDialog'
 import more from '../../assets/icons/more-vertical.svg'
 import { isDefined } from 'remeda'
+import MenuEditor from './MenuEditor'
+import FontFamily from '@tiptap/extension-font-family'
+import TextStyle from '@tiptap/extension-text-style'
+import Underline from '@tiptap/extension-underline'
+import Color from '@tiptap/extension-color'
+import Placeholder from '@tiptap/extension-placeholder'
+import StarterKit from '@tiptap/starter-kit'
 
 const TodoEditor = (): JSX.Element => {
   const { title, updatedAt, todos, update, save, remove } = useTask()
@@ -26,11 +32,7 @@ const TodoEditor = (): JSX.Element => {
   const [moreOptions, setMoreOptions] = useState(false)
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false)
   const [showTitle, setShowTitle] = useState(false)
-  const newTodo = !isDefined(updatedAt)
-
-  const debouncedUpdate = useDebouncer((html: string) => {
-    update({ todos: html })
-  })
+  const isNewTodo = !isDefined(updatedAt)
 
   const deleteTodo = useCallback(() => {
     remove()
@@ -39,9 +41,22 @@ const TodoEditor = (): JSX.Element => {
 
   const editor = useEditor({
     extensions: [
+      StarterKit.configure({
+        codeBlock: false
+      }),
       Document,
+      Color.configure({
+        types: ['textStyle']
+      }),
+      Placeholder.configure({
+        placeholder: t('contentPlaceholder'),
+        emptyEditorClass: 'is-editor-empty'
+      }),
       Paragraph,
       Text,
+      TextStyle,
+      Underline,
+      FontFamily,
       TaskList,
       TaskItem.configure({
         nested: true
@@ -49,7 +64,8 @@ const TodoEditor = (): JSX.Element => {
     ],
     content: todos,
     onUpdate: ({ editor }) => {
-      debouncedUpdate(editor.getHTML())
+      const html = editor.getHTML()
+      update({ todos: html })
     }
   })
 
@@ -70,17 +86,21 @@ const TodoEditor = (): JSX.Element => {
         }
       />
       <DropDownMenu onClose={() => setMoreOptions(false)} visible={moreOptions}>
-        <Button
-          mode="inline"
-          label={t('modify')}
-          type="button"
-          onClick={() => {
-            setShowTitle((prev) => !prev)
-            setMoreOptions(false)
-          }}
-          style={{ fontSize: 'small' }}
-        />
-        <div className="mb-2 border-b border-black w-full h-2" />
+        {!isNewTodo && (
+          <>
+            <Button
+              mode="inline"
+              label={t('modify')}
+              type="button"
+              onClick={() => {
+                setShowTitle((prev) => !prev)
+                setMoreOptions(false)
+              }}
+              style={{ fontSize: 'small' }}
+            />
+            <div className="mb-2 border-b border-black w-full h-2" />
+          </>
+        )}
         <Button
           mode="inline"
           label={t('extraButtons.remove')}
@@ -104,16 +124,18 @@ const TodoEditor = (): JSX.Element => {
             </p>
           )}
 
-          {newTodo || showTitle ? (
+          {isNewTodo || showTitle ? (
             <input
               id="title"
               placeholder={t('titlePlaceholder')}
               value={title ?? undefined}
               onChange={(e) => update({ title: e.target.value })}
-              className="border-gray-200 border-b outline-none focus:ring-0 focus:ring-none w-full text-lg"
+              className="mb-2 border-gray-200 border-b outline-none focus:ring-0 focus:ring-none w-full text-lg"
             />
           ) : null}
+          <EditorContent editor={editor} className="tiptaptodo" />
         </div>
+        <div className="p-2">{!!editor && <MenuEditor {...{ editor }} />}</div>
       </div>
 
       <ConfirmDialog
@@ -130,3 +152,52 @@ const TodoEditor = (): JSX.Element => {
 }
 
 export default TodoEditor
+
+/*  <div>
+    
+    
+      <div className="control-group">
+        <div className="button-group">
+          <button
+            onClick={() => editor?.chain().focus().toggleTaskList().run()}
+            className={editor?.isActive('taskList') ? 'is-active' : ''}
+          >
+            Toggle task list
+          </button>
+          <button
+            onClick={() => {
+              editor
+                ?.chain()
+                .focus()
+                .insertContent({
+                  type: 'taskList',
+                  content: [
+                    {
+                      type: 'taskItem',
+                      attrs: { checked: false },
+                      content: [
+                        {
+                          type: 'paragraph',
+                          content: [
+                            {
+                              type: 'text',
+                              text: ' '
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                })
+                .run()
+            }}
+          >
+            Add task
+          </button>
+        </div>
+      </div>
+
+      <EditorContent editor={editor} />
+      <EditorContent editor={editor} className="tiptap" />
+    
+    </div> */

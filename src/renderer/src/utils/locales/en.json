@@ -85,6 +85,7 @@
   "todo": {
     "title": "Todo",
     "new": "New todo",
+    "notask": "there are no tasks in this list",
     "todo": "Todo List",
     "titlePlaceholder": "Title",
     "modify": "Modify title",

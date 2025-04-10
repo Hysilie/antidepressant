@@ -154,11 +154,11 @@ const TodoScreen = (): JSX.Element => {
                   key={index}
                   onClick={() => navigateToEditTodo(list.id)}
                 >
-                  <ProgressCircle percent={(count / total) * 100} />
+                  <ProgressCircle percent={(count / total) * 100} isEmpty={total === 0} />
                   <div>
                     <p>{list.title}</p>
                     <p className="text-gray-400 text-xs">
-                      {t('progress', { count: count, total })}
+                      {total === 0 ? t('notask') : t('progress', { count: count, total })}
                     </p>
                   </div>
                 </button>

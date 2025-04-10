@@ -31,7 +31,7 @@ const JournalEditor = (): JSX.Element => {
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false)
   const [showTitle, setShowTitle] = useState(false)
   const navigate = useNavigate()
-  const newPage = !isDefined(updatedAt)
+  const isNewPage = !isDefined(updatedAt)
 
   const deletePage = useCallback(() => {
     remove()
@@ -149,17 +149,21 @@ const JournalEditor = (): JSX.Element => {
         }
       />
       <DropDownMenu onClose={() => setMoreOptions(false)} visible={moreOptions}>
-        <Button
-          mode="inline"
-          label={t('modify')}
-          type="button"
-          onClick={() => {
-            setShowTitle((prev) => !prev)
-            setMoreOptions(false)
-          }}
-          style={{ fontSize: 'small' }}
-        />
-        <div className="mb-2 border-b border-black w-full h-2" />
+        {!isNewPage && (
+          <>
+            <Button
+              mode="inline"
+              label={t('modify')}
+              type="button"
+              onClick={() => {
+                setShowTitle((prev) => !prev)
+                setMoreOptions(false)
+              }}
+              style={{ fontSize: 'small' }}
+            />
+            <div className="mb-2 border-b border-black w-full h-2" />
+          </>
+        )}
         <Button
           mode="inline"
           label={t('extraButtons.remove')}
@@ -183,13 +187,13 @@ const JournalEditor = (): JSX.Element => {
             </p>
           )}
 
-          {newPage || showTitle ? (
+          {isNewPage || showTitle ? (
             <input
               id="title"
               placeholder={t('titlePlaceholder')}
               value={title ?? undefined}
               onChange={(e) => update({ title: e.target.value })}
-              className="border-gray-200 border-b outline-none focus:ring-0 focus:ring-none w-full text-lg"
+              className="mb-2 border-gray-200 border-b outline-none focus:ring-0 focus:ring-none w-full text-lg"
             />
           ) : null}
           <EditorContent
