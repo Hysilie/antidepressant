@@ -5,11 +5,14 @@ import { useAuth } from '../Auth/useAuth'
 import { db } from '../Auth/firebase/firebase'
 import { collection, getDocs } from 'firebase/firestore'
 import { toast } from 'react-toastify'
+import { useDelayedLoader } from '@renderer/utils/useDelayedLoader'
 
 export const JournalProvider: FC<PropsWithChildren> = ({ children }) => {
   const { currentUser } = useAuth()
   const userId = currentUser?.uid
   const [pages, setPages] = useState<Page[]>([])
+  const [loading, setLoading] = useState(false)
+  const { start, stop } = useDelayedLoader(setLoading, 300)
 
   /**
    * Fetch journal data from userID
@@ -18,6 +21,7 @@ export const JournalProvider: FC<PropsWithChildren> = ({ children }) => {
     if (!userId) {
       return
     }
+    start()
 
     try {
       const journalRef = collection(db, 'Users', userId, 'journal')
@@ -42,15 +46,18 @@ export const JournalProvider: FC<PropsWithChildren> = ({ children }) => {
       } else {
         toast.error('An unknown error occurred', { position: 'bottom-center' })
       }
+    } finally {
+      stop()
+      setLoading(false)
     }
-  }, [userId])
+  }, [start, stop, userId])
 
   useEffect(() => {
     fetchJournalData()
   }, [fetchJournalData, userId])
 
   return (
-    <JournalContext.Provider value={{ pages, refreshPages: fetchJournalData }}>
+    <JournalContext.Provider value={{ pages, refreshPages: fetchJournalData, loading }}>
       {children}
     </JournalContext.Provider>
   )

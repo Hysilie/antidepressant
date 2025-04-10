@@ -23,9 +23,11 @@ import TextAlign from '@tiptap/extension-text-align'
 import Image from '@tiptap/extension-image'
 import FontFamily from '@tiptap/extension-font-family'
 import { isDefined } from 'remeda'
+import Loader from '@renderer/components/Loader'
 
 const JournalEditor = (): JSX.Element => {
-  const { update, title, content, save, remove, updatedAt, getImageData, pageId } = usePage()
+  const { update, title, content, save, remove, updatedAt, getImageData, pageId, loading } =
+    usePage()
   const { t } = useTranslation('translation', { keyPrefix: 'journal' })
   const [moreOptions, setMoreOptions] = useState(false)
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false)
@@ -138,7 +140,9 @@ const JournalEditor = (): JSX.Element => {
     })
   }, [editor, getImageData, pageId])
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <Container spacing="large" className="flex flex-col w-full h-full overflow-x-hidden">
       <Header
         title={title ? title : t('page')}

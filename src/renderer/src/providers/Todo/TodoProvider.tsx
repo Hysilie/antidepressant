@@ -5,11 +5,14 @@ import { useAuth } from '../Auth/useAuth'
 import { collection, getDocs } from 'firebase/firestore'
 import { toast } from 'react-toastify'
 import { db } from '../Auth/firebase/firebase'
+import { useDelayedLoader } from '@renderer/utils/useDelayedLoader'
 
 export const TodoProvider: FC<PropsWithChildren> = ({ children }) => {
   const { currentUser } = useAuth()
   const userId = currentUser?.uid
   const [todoList, setTodoList] = useState<TodoList[]>([])
+  const [loading, setLoading] = useState(false)
+  const { start, stop } = useDelayedLoader(setLoading, 300)
 
   /**
    * Fetch todolist data from userID
@@ -18,6 +21,8 @@ export const TodoProvider: FC<PropsWithChildren> = ({ children }) => {
     if (!userId) {
       return
     }
+
+    start()
 
     try {
       const todolistRef = collection(db, 'Users', userId, 'todolist')
@@ -40,15 +45,17 @@ export const TodoProvider: FC<PropsWithChildren> = ({ children }) => {
       } else {
         toast.error('An unknown error occurred', { position: 'bottom-center' })
       }
+    } finally {
+      stop()
     }
-  }, [userId])
+  }, [start, stop, userId])
 
   useEffect(() => {
     fetchTodolistData()
   }, [fetchTodolistData, userId])
 
   return (
-    <TodosContext.Provider value={{ todoList, refreshTodos: fetchTodolistData }}>
+    <TodosContext.Provider value={{ todoList, refreshTodos: fetchTodolistData, loading }}>
       {children}
     </TodosContext.Provider>
   )

@@ -9,4 +9,5 @@ export interface PageContextData {
   storeImage: (imageId: string, base64: string) => Promise<void>
   getImageData: (imageId: string, pageId: string) => Promise<string | undefined>
   isSaved: boolean
+  loading: boolean
 }

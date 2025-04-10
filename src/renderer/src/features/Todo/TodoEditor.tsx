@@ -24,9 +24,10 @@ import Underline from '@tiptap/extension-underline'
 import Color from '@tiptap/extension-color'
 import Placeholder from '@tiptap/extension-placeholder'
 import StarterKit from '@tiptap/starter-kit'
+import Loader from '@renderer/components/Loader'
 
 const TodoEditor = (): JSX.Element => {
-  const { title, updatedAt, todos, update, save, remove } = useTask()
+  const { title, updatedAt, todos, update, save, remove, loading } = useTask()
   const navigate = useNavigate()
   const { t } = useTranslation('translation', { keyPrefix: 'todo' })
   const [moreOptions, setMoreOptions] = useState(false)
@@ -75,7 +76,9 @@ const TodoEditor = (): JSX.Element => {
     }
   }, [editor, todos])
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <Container spacing="large" className="flex flex-col w-full h-full overflow-x-hidden">
       <Header
         title={title ? title : t('todo')}
