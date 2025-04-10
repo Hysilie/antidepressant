@@ -2,7 +2,11 @@ import { FC, useState } from 'react'
 import { usePlayer } from '@renderer/providers/Player/usePlayer'
 import FeatherIcon from 'feather-icons-react'
 
-const SoundControl: FC = () => {
+interface SoundControlProps {
+  isHoverHidden?: boolean
+}
+
+const SoundControl: FC<SoundControlProps> = ({ isHoverHidden }) => {
   const { volume, changeVolume, isMuted, toggleMute } = usePlayer()
   const [isHovered, setIsHovered] = useState(false)
 
@@ -12,7 +16,7 @@ const SoundControl: FC = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {isHovered && (
+      {isHovered && !isHoverHidden && (
         <div className="bottom-0 z-50 absolute flex flex-col justify-between items-center bg-transparent w-14 h-40 transition-all duration-200">
           <div className="relative flex justify-center items-center w-full h-full">
             <input
@@ -28,13 +32,6 @@ const SoundControl: FC = () => {
         </div>
       )}
 
-      {/*   <SvgButton
-        src={isMuted ? volumeOff : volumeOn}
-        alt="volume"
-        onClick={toggleMute}
-        size={24}
-        className="z-[9995]"
-      /> */}
       <FeatherIcon
         icon={isMuted ? 'volume-x' : 'volume-2'}
         onClick={toggleMute}

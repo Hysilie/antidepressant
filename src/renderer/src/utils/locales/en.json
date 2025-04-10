@@ -1,4 +1,11 @@
 {
+  "home": {
+    "hello": "Hello {{username}}!",
+    "sad": "Ouch! >w<",
+    "mascot": "Meow~",
+    "todo": "Todos",
+    "journal": "Journal"
+  },
   "journal": {
     "title": "Journal",
     "new": "New entry",

@@ -36,13 +36,6 @@ const Media: FC<MediaProps> = ({ background }): JSX.Element => {
               onClick={() => handlePlaylist(true)}
               size={32}
             />
-            {/* <FeatherIcon
-              icon="list"
-              size={24}
-              fill="white"
-              onClick={() => handlePlaylist(true)}
-              className="hover:scale-125 transition-all duration-300 ease-in-out cursor-pointer"
-            /> */}
           </Tooltip>
         )}
         <Tooltip label={t('folder')}>
