@@ -1,8 +1,6 @@
 import { FC, useState } from 'react'
 import { usePlayer } from '@renderer/providers/Player/usePlayer'
-import SvgButton from '../../components/SvgButton'
-import volumeOn from '../../assets/icons/unmute.svg'
-import volumeOff from '../../assets/icons/mute.svg'
+import FeatherIcon from 'feather-icons-react'
 
 const SoundControl: FC = () => {
   const { volume, changeVolume, isMuted, toggleMute } = usePlayer()
@@ -30,11 +28,18 @@ const SoundControl: FC = () => {
         </div>
       )}
 
-      <SvgButton
+      {/*   <SvgButton
         src={isMuted ? volumeOff : volumeOn}
         alt="volume"
         onClick={toggleMute}
         size={24}
+        className="z-[9995]"
+      /> */}
+      <FeatherIcon
+        icon={isMuted ? 'volume-x' : 'volume-2'}
+        onClick={toggleMute}
+        size={24}
+        fill="white"
         className="z-[9995]"
       />
     </div>

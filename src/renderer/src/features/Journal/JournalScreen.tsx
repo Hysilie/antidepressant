@@ -47,7 +47,7 @@ const JournalScreen = (): JSX.Element => {
     )
 
   return isScreenLocked ? (
-    <LockedScreen />
+    <LockedScreen target={routes.journal} />
   ) : (
     <Container spacing="large" className="flex flex-col w-full h-full overflow-x-hidden">
       <Header title={t('title')} icon={true} target={routes.home} />

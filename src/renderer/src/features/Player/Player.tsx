@@ -4,13 +4,10 @@ import nextIcon from '../../assets/icons/next.svg'
 import previousIcon from '../../assets/icons/previous.svg'
 import playIcon from '../../assets/icons/play.svg'
 import pauseIcon from '../../assets/icons/pause.svg'
-import replayOnIcon from '../../assets/icons/replayOn.svg'
-import replayOffIcon from '../../assets/icons/replayOff.svg'
-import shuffleOnIcon from '../../assets/icons/shuffleOn.svg'
-import shuffleOffIcon from '../../assets/icons/shuffleOff.svg'
 import SvgButton from '../../components/SvgButton'
 import AutoScrollText from './AutoScrollText'
 import SoundControl from './SoundControl'
+import FeatherIcon from 'feather-icons-react'
 type PlayerProps = {
   opacityColor: string
 }
@@ -40,8 +37,8 @@ const Player: FC<PlayerProps> = ({ opacityColor }): JSX.Element => {
 
   return (
     <div className="relative py-4" style={{ backgroundColor: opacityColor }}>
-      <div className="flex justify-between items-center w-full">
-        <div className="flex-1 px-4 py-2">
+      <div className="flex justify-between items-center pt-0 pb-4 w-full">
+        <div className="flex-1 px-4">
           <AutoScrollText>{trackName || 'No track playing'}</AutoScrollText>
         </div>
         <div className="px-4">
@@ -65,11 +62,11 @@ const Player: FC<PlayerProps> = ({ opacityColor }): JSX.Element => {
 
       <div className="relative flex justify-center items-center gap-3 py-2">
         <div className="bottom-6 left-14 absolute">
-          <SvgButton
-            src={isReplay ? replayOnIcon : replayOffIcon}
-            alt="replay"
+          <FeatherIcon
+            icon="repeat"
+            color={isReplay ? 'white' : 'black'}
+            size={18}
             onClick={handleReplay}
-            size={20}
           />
         </div>
 
@@ -84,11 +81,11 @@ const Player: FC<PlayerProps> = ({ opacityColor }): JSX.Element => {
       </div>
 
       <div className="right-14 bottom-10 absolute">
-        <SvgButton
-          src={isShuffle ? shuffleOnIcon : shuffleOffIcon}
-          alt="shuffle"
+        <FeatherIcon
+          icon="shuffle"
+          color={isShuffle ? 'white' : 'black'}
+          size={18}
           onClick={handleShuffle}
-          size={20}
         />
       </div>
     </div>

@@ -4,7 +4,7 @@ import LockDialog from './features/Preferences/LockDialog'
 import { useNavigate } from 'react-router'
 import { routes } from './utils/Routes/routes'
 
-const LockedScreen = (): JSX.Element => {
+const LockedScreen = ({ target }: { target: string }): JSX.Element => {
   const { checkCode } = useLock()
   const navigate = useNavigate()
 
@@ -12,7 +12,7 @@ const LockedScreen = (): JSX.Element => {
     <Container spacing="large" primary>
       <LockDialog
         open={true}
-        onClose={() => navigate(routes.journal)}
+        onClose={() => navigate(target)}
         mode={'check'}
         onCheckCode={checkCode}
         onCancel={() => navigate(routes.home)}

@@ -1,13 +1,12 @@
 import { FC, useCallback, useState } from 'react'
-import SvgButton from '../../components/SvgButton'
-import folder from '../../assets/icons/folder.svg'
-import reset from '../../assets/icons/trash.svg'
-import playlistIcon from '../../assets/icons/playlist.svg'
 import { usePlayer } from '@renderer/providers/Player/usePlayer'
 import Tooltip from '@renderer/components/Tooltip'
 import { useTranslation } from 'react-i18next'
 import { isEmpty } from 'remeda'
+import playlistIcon from '../../assets/icons/playlist.svg'
 import PlaylistBottomSheet from './PlaylistBottomSheet'
+import FeatherIcon from 'feather-icons-react'
+import SvgButton from '@renderer/components/SvgButton'
 type MediaProps = {
   background: string
 }
@@ -37,14 +36,33 @@ const Media: FC<MediaProps> = ({ background }): JSX.Element => {
               onClick={() => handlePlaylist(true)}
               size={32}
             />
+            {/* <FeatherIcon
+              icon="list"
+              size={24}
+              fill="white"
+              onClick={() => handlePlaylist(true)}
+              className="hover:scale-125 transition-all duration-300 ease-in-out cursor-pointer"
+            /> */}
           </Tooltip>
         )}
         <Tooltip label={t('folder')}>
-          <SvgButton src={folder} alt={'folder'} onClick={openFolder} size={20} />
+          <FeatherIcon
+            icon="folder-plus"
+            size={20}
+            fill="white"
+            onClick={openFolder}
+            className="hover:scale-125 transition-all duration-300 ease-in-out cursor-pointer"
+          />
         </Tooltip>
         {!isEmpty(playlist) && (
           <Tooltip label={t('reset')}>
-            <SvgButton src={reset} alt={'reset'} onClick={resetPlaylist} size={20} />
+            <FeatherIcon
+              icon="trash-2"
+              size={20}
+              fill="white"
+              onClick={resetPlaylist}
+              className="hover:scale-125 transition-all duration-300 ease-in-out cursor-pointer"
+            />
           </Tooltip>
         )}
       </div>

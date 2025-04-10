@@ -34,7 +34,7 @@ const Switch: FC<SwitchProps> = ({ id, checked = false, onChange, label }) => {
         onClick={handleToggle}
         className={clsx(
           'inline-flex relative items-center border-2 border-black rounded-full w-11 h-6 transition-colors',
-          isChecked ? 'bg-white' : 'bg-gray-300'
+          isChecked ? 'bg-primary' : 'bg-gray-300'
         )}
       >
         <span

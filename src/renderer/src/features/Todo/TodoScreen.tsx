@@ -95,7 +95,7 @@ const TodoScreen = (): JSX.Element => {
   }
 
   return isScreenLocked ? (
-    <LockedScreen />
+    <LockedScreen target={routes.todo} />
   ) : (
     <Container spacing="large" className="flex flex-col w-full h-full overflow-x-hidden">
       <Header

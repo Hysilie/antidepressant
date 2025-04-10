@@ -4,13 +4,12 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import fs from 'fs'
 
-/* const iconPath =
+const iconPath =
   process.platform === 'win32'
     ? join(__dirname, '../../build/icon.ico') // Windows
     : process.platform === 'linux'
       ? join(__dirname, '../../build/icon.png') // Linux
       : join(__dirname, '../../build/icon.icns') // macOS
-       */
 
 const getUserImagePath = (filename: string, userId: string): string =>
   path.join(app.getPath('userData'), 'images', userId, filename)
@@ -36,7 +35,7 @@ function createWindow(): void {
     show: false,
     autoHideMenuBar: true,
     resizable: false,
-    icon: icon,
+    icon: iconPath,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
