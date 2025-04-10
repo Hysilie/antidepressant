@@ -13,10 +13,12 @@ import { routes } from '@renderer/utils/Routes/routes'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import LockDialog from './LockDialog'
+import LockedScreen from '@renderer/LockedScreen'
 
 const PreferencesScreen = (): JSX.Element => {
   const { deleteAccount, logout } = useAuth()
-  const { createLockCode, userAlreadyHasCode, checkCode, updateCodeStep } = useLock()
+  const { createLockCode, userAlreadyHasCode, checkCode, updateCodeStep, isScreenLocked } =
+    useLock()
   const { resetAllPreferences, dispatchPreferences, preferencesStates } = usePreferences()
   const { musicAutoplay, lockScreenEnabled } = preferencesStates
   const handlePreference = useCallback(
@@ -37,54 +39,66 @@ const PreferencesScreen = (): JSX.Element => {
 
   const { t } = useTranslation('translation', { keyPrefix: 'preferences' })
 
-  return (
-    <Container spacing="large" primary style={{ overflow: 'scroll' }}>
+  return isScreenLocked ? (
+    <LockedScreen target={routes.preferences} />
+  ) : (
+    <Container spacing="large" className="flex flex-col w-full h-full overflow-x-hidden">
       <Header icon title={t('title')} target={routes.home} />
 
-      <div className="flex flex-col gap-4 my-2">
-        <Switch
-          label={t('autoplay')}
-          id="ToggleMusic"
-          onChange={() => handlePreference('switch', 'musicAutoplay')}
-          checked={musicAutoplay}
-        />
-        <Switch
-          label={t('lock')}
-          id="LockScreen"
-          onChange={() => {
-            handlePreference('switch', 'lockScreenEnabled')
-            setDisplayCode(!lockScreenEnabled && !userAlreadyHasCode ? true : false)
-          }}
-          checked={lockScreenEnabled}
-        />
+      <div className="flex flex-col flex-grow rounded-lg w-full overflow-hidden">
+        <div className="flex-grow p-4 overflow-y-auto">
+          <div className="flex flex-col gap-4 my-2">
+            <Switch
+              label={t('autoplay')}
+              id="ToggleMusic"
+              onChange={() => handlePreference('switch', 'musicAutoplay')}
+              checked={musicAutoplay}
+            />
+            <Switch
+              label={t('lock')}
+              id="LockScreen"
+              onChange={() => {
+                handlePreference('switch', 'lockScreenEnabled')
+                setDisplayCode(!lockScreenEnabled && !userAlreadyHasCode ? true : false)
+              }}
+              checked={lockScreenEnabled}
+            />
 
-        <ColorPicker />
+            <ColorPicker />
 
-        <div className="my-2 border-b border-black" />
-        {lockScreenEnabled ? (
+            <div className="my-2 border-b border-black" />
+            {lockScreenEnabled ? (
+              <Button
+                label={t('change')}
+                onClick={() => setOpenLockDialog(true)}
+                type="button"
+                mode="inline"
+              />
+            ) : null}
+            <Button
+              label={t('reset')}
+              onClick={() => setShowResetDialog(true)}
+              type="button"
+              mode="inline"
+            />
+            <Button
+              label={t('delete')}
+              onClick={() => setShowDeleteDialog(true)}
+              type="button"
+              mode="inline"
+            />
+          </div>
+        </div>
+
+        <div className="p-2">
           <Button
-            label={t('change')}
-            onClick={() => setOpenLockDialog(true)}
+            label={t('logout')}
+            color={'bg-primary'}
+            iconLeft={<Logout />}
+            onClick={logout}
             type="button"
-            mode="inline"
           />
-        ) : null}
-        <Button
-          label={t('reset')}
-          onClick={() => setShowResetDialog(true)}
-          type="button"
-          mode="inline"
-        />
-        <Button
-          label={t('delete')}
-          onClick={() => setShowDeleteDialog(true)}
-          type="button"
-          mode="inline"
-        />
-      </div>
-
-      <div className="mt-8">
-        <Button label={t('logout')} iconLeft={<Logout />} onClick={logout} type="button" />
+        </div>
       </div>
       <ConfirmDialog
         open={showResetDialog}

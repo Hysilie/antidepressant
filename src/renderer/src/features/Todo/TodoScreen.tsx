@@ -95,7 +95,7 @@ const TodoScreen = (): JSX.Element => {
   }
 
   return isScreenLocked ? (
-    <LockedScreen />
+    <LockedScreen target={routes.todo} />
   ) : (
     <Container spacing="large" className="flex flex-col w-full h-full overflow-x-hidden">
       <Header
@@ -148,7 +148,10 @@ const TodoScreen = (): JSX.Element => {
                 <button
                   className={clsx(
                     'flex items-center gap-4 hover:bg-gray-100 p-2 hover:rounded-md w-full max-w-full overflow-hidden text-left truncate',
-                    { 'border-b': todoList?.indexOf(list) !== todoList?.length - 1 }
+                    {
+                      'border-b':
+                        sortTodos(todoList, sortOption)?.indexOf(list) !== todoList?.length - 1
+                    }
                   )}
                   disabled={!isOnline}
                   key={index}

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { colorOptions } from '@renderer/providers/Preferences/Theme/colors'
 import { useTheme } from '@renderer/providers/Preferences/Theme/useTheme'
 import { Theme } from '@renderer/providers/Preferences/types'
-import chevron from './icons/chevron-down.svg'
+import chevron from '../assets/icons/chevron-down.svg'
 
 const ColorPicker = (): JSX.Element => {
   const { setColor, color } = useTheme()
@@ -30,7 +30,7 @@ const ColorPicker = (): JSX.Element => {
         </button>
 
         {open && (
-          <ul className="z-10 absolute bg-white shadow-lg mt-1 py-1 border-2 border-black rounded-2xl w-full max-h-60 overflow-auto">
+          <ul className="z-10 absolute bg-white shadow-lg mt-1 py-1 border-2 border-black rounded-2xl w-full max-h-40 overflow-auto">
             {colorOptions.map(({ name, hex }) => (
               <li
                 key={hex}

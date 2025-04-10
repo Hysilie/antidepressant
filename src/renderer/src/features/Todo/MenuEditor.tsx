@@ -11,7 +11,7 @@ interface MenuEditorProps {
 
 const MenuEditor: FC<MenuEditorProps> = ({ editor }) => {
   return (
-    <div className="flex justify-between items-center bg-primary px-3 py-2 rounded-2xl w-full">
+    <div className="flex justify-between items-center bg-primary px-3 py-2 border-2 border-black rounded-2xl w-full">
       <TextFontPicker editor={editor} />
 
       <button
