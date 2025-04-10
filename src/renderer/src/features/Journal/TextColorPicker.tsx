@@ -61,6 +61,18 @@ const TextColorPicker = ({ editor }: Props): JSX.Element => {
               />
             </li>
           ))}
+          <li
+            key={'black'}
+            onClick={() => applyColor('black')}
+            className={`cursor-pointer px-4 py-2 flex items-center gap-2 hover:bg-gray-100 ${
+              'black' === currentColor ? 'font-bold' : 'font-normal'
+            }`}
+          >
+            <span
+              className="border border-black rounded-full w-4 h-4"
+              style={{ backgroundColor: 'black' }}
+            />
+          </li>
         </ul>
       )}
     </div>

@@ -14,7 +14,7 @@ import clsx from 'clsx'
 import ProgressCircle from '@renderer/components/ProgressCircle'
 import { TodoList } from '@renderer/providers/Todo/types'
 import DropDownMenu from '@renderer/components/DropdownMenu'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import FeatherIcon from 'feather-icons-react'
 
@@ -35,7 +35,14 @@ const TodoScreen = (): JSX.Element => {
   const navigateToEditTodo = (id?: string): void | Promise<void> => navigate(routes.todoEdit(id))
   const { todoList } = useTodo()
   const [moreOptions, setMoreOptions] = useState(false)
-  const [sortOption, setSortOption] = useState<SortOption>('date')
+
+  const initialSortOption = (localStorage.getItem('sortOption') as SortOption) || 'date'
+  const [sortOption, setSortOption] = useState<SortOption>(initialSortOption)
+
+  useEffect(() => {
+    localStorage.setItem('sortOption', sortOption)
+  }, [sortOption])
+
   const sortTodos = (todoList: TodoList[], sortBy: SortOption): TodoList[] => {
     const getTimestampInSeconds = (
       value: { seconds: number } | Date | null | undefined
@@ -147,11 +154,11 @@ const TodoScreen = (): JSX.Element => {
                   key={index}
                   onClick={() => navigateToEditTodo(list.id)}
                 >
-                  <ProgressCircle percent={(count / total) * 100} />
+                  <ProgressCircle percent={(count / total) * 100} isEmpty={total === 0} />
                   <div>
                     <p>{list.title}</p>
                     <p className="text-gray-400 text-xs">
-                      {t('progress', { count: count, total })}
+                      {total === 0 ? t('notask') : t('progress', { count: count, total })}
                     </p>
                   </div>
                 </button>

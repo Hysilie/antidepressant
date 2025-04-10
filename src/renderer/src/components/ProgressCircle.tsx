@@ -1,4 +1,12 @@
-const ProgressCircle = ({ percent }: { percent: number }): JSX.Element => {
+import { FC } from 'react'
+import empty from '../assets/icons/emptybold.svg'
+
+type ProgressCircleProps = {
+  percent: number
+  isEmpty?: boolean
+}
+
+const ProgressCircle: FC<ProgressCircleProps> = ({ percent, isEmpty }): JSX.Element => {
   const radius = 12
   const stroke = 4
   const normalizedRadius = radius - stroke / 2
@@ -11,7 +19,9 @@ const ProgressCircle = ({ percent }: { percent: number }): JSX.Element => {
     return '#F6BA65'
   }
 
-  return (
+  return isEmpty ? (
+    <img src={empty} alt="Empty" className="w-6 h-8" />
+  ) : (
     <svg width={radius * 2} height={radius * 2} className="shrink-0">
       <circle
         stroke="#E5E7EB"

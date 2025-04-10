@@ -122,7 +122,7 @@ body {
   border-radius: 9999px;
 }
 
-/* ---------- TIPTAP CSS ---------- */
+/* ---------- TIPTAP JOURNAL CSS ---------- */
 
 .tiptap {
   flex-grow: 1;
@@ -172,7 +172,7 @@ pre code {
   ul,
   ol {
     padding-left: 1.5rem;
-    margin: 1.25rem 0;
+    margin: 0.5rem 0;
   }
 
   ul li {
@@ -196,5 +196,87 @@ pre code {
     pointer-events: none;
     height: 0;
     float: left;
+  }
+}
+
+/* ---------- TIPTAP TODO CSS ---------- */
+
+.tiptaptodo {
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* List styles */
+  /*  ul,
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
+  } */
+
+  /* Task list specific styles */
+  ul[data-type='taskList'] {
+    list-style: none;
+    margin-left: 0;
+    padding: 0;
+
+    li {
+      align-items: flex-start;
+      display: flex;
+
+      label {
+        flex: 0 0 auto;
+        margin-right: 0.5rem;
+        user-select: none;
+      }
+
+      /*  div {
+        flex: 1 1 auto;
+      } */
+    }
+
+    input[type='checkbox'] {
+      cursor: pointer;
+    }
+
+    ul[data-type='taskList'] {
+      margin: 0;
+    }
+  }
+
+  input[type='checkbox'] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid black;
+    border-radius: 0.3rem;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    margin-top: 0.2rem;
+    background-color: white;
+    transition: all 0.2s ease;
+  }
+
+  input[type='checkbox']:checked {
+    background-color: var(--primary);
+    border-color: black;
+  }
+
+  input[type='checkbox']:checked::after {
+    content: '';
+    position: absolute;
+    top: 0.2rem;
+    left: 0.35rem;
+    width: 0.25rem;
+    height: 0.6rem;
+    border: solid black;
+    border-width: 0 0.15rem 0.15rem 0;
+    transform: rotate(45deg);
   }
 }
