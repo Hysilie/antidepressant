@@ -84,8 +84,6 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password)
-      toast.success('Hello !')
-      navigate(routes.home, { replace: true })
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message, { position: 'bottom-center' })

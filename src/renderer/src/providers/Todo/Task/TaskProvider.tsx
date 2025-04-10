@@ -8,6 +8,7 @@ import { deleteDoc, doc, serverTimestamp, setDoc, Timestamp } from 'firebase/fir
 import { db } from '@renderer/providers/Auth/firebase/firebase'
 import { taskList } from '@renderer/features/Journal/constants'
 import { isEmpty } from 'remeda'
+import { useDelayedLoader } from '@renderer/utils/useDelayedLoader'
 
 export const TaskProvider: FC<PropsWithChildren> = ({ children }) => {
   const { todoList: todoListArr, refreshTodos } = useTodo()
@@ -22,6 +23,8 @@ export const TaskProvider: FC<PropsWithChildren> = ({ children }) => {
   const [todos, setTodos] = useState(taskList)
   const [updatedAt, setUpdatedAt] = useState<Date | undefined>(undefined)
   const [isSaved, setIsSaved] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const { start, stop } = useDelayedLoader(setLoading)
 
   /*
    * Upate todolist
@@ -29,6 +32,7 @@ export const TaskProvider: FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     const existingTodolist = todoListArr.find((t) => t.id === todolistId)
 
+    start()
     if (!existingTodolist) {
       return
     }
@@ -41,7 +45,8 @@ export const TaskProvider: FC<PropsWithChildren> = ({ children }) => {
           : (existingTodolist.updatedAt as unknown as Timestamp)?.toDate()
       )
     }
-  }, [todoListArr, todolistId])
+    stop()
+  }, [start, stop, todoListArr, todolistId])
 
   useEffect(() => {
     localStorage.setItem(localKey, JSON.stringify({ title, todos, lastModified: Date.now() }))
@@ -95,7 +100,9 @@ export const TaskProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   return (
-    <TaskContext.Provider value={{ updatedAt, title, todos, update, isSaved, save, remove }}>
+    <TaskContext.Provider
+      value={{ updatedAt, title, todos, update, isSaved, save, remove, loading }}
+    >
       {children}
     </TaskContext.Provider>
   )

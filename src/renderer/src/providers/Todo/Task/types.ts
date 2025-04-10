@@ -6,4 +6,5 @@ export interface TaskContextData {
   save: () => void
   remove: () => void
   isSaved: boolean
+  loading: boolean
 }

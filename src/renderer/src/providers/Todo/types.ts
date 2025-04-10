@@ -10,4 +10,5 @@ export interface TodoList {
 export interface TodosContextData {
   todoList: TodoList[]
   refreshTodos: () => void
+  loading: boolean
 }

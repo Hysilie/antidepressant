@@ -17,6 +17,7 @@ import DropDownMenu from '@renderer/components/DropdownMenu'
 import { useEffect, useState } from 'react'
 
 import FeatherIcon from 'feather-icons-react'
+import Loader from '@renderer/components/Loader'
 
 type SortOption = 'date' | 'completed' | 'completedInverse' | 'dateInverse'
 const SORT_OPTIONS: { label: string; value: SortOption }[] = [
@@ -33,7 +34,7 @@ const TodoScreen = (): JSX.Element => {
   const { isScreenLocked } = useLock()
 
   const navigateToEditTodo = (id?: string): void | Promise<void> => navigate(routes.todoEdit(id))
-  const { todoList } = useTodo()
+  const { todoList, loading } = useTodo()
   const [moreOptions, setMoreOptions] = useState(false)
 
   const initialSortOption = (localStorage.getItem('sortOption') as SortOption) || 'date'
@@ -94,7 +95,9 @@ const TodoScreen = (): JSX.Element => {
     })
   }
 
-  return isScreenLocked ? (
+  return loading ? (
+    <Loader />
+  ) : isScreenLocked ? (
     <LockedScreen target={routes.todo} />
   ) : (
     <Container spacing="large" className="flex flex-col w-full h-full overflow-x-hidden">

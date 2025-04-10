@@ -11,9 +11,10 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import { isEmpty } from 'remeda'
 import clsx from 'clsx'
+import Loader from '@renderer/components/Loader'
 
 const JournalScreen = (): JSX.Element => {
-  const { pages } = useJournal()
+  const { pages, loading } = useJournal()
   const { isScreenLocked } = useLock()
   const isOnline = useNetworkStatus()
 
@@ -46,7 +47,9 @@ const JournalScreen = (): JSX.Element => {
       {} as Record<string, typeof pages>
     )
 
-  return isScreenLocked ? (
+  return loading ? (
+    <Loader />
+  ) : isScreenLocked ? (
     <LockedScreen target={routes.journal} />
   ) : (
     <Container spacing="large" className="flex flex-col w-full h-full overflow-x-hidden">

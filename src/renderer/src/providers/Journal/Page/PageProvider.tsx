@@ -7,11 +7,14 @@ import { db } from '@renderer/providers/Auth/firebase/firebase'
 import { useAuth } from '@renderer/providers/Auth/useAuth'
 import { useJournal } from '../useJournal'
 import { isEmpty } from 'remeda'
+import { useDelayedLoader } from '@renderer/utils/useDelayedLoader'
 
 export const PageProvider: FC<PropsWithChildren> = ({ children }) => {
   const { currentUser } = useAuth()
   const { pages, refreshPages } = useJournal()
+  const [loading, setLoading] = useState(false)
   const params = useParams()
+  const { start, stop } = useDelayedLoader(setLoading)
 
   const userId = currentUser?.uid
   const [pageId] = useState(() => params.id ?? uuidv4())
@@ -28,9 +31,7 @@ export const PageProvider: FC<PropsWithChildren> = ({ children }) => {
    */
   useEffect(() => {
     const existingPage = pages.find((p) => p.id === pageId)
-    if (!existingPage) {
-      return
-    }
+    start()
     if (existingPage) {
       setTitle(existingPage.title)
       setContent(existingPage.content)
@@ -40,7 +41,8 @@ export const PageProvider: FC<PropsWithChildren> = ({ children }) => {
           : (existingPage.updatedAt as unknown as Timestamp)?.toDate()
       )
     }
-  }, [pageId, pages])
+    stop()
+  }, [pageId, pages, start, stop])
 
   /**
    * Save the current page state to localStorage to minimize Firestore writes
@@ -167,7 +169,8 @@ export const PageProvider: FC<PropsWithChildren> = ({ children }) => {
         remove,
         isSaved,
         storeImage,
-        getImageData
+        getImageData,
+        loading
       }}
     >
       {children}

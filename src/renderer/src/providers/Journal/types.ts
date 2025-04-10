@@ -1,6 +1,7 @@
 export interface JournalContextData {
   pages: Page[]
   refreshPages: () => void
+  loading: boolean
 }
 
 export interface Page {
