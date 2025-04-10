@@ -1,7 +1,7 @@
 import Container from './components/Container'
 import { useLock } from './providers/Preferences/Lock/useLock'
 import LockDialog from './features/Preferences/LockDialog'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { routes } from './utils/Routes/routes'
 
 const LockedScreen = ({ target }: { target: string }): JSX.Element => {

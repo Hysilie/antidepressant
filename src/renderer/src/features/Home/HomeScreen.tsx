@@ -2,7 +2,7 @@ import Container from '@renderer/components/Container'
 import { useAuth } from '@renderer/providers/Auth/useAuth'
 import { routes } from '@renderer/utils/Routes/routes'
 import localStorageCleaner from '@renderer/utils/useLocalStorageCleaner'
-import { getWeather, getWeatherEmoji } from '@renderer/utils/useWeather'
+import { getWeather } from '@renderer/utils/useWeather'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import mascot from '../../assets/icons/mascot.svg'
@@ -10,7 +10,7 @@ import sad from '../../assets/icons/sad.svg'
 import HomePlayer from './HomePlayer'
 import Header from '@renderer/components/Header'
 import FeatherIcon from 'feather-icons-react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import SvgButton from '@renderer/components/SvgButton'
 import clsx from 'clsx'
 import { useLock } from '@renderer/providers/Preferences/Lock/useLock'
@@ -32,22 +32,16 @@ const HomeScreen = (): JSX.Element => {
   const [isHovered, setIsHovered] = useState(false)
   const [clickCount, setClickCount] = useState(0)
 
-  const fetchWeather = async (): Promise<void> => {
-    const weatherData = await getWeather()
-    const [temp, condition] = weatherData.split(' ')
-    const emoji = getWeatherEmoji(weatherData)
-    setWeather(`${emoji} ${temp} ${condition}`)
-  }
-
   useEffect(() => {
     localStorageCleaner()
-    fetchWeather()
+
+    getWeather().then(setWeather)
   }, [])
 
   return isScreenLocked ? (
     <LockedScreen target="/" />
   ) : (
-    <Container spacing="large" className="flex flex-col w-full h-full">
+    <Container spacing="large" className="flex flex-col w-full h-full overflow-hidden">
       <Header
         icon={false}
         title={t('hello', { username: currentUser?.username ?? 'you' })}
@@ -68,7 +62,7 @@ const HomeScreen = (): JSX.Element => {
       <div className="flex flex-col flex-grow rounded-lg w-full">
         <div className="flex flex-grow gap-4 py-2">
           <div className="flex flex-col justify-center items-center p-4 border-2 border-black rounded-2xl w-full text-center">
-            <img src={build} className="pr-4 w-20 h-20" />
+            <img src={build} className="pr-4 w-18 h-18" />
             🚧🚧🚧🚧🚧 <br />
             Building <br />
             🚧🚧🚧🚧🚧🚧

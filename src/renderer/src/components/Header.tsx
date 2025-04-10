@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import Title from './Title'
 import back from '../assets/icons/back.svg'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 
 type HeaderProps = {
   extraButton?: JSX.Element

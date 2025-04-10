@@ -1,5 +1,5 @@
 import { routes } from '@renderer/utils/Routes/routes'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 import { trimmedValues } from './utils/trimmedValues'
 import { ToastContainer } from 'react-toastify'
@@ -30,18 +30,21 @@ const LoginScreen = (): JSX.Element => {
           handleConnexion(email, password)
         }}
       >
-        {({ isSubmitting }) => (
-          <Form className="flex flex-col">
-            <InputField name="email" label={t('email')} type="email" />
-            <InputField name="password" label={t('password')} type="password" />
-            <Button
-              style={{ marginTop: 16 }}
-              type="submit"
-              label={t('submit')}
-              loading={isSubmitting}
-            />
-          </Form>
-        )}
+        {(formikProps) => {
+          const { isSubmitting } = formikProps
+          return (
+            <Form className="flex flex-col">
+              <InputField name="email" label={t('email')} type="email" />
+              <InputField name="password" label={t('password')} type="password" />
+              <Button
+                style={{ marginTop: 16 }}
+                type="submit"
+                label={t('submit')}
+                loading={isSubmitting}
+              />
+            </Form>
+          )
+        }}
       </Formik>
 
       <p className="block pt-4 text-xs text-center">
