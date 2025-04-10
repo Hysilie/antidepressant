@@ -8,7 +8,7 @@ import SvgButton from '../../components/SvgButton'
 import FeatherIcon from 'feather-icons-react'
 import AutoScrollText from '../Player/AutoScrollText'
 import SoundControl from '../Player/SoundControl'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { routes } from '@renderer/utils/Routes/routes'
 
 const HomePlayer = (): JSX.Element => {

@@ -15,7 +15,7 @@ const PlayerScreen = (): JSX.Element => {
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       <Header icon title={t('title')} target={routes.home} className="bg-primary px-6 py-2 h-16" />
-      <Media background={background} />
+      <Media />
       <Player opacityColor={opacityColor} />
     </div>
   )

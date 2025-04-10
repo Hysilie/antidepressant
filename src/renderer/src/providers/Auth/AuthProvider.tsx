@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import { User } from './types'
 import { AuthContext } from './AuthContext'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { isDefined } from 'remeda'
 import { routes } from '@renderer/utils/Routes/routes'
 import { toast } from 'react-toastify'
@@ -17,6 +17,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User>()
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+  const location = useLocation()
 
   /**
    * Synchronizes the current user state with localStorage or Firebase Auth state changes.
@@ -67,7 +68,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         navigate(routes.home, { replace: true })
       }
     }
-  }, [currentUser, navigate])
+  }, [currentUser, location.pathname, navigate])
 
   /**
    * Connect a user with firebase email and password method

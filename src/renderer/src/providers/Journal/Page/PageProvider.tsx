@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, useEffect, useState } from 'react'
 import { PageContext } from './PageContext'
 import { v4 as uuidv4 } from 'uuid'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
 import { deleteDoc, doc, getDoc, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore'
 import { db } from '@renderer/providers/Auth/firebase/firebase'
 import { useAuth } from '@renderer/providers/Auth/useAuth'

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import './index.css'
 
 import React from 'react'
@@ -53,7 +53,7 @@ const routeConfig = [
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <AuthProvider>
         <PreferencesProvider>
           <ThemeProvider>
@@ -79,6 +79,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           </ThemeProvider>
         </PreferencesProvider>
       </AuthProvider>
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 )

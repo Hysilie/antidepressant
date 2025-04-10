@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { usePlayer } from '@renderer/providers/Player/usePlayer'
 import Tooltip from '@renderer/components/Tooltip'
 import { useTranslation } from 'react-i18next'
@@ -7,11 +7,11 @@ import playlistIcon from '../../assets/icons/playlist.svg'
 import PlaylistBottomSheet from './PlaylistBottomSheet'
 import FeatherIcon from 'feather-icons-react'
 import SvgButton from '@renderer/components/SvgButton'
-type MediaProps = {
-  background: string
-}
+import { backgroundsMap } from '@renderer/assets/backgrounds'
+import { useTheme } from '@renderer/providers/Preferences/Theme/useTheme'
 
-const Media: FC<MediaProps> = ({ background }): JSX.Element => {
+const Media = (): JSX.Element => {
+  const { hex } = useTheme()
   const { openFolder, playlist, resetPlaylist } = usePlayer()
   const { t } = useTranslation('translation', { keyPrefix: 'player.tooltip' })
   const [openPlaylist, setOpenPlaylist] = useState(false)
@@ -23,6 +23,9 @@ const Media: FC<MediaProps> = ({ background }): JSX.Element => {
       setTimeout(() => setVisible(false), 400)
     }
   }, [])
+
+  const formattedBackgroundUrl = `bg-${hex.slice(1)}.png`
+  const backgroundUrl = backgroundsMap[formattedBackgroundUrl] ?? ''
 
   return (
     <div className="flex-grow overflow-hidden">
@@ -60,7 +63,7 @@ const Media: FC<MediaProps> = ({ background }): JSX.Element => {
         )}
       </div>
       <div className="w-full h-full">
-        <img src={background} className="w-full h-full object-cover" alt="background" />
+        <img src={backgroundUrl} className="w-full h-full object-cover" alt="background" />
       </div>
     </div>
   )
