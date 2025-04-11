@@ -3,7 +3,7 @@
     "hello": "Hello {{username}}!",
     "sad": "Ouch! >w<",
     "mascot": "Meow~",
-    "todo": "Todos",
+    "todo": "To do",
     "journal": "Journal"
   },
   "journal": {
@@ -29,13 +29,22 @@
     }
   },
   "login": {
-    "title": "Login",
+    "title": "Login to your account",
     "email": "Email",
     "password": "Password",
     "submit": "Submit",
     "signupPrompt": "No account? ",
     "signupLink": "Sign Up",
-    "loader": "loading…"
+    "loader": "loading…",
+    "reset": "Forgotten password?",
+    "google": " Se connecter avec Google",
+    "dialog": {
+      "title": "Reset your password",
+      "content": "A reset link will be sent to your email address",
+      "cancel": "Cancel",
+      "confirm": "Send reset link",
+      "placeholder": "Your email address"
+    }
   },
   "player": {
     "title": "",
@@ -53,6 +62,13 @@
     "title": "Preferences",
     "autoplay": "Launch music on startup",
     "change": "Change lock code",
+    "username": "Change username",
+    "usernameDialog": {
+      "title": "Change my username",
+      "content": "Update your username to personalize your experience.",
+      "cancel": "Cancel",
+      "confirm": "I change my username"
+    },
     "lock": "Lock screen",
     "lockDialog": {
       "titleVerify": "Verify your code",

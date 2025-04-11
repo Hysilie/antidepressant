@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
+import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 import {
   initializeFirestore,
   persistentMultipleTabManager,
@@ -23,12 +23,15 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 
-export const auth = getAuth()
+export const auth = getAuth(app)
 const db = initializeFirestore(app, {
   localCache: persistentLocalCache({
     tabManager: persistentMultipleTabManager()
   })
 })
 
+const provider = new GoogleAuthProvider()
+
 export { db }
+export { provider }
 export default app

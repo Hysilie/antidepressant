@@ -34,6 +34,7 @@ export const TaskProvider: FC<PropsWithChildren> = ({ children }) => {
 
     start()
     if (!existingTodolist) {
+      stop()
       return
     }
     if (existingTodolist) {

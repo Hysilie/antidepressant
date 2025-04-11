@@ -8,10 +8,14 @@ import { toast } from 'react-toastify'
 import {
   createUserWithEmailAndPassword,
   deleteUser,
+  GoogleAuthProvider,
+  signInWithCredential,
   signInWithEmailAndPassword
 } from 'firebase/auth'
 import { auth, db } from './firebase/firebase'
-import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore'
+import { deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
+import { defaultPreferencesState } from '../Preferences/utils'
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User>()
@@ -94,6 +98,42 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }
 
+  const signInWithGoogle = async (): Promise<void> => {
+    try {
+      const result = await window.electron.ipcRenderer.invoke('auth:google-login')
+      const { accessToken, uid, email, displayName } = result
+
+      const credential = GoogleAuthProvider.credential(null, accessToken)
+      await signInWithCredential(auth, credential)
+
+      const userDocRef = doc(db, 'Users', uid)
+      const userSnap = await getDoc(userDocRef)
+
+      if (!userSnap.exists()) {
+        await setDoc(userDocRef, {
+          uid,
+          email,
+          username: displayName ?? 'Anonymous',
+          preferencesStates: defaultPreferencesState
+        })
+      }
+
+      const userData: User = {
+        uid,
+        email,
+        username: displayName ?? 'Anonymous',
+        preferencesStates: defaultPreferencesState,
+        lockScreenCode: undefined
+      }
+
+      localStorage.setItem('currentUser', JSON.stringify(userData))
+      setCurrentUser(userData)
+      navigate(routes.home, { replace: true })
+    } catch (err) {
+      console.error('Google auth failed:', err)
+    }
+  }
+
   /**
    * Create a user with firebase email and password method and create doc to Users table
    *
@@ -148,13 +188,53 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [currentUser, navigate])
 
+  const updateUsername = async (newUsername: string): Promise<void> => {
+    try {
+      if (!currentUser) {
+        throw new Error('User is not defined')
+      }
+      const userRef = doc(db, 'Users', currentUser?.uid)
+      await updateDoc(userRef, { username: newUsername })
+      setCurrentUser({ ...currentUser, username: newUsername })
+      localStorage.setItem('currentUser', JSON.stringify({ ...currentUser, username: newUsername }))
+    } catch (error) {
+      console.error('Failed to update username in Firestore:', error)
+    }
+  }
+
   /**
    * Log out the user with firebase method and clean local storage
    */
-  const logout = (): void => {
-    if (auth.currentUser) auth.signOut()
-    setCurrentUser(undefined)
-    localStorage.clear()
+  const logout = async (): Promise<void> => {
+    try {
+      if (auth.currentUser) {
+        await auth.signOut()
+        setCurrentUser(undefined)
+        localStorage.clear()
+      }
+    } catch (error) {
+      console.error('Error during sign out:', error)
+      toast.warn(
+        'Session expired. Please sign in again or contact support if the issue persists.',
+        { position: 'bottom-center' }
+      )
+    }
+  }
+
+  /*
+   * Send reset password
+   */
+  const sendResetPassword = (email: string): void => {
+    const auth = getAuth()
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        toast.success('Email sent successfully ☀️', { position: 'top-center' })
+      })
+      .catch((error) => {
+        console.error('Error sending user email:', error)
+
+        // ..
+      })
   }
 
   return (
@@ -165,7 +245,10 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         handleRegister,
         logout,
         loading,
-        deleteAccount
+        deleteAccount,
+        sendResetPassword,
+        signInWithGoogle,
+        updateUsername
       }}
     >
       {children}

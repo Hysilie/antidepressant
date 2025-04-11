@@ -14,9 +14,10 @@ import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import LockDialog from './LockDialog'
 import LockedScreen from '@renderer/LockedScreen'
+import UsernameDialog from './UsernameDialog'
 
 const PreferencesScreen = (): JSX.Element => {
-  const { deleteAccount, logout } = useAuth()
+  const { deleteAccount, logout, updateUsername } = useAuth()
   const { createLockCode, userAlreadyHasCode, checkCode, updateCodeStep, isScreenLocked } =
     useLock()
   const { resetAllPreferences, dispatchPreferences, preferencesStates } = usePreferences()
@@ -35,6 +36,7 @@ const PreferencesScreen = (): JSX.Element => {
 
   const [showResetDialog, setShowResetDialog] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [showUsernameDialog, setShowUsernameDialog] = useState(false)
   const [openLockDialog, setOpenLockDialog] = useState(false)
 
   const { t } = useTranslation('translation', { keyPrefix: 'preferences' })
@@ -66,7 +68,7 @@ const PreferencesScreen = (): JSX.Element => {
 
             <ColorPicker />
 
-            <div className="my-2 border-b border-black" />
+            <div className="mt-1 border-b border-black" />
             {lockScreenEnabled ? (
               <Button
                 label={t('change')}
@@ -75,6 +77,12 @@ const PreferencesScreen = (): JSX.Element => {
                 mode="inline"
               />
             ) : null}
+            <Button
+              label={t('username')}
+              onClick={() => setShowUsernameDialog(true)}
+              type="button"
+              mode="inline"
+            />
             <Button
               label={t('reset')}
               onClick={() => setShowResetDialog(true)}
@@ -135,6 +143,15 @@ const PreferencesScreen = (): JSX.Element => {
         updateStep={updateCodeStep}
         onCheckCode={checkCode}
         onCreateCode={createLockCode}
+      />
+      <UsernameDialog
+        open={showUsernameDialog}
+        onOpenChange={() => setShowUsernameDialog(false)}
+        onConfirm={updateUsername}
+        title={t('usernameDialog.title')}
+        description={t('usernameDialog.content')}
+        confirmLabel={t('usernameDialog.confirm')}
+        cancelLabel={t('usernameDialog.cancel')}
       />
     </Container>
   )
