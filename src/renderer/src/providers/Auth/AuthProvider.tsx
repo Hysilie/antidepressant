@@ -13,7 +13,7 @@ import {
   signInWithEmailAndPassword
 } from 'firebase/auth'
 import { auth, db } from './firebase/firebase'
-import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore'
+import { deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
 import { defaultPreferencesState } from '../Preferences/utils'
 
@@ -188,6 +188,20 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [currentUser, navigate])
 
+  const updateUsername = async (newUsername: string): Promise<void> => {
+    try {
+      if (!currentUser) {
+        throw new Error('User is not defined')
+      }
+      const userRef = doc(db, 'Users', currentUser?.uid)
+      await updateDoc(userRef, { username: newUsername })
+      setCurrentUser({ ...currentUser, username: newUsername })
+      localStorage.setItem('currentUser', JSON.stringify({ ...currentUser, username: newUsername }))
+    } catch (error) {
+      console.error('Failed to update username in Firestore:', error)
+    }
+  }
+
   /**
    * Log out the user with firebase method and clean local storage
    */
@@ -233,7 +247,8 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         loading,
         deleteAccount,
         sendResetPassword,
-        signInWithGoogle
+        signInWithGoogle,
+        updateUsername
       }}
     >
       {children}

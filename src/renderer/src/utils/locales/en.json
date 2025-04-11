@@ -62,6 +62,13 @@
     "title": "Preferences",
     "autoplay": "Launch music on startup",
     "change": "Change lock code",
+    "username": "Change username",
+    "usernameDialog": {
+      "title": "Change my username",
+      "content": "Update your username to personalize your experience.",
+      "cancel": "Cancel",
+      "confirm": "I change my username"
+    },
     "lock": "Lock screen",
     "lockDialog": {
       "titleVerify": "Verify your code",
