@@ -29,7 +29,7 @@
     }
   },
   "login": {
-    "title": "Login",
+    "title": "Login to your account",
     "email": "Email",
     "password": "Password",
     "submit": "Submit",
@@ -37,6 +37,7 @@
     "signupLink": "Sign Up",
     "loader": "loading…",
     "reset": "Forgotten password?",
+    "google": " Se connecter avec Google",
     "dialog": {
       "title": "Reset your password",
       "content": "A reset link will be sent to your email address",

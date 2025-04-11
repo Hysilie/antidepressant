@@ -13,6 +13,7 @@ import InputField from '@renderer/components/InputField'
 import { useTranslation } from 'react-i18next'
 import { useRef, useState } from 'react'
 import ResetPasswordDialog from './ResetPasswordDialog'
+import GoogleButton from './GoogleButton'
 
 const LoginScreen = (): JSX.Element => {
   const { handleConnexion, sendResetPassword, signInWithGoogle } = useAuth()
@@ -51,8 +52,8 @@ const LoginScreen = (): JSX.Element => {
           )
         }}
       </Formik>
-      <div className="pt-4 w-full text-xs text-center" onClick={() => setOpenDialog(true)}>
-        <p className="font-semibold hover:scale-105 transition-transform duration-300 cursor-pointer">
+      <div className="pb-2 w-full text-xs text-center" onClick={() => setOpenDialog(true)}>
+        <p className="hover:scale-105 transition-transform duration-300 cursor-pointer">
           {t('reset')}
         </p>
       </div>
@@ -66,14 +67,14 @@ const LoginScreen = (): JSX.Element => {
         cancelLabel={t('dialog.cancel')}
         emailLoginInput={formRef.current?.values.email ?? ''}
       />
+      <GoogleButton {...{ signInWithGoogle }} />
+
       <p className="bottom-4 left-[115px] absolute text-xs text-center l">
         {t('signupPrompt')}
         <Link to={routes.signup} className="font-semibold">
           {t('signupLink')}
         </Link>
       </p>
-
-      <button onClick={signInWithGoogle}>test</button>
     </Container>
   )
 }

@@ -20,9 +20,9 @@ const InputField: FC<InputProps> = ({
   className
 }): JSX.Element => {
   return (
-    <div className="flex flex-col mb-4">
+    <div className="flex flex-col pb-2">
       {label && (
-        <label htmlFor={name} className="mb-1 font-bold text-black">
+        <label htmlFor={name} className="pb-1 font-bold text-black">
           {label}
         </label>
       )}
@@ -41,7 +41,9 @@ const InputField: FC<InputProps> = ({
         )}
       />
       <ErrorMessage name={name}>
-        {(msg) => <span className="mt-1 font-body font-semibold text-red-500 text-sm">{msg}</span>}
+        {(msg) => (
+          <span className="mt-1 mb-0 pb-0 font-body font-semibold text-red-500 text-xs">{msg}</span>
+        )}
       </ErrorMessage>
     </div>
   )

@@ -8,6 +8,8 @@ import { toast } from 'react-toastify'
 import {
   createUserWithEmailAndPassword,
   deleteUser,
+  GoogleAuthProvider,
+  signInWithCredential,
   signInWithEmailAndPassword
 } from 'firebase/auth'
 import { auth, db } from './firebase/firebase'
@@ -95,25 +97,40 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
       }
     }
   }
+
   const signInWithGoogle = async (): Promise<void> => {
     try {
-      const user = await window.electron.ipcRenderer.invoke('auth:google-login')
-      console.log('✅ Google user:', user)
+      const result = await window.electron.ipcRenderer.invoke('auth:google-login')
+      const { accessToken, uid, email, displayName } = result
+
+      const credential = GoogleAuthProvider.credential(null, accessToken)
+      await signInWithCredential(auth, credential)
+
+      const userDocRef = doc(db, 'Users', uid)
+      const userSnap = await getDoc(userDocRef)
+
+      if (!userSnap.exists()) {
+        await setDoc(userDocRef, {
+          uid,
+          email,
+          username: displayName ?? 'Anonymous',
+          preferencesStates: defaultPreferencesState
+        })
+      }
 
       const userData: User = {
-        uid: user.uid,
-        email: user.email,
-        username: user.displayName || 'Anonymous',
+        uid,
+        email,
+        username: displayName ?? 'Anonymous',
         preferencesStates: defaultPreferencesState,
         lockScreenCode: undefined
       }
 
       localStorage.setItem('currentUser', JSON.stringify(userData))
       setCurrentUser(userData)
-
       navigate(routes.home, { replace: true })
     } catch (err) {
-      console.error('Google auth error:', err)
+      console.error('Google auth failed:', err)
     }
   }
 

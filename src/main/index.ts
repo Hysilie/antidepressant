@@ -6,6 +6,10 @@ import fs from 'fs'
 import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth'
 import { auth } from '../renderer/src/providers/Auth/firebase/firebase'
 
+const CLIENT_ID = '425147394264-4h91sghs38v407c3gjqvqrfd7u7rlp23.apps.googleusercontent.com'
+const redirectUri = 'http://localhost'
+const providerUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token&scope=profile%20email%20openid`
+
 /*  Google  */
 ipcMain.handle('auth:google-login', async () => {
   return new Promise((resolve, reject) => {
@@ -17,11 +21,6 @@ ipcMain.handle('auth:google-login', async () => {
         nodeIntegration: false
       }
     })
-
-    const CLIENT_ID = '425147394264-4h91sghs38v407c3gjqvqrfd7u7rlp23.apps.googleusercontent.com'
-    const redirectUri = 'http://localhost'
-
-    const providerUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token&scope=profile%20email%20openid`
 
     authWindow.loadURL(providerUrl)
 
@@ -38,7 +37,8 @@ ipcMain.handle('auth:google-login', async () => {
               uid: result.user.uid,
               email: result.user.email,
               displayName: result.user.displayName,
-              photoURL: result.user.photoURL
+              photoURL: result.user.photoURL,
+              accessToken: token
             }
             resolve(userData)
           } catch (error) {

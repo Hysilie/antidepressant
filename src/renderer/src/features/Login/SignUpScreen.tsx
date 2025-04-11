@@ -11,9 +11,10 @@ import Title from '@renderer/components/Title'
 import { useTranslation } from 'react-i18next'
 import InputField from '@renderer/components/InputField'
 import Button from '@renderer/components/Button'
+import GoogleButton from './GoogleButton'
 
 const SignUpScreen = (): JSX.Element => {
-  const { handleRegister } = useAuth()
+  const { handleRegister, signInWithGoogle } = useAuth()
   const { t } = useTranslation('translation', { keyPrefix: 'signup' })
 
   return (
@@ -32,7 +33,7 @@ const SignUpScreen = (): JSX.Element => {
         {(formikProps) => {
           const { isSubmitting } = formikProps
           return (
-            <Form className="flex flex-col">
+            <Form className="flex flex-col -mt-2">
               <InputField name="username" label={t('username')} type="username" />
               <InputField name="email" label={t('email')} type="email" />
               <InputField name="password" label={t('password')} type="password" />
@@ -46,7 +47,9 @@ const SignUpScreen = (): JSX.Element => {
           )
         }}
       </Formik>
-      <p className="block pt-4 text-xs text-center">
+
+      <GoogleButton {...{ signInWithGoogle }} />
+      <p className="block pt-2 text-xs text-center">
         {t('loginPrompt')}
         <Link to={routes.login} className="font-semibold">
           {t('loginLink')}
