@@ -1,9 +1,7 @@
 import { useTask } from '@renderer/providers/Todo/Task/useTask'
-import Paragraph from '@tiptap/extension-paragraph'
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
-import Document from '@tiptap/extension-document'
-import Text from '@tiptap/extension-text'
+
 import { EditorContent, useEditor } from '@tiptap/react'
 import { useCallback, useEffect, useState } from 'react'
 import { routes } from '@renderer/utils/Routes/routes'
@@ -45,7 +43,6 @@ const TodoEditor = (): JSX.Element => {
       StarterKit.configure({
         codeBlock: false
       }),
-      Document,
       Color.configure({
         types: ['textStyle']
       }),
@@ -53,8 +50,6 @@ const TodoEditor = (): JSX.Element => {
         placeholder: t('contentPlaceholder'),
         emptyEditorClass: 'is-editor-empty'
       }),
-      Paragraph,
-      Text,
       TextStyle,
       Underline,
       FontFamily,

@@ -3,7 +3,7 @@
     "hello": "Hello {{username}}!",
     "sad": "Ouch! >w<",
     "mascot": "Meow~",
-    "todo": "Todos",
+    "todo": "To do",
     "journal": "Journal"
   },
   "journal": {
