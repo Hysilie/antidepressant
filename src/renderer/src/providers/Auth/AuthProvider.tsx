@@ -12,6 +12,7 @@ import {
 } from 'firebase/auth'
 import { auth, db } from './firebase/firebase'
 import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore'
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User>()
@@ -157,6 +158,22 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     localStorage.clear()
   }
 
+  /*
+   * Send reset password
+   */
+  const sendResetPassword = (email: string): void => {
+    const auth = getAuth()
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        toast.success('Email sent successfully ☀️', { position: 'top-center' })
+      })
+      .catch((error) => {
+        console.error('Error sending user email:', error)
+
+        // ..
+      })
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -165,7 +182,8 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         handleRegister,
         logout,
         loading,
-        deleteAccount
+        deleteAccount,
+        sendResetPassword
       }}
     >
       {children}

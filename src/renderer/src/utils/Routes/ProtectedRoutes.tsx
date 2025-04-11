@@ -9,7 +9,6 @@ const ProtectedRoute = (): JSX.Element => {
   if (loading) return <Loader />
 
   if (!currentUser) {
-    console.log('Run Protected Route')
     return <Navigate to={routes.login} replace />
   }
 

@@ -35,7 +35,15 @@
     "submit": "Submit",
     "signupPrompt": "No account? ",
     "signupLink": "Sign Up",
-    "loader": "loading…"
+    "loader": "loading…",
+    "reset": "Forgotten password?",
+    "dialog": {
+      "title": "Reset your password",
+      "content": "A reset link will be sent to your email address",
+      "cancel": "Cancel",
+      "confirm": "Send reset link",
+      "placeholder": "Your email address"
+    }
   },
   "player": {
     "title": "",

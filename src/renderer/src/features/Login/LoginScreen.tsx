@@ -1,6 +1,6 @@
 import { routes } from '@renderer/utils/Routes/routes'
 import { Link } from 'react-router-dom'
-import { Formik, Form } from 'formik'
+import { Formik, Form, FormikProps } from 'formik'
 import { trimmedValues } from './utils/trimmedValues'
 import { ToastContainer } from 'react-toastify'
 
@@ -11,18 +11,23 @@ import Container from '@renderer/components/Container'
 import Title from '@renderer/components/Title'
 import InputField from '@renderer/components/InputField'
 import { useTranslation } from 'react-i18next'
+import { useRef, useState } from 'react'
+import ResetPasswordDialog from './ResetPasswordDialog'
 
 const LoginScreen = (): JSX.Element => {
-  const { handleConnexion } = useAuth()
+  const { handleConnexion, sendResetPassword } = useAuth()
   const { t } = useTranslation('translation', { keyPrefix: 'login' })
+  const [openDialog, setOpenDialog] = useState(false)
+  const formRef = useRef<FormikProps<{ email: string; password: string }> | null>(null)
 
   return (
-    <Container spacing="large" primary>
+    <Container spacing="large" primary className="w-full">
       <ToastContainer />
       <Title label={t('title')} />
 
       <Formik
         initialValues={{ email: '', password: '' }}
+        innerRef={formRef}
         validationSchema={loginValidationSchema}
         onSubmit={async (values) => {
           const sanitizedValues = trimmedValues(values)
@@ -33,7 +38,7 @@ const LoginScreen = (): JSX.Element => {
         {(formikProps) => {
           const { isSubmitting } = formikProps
           return (
-            <Form className="flex flex-col">
+            <Form className="flex flex-col w-full">
               <InputField name="email" label={t('email')} type="email" />
               <InputField name="password" label={t('password')} type="password" />
               <Button
@@ -46,8 +51,22 @@ const LoginScreen = (): JSX.Element => {
           )
         }}
       </Formik>
-
-      <p className="block pt-4 text-xs text-center">
+      <div className="pt-4 w-full text-xs text-center" onClick={() => setOpenDialog(true)}>
+        <p className="font-semibold hover:scale-105 transition-transform duration-300 cursor-pointer">
+          {t('reset')}
+        </p>
+      </div>
+      <ResetPasswordDialog
+        onConfirm={sendResetPassword}
+        open={openDialog}
+        title={t('dialog.title')}
+        description={t('dialog.content')}
+        onOpenChange={() => setOpenDialog(false)}
+        confirmLabel={t('dialog.confirm')}
+        cancelLabel={t('dialog.cancel')}
+        emailLoginInput={formRef.current?.values.email ?? ''}
+      />
+      <p className="bottom-4 left-[115px] absolute text-xs text-center l">
         {t('signupPrompt')}
         <Link to={routes.signup} className="font-semibold">
           {t('signupLink')}
