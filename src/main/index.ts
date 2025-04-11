@@ -3,6 +3,56 @@ import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import fs from 'fs'
+import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth'
+import { auth } from '../renderer/src/providers/Auth/firebase/firebase'
+
+/*  Google  */
+ipcMain.handle('auth:google-login', async () => {
+  return new Promise((resolve, reject) => {
+    const authWindow = new BrowserWindow({
+      width: 500,
+      height: 600,
+      show: true,
+      webPreferences: {
+        nodeIntegration: false
+      }
+    })
+
+    const CLIENT_ID = '425147394264-4h91sghs38v407c3gjqvqrfd7u7rlp23.apps.googleusercontent.com'
+    const redirectUri = 'http://localhost'
+
+    const providerUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token&scope=profile%20email%20openid`
+
+    authWindow.loadURL(providerUrl)
+
+    authWindow.webContents.on('will-redirect', async (_, url) => {
+      if (url.startsWith('http://localhost')) {
+        const match = url.match(/access_token=([^&]*)/)
+        const token = match?.[1]
+        if (token) {
+          authWindow.close()
+          try {
+            const credential = GoogleAuthProvider.credential(null, token)
+            const result = await signInWithCredential(auth, credential)
+            const userData = {
+              uid: result.user.uid,
+              email: result.user.email,
+              displayName: result.user.displayName,
+              photoURL: result.user.photoURL
+            }
+            resolve(userData)
+          } catch (error) {
+            console.error('❌ Error during sign-in:', error)
+            reject(error)
+          }
+        } else {
+          console.error('❌ No token found in redirect URL')
+          reject(new Error('No token found'))
+        }
+      }
+    })
+  })
+})
 
 const iconPath =
   process.platform === 'win32'

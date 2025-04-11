@@ -15,7 +15,7 @@ import { useRef, useState } from 'react'
 import ResetPasswordDialog from './ResetPasswordDialog'
 
 const LoginScreen = (): JSX.Element => {
-  const { handleConnexion, sendResetPassword } = useAuth()
+  const { handleConnexion, sendResetPassword, signInWithGoogle } = useAuth()
   const { t } = useTranslation('translation', { keyPrefix: 'login' })
   const [openDialog, setOpenDialog] = useState(false)
   const formRef = useRef<FormikProps<{ email: string; password: string }> | null>(null)
@@ -72,6 +72,8 @@ const LoginScreen = (): JSX.Element => {
           {t('signupLink')}
         </Link>
       </p>
+
+      <button onClick={signInWithGoogle}>test</button>
     </Container>
   )
 }

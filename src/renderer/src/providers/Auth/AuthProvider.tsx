@@ -13,6 +13,7 @@ import {
 import { auth, db } from './firebase/firebase'
 import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore'
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
+import { defaultPreferencesState } from '../Preferences/utils'
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User>()
@@ -94,6 +95,27 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
       }
     }
   }
+  const signInWithGoogle = async (): Promise<void> => {
+    try {
+      const user = await window.electron.ipcRenderer.invoke('auth:google-login')
+      console.log('✅ Google user:', user)
+
+      const userData: User = {
+        uid: user.uid,
+        email: user.email,
+        username: user.displayName || 'Anonymous',
+        preferencesStates: defaultPreferencesState,
+        lockScreenCode: undefined
+      }
+
+      localStorage.setItem('currentUser', JSON.stringify(userData))
+      setCurrentUser(userData)
+
+      navigate(routes.home, { replace: true })
+    } catch (err) {
+      console.error('Google auth error:', err)
+    }
+  }
 
   /**
    * Create a user with firebase email and password method and create doc to Users table
@@ -152,10 +174,20 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   /**
    * Log out the user with firebase method and clean local storage
    */
-  const logout = (): void => {
-    if (auth.currentUser) auth.signOut()
-    setCurrentUser(undefined)
-    localStorage.clear()
+  const logout = async (): Promise<void> => {
+    try {
+      if (auth.currentUser) {
+        await auth.signOut()
+        setCurrentUser(undefined)
+        localStorage.clear()
+      }
+    } catch (error) {
+      console.error('Error during sign out:', error)
+      toast.warn(
+        'Session expired. Please sign in again or contact support if the issue persists.',
+        { position: 'bottom-center' }
+      )
+    }
   }
 
   /*
@@ -183,7 +215,8 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         logout,
         loading,
         deleteAccount,
-        sendResetPassword
+        sendResetPassword,
+        signInWithGoogle
       }}
     >
       {children}

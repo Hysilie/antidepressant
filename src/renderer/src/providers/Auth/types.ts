@@ -5,6 +5,7 @@ export interface AuthContextData {
   handleConnexion: (email: string, password: string) => void
   handleRegister: (email: string, password: string, username: string) => void
   sendResetPassword: (email: string) => void
+  signInWithGoogle: () => void
   deleteAccount: () => void
   logout: () => void
   loading: boolean
