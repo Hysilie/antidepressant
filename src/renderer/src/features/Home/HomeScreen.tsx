@@ -68,18 +68,20 @@ const HomeScreen = (): JSX.Element => {
             🚧🚧🚧🚧🚧🚧
           </div>
           <div className="flex flex-col gap-4 w-full text-center">
-            <div
+            <button
+              type="button"
               onClick={() => navigate(routes.todo)}
               className="bg-primary p-4 border-2 border-black rounded-2xl w-full font-title hover:scale-105 transition-transform duration-300 cursor-pointer"
             >
               {t('todo')}
-            </div>
-            <div
+            </button>
+            <button
+              type="button"
               onClick={() => navigate(routes.journal)}
               className="bg-primary p-4 border-2 border-black rounded-2xl w-full font-title hover:scale-105 transition-transform duration-300 cursor-pointer"
             >
               {t('journal')}
-            </div>
+            </button>
             <div className="relative flex justify-end items-end w-full h-full">
               <SvgButton
                 src={clickCount > 5 ? sad : mascot}
