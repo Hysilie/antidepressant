@@ -1,6 +1,5 @@
 import { TodoList } from '@renderer/providers/Todo/types'
 import { SortOption } from './TodoScreen'
-import { JSDOM } from 'jsdom'
 
 export const sortTodos = (todoList: TodoList[], sortBy: SortOption): TodoList[] => {
   const getTimestampInSeconds = (value: { seconds: number } | Date | null | undefined): number => {

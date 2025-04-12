@@ -1,6 +1,6 @@
 import { TodoList } from '@renderer/providers/Todo/types'
 import { JSDOM } from 'jsdom'
-import { SortOption } from './TodoScreen'
+import { SortOption } from '../TodoScreen'
 const TODOLIST: TodoList[] = [
   {
     id: '4',

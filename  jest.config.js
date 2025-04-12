@@ -1,4 +1,5 @@
-export default {
+module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'node'
+  testEnvironment: 'jsdom',
+  moduleDirectories: ['node_modules']
 }
