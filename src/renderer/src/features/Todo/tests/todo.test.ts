@@ -123,46 +123,47 @@ const sortTodosTest = (todoList: TodoList[], sortBy: SortOption): TodoList[] => 
   })
 }
 
-test('Expect the todoList to be returned', () =>
-  expect(sortTodosTest(TODOLIST, 'date')).toBeDefined())
+describe('\n🧪 ✨ SortTodo functionality with various sorting options:', () => {
+  test('The todoList to be returned', () => expect(sortTodosTest(TODOLIST, 'date')).toBeDefined())
 
-test('Expect the todoList to remain unchanged when sorted by an invalid option', () => {
-  const sortedTodos = sortTodosTest(TODOLIST, 'invalidOption' as never)
-  expect(sortedTodos).toEqual(TODOLIST)
-})
+  test('The todoList to remain unchanged when sorted by an invalid option', () => {
+    const sortedTodos = sortTodosTest(TODOLIST, 'invalidOption' as never)
+    expect(sortedTodos).toEqual(TODOLIST)
+  })
 
-test('Expect the todoList to prioritize todos with the least completion (id: 2 > 3 > 4 > 1 > 5) when sorted by completedInverse', () => {
-  const sortedTodos = sortTodosTest(TODOLIST, 'completedInverse')
-  expect(sortedTodos[0].id).toBe('2')
-  expect(sortedTodos[1].id).toBe('3')
-  expect(sortedTodos[2].id).toBe('4')
-  expect(sortedTodos[3].id).toBe('1')
-  expect(sortedTodos[4].id).toBe('5')
-})
+  test('The todoList to prioritize todos with the least completion (id: 2 > 3 > 4 > 1 > 5) when sorted by completedInverse', () => {
+    const sortedTodos = sortTodosTest(TODOLIST, 'completedInverse')
+    expect(sortedTodos[0].id).toBe('2')
+    expect(sortedTodos[1].id).toBe('3')
+    expect(sortedTodos[2].id).toBe('4')
+    expect(sortedTodos[3].id).toBe('1')
+    expect(sortedTodos[4].id).toBe('5')
+  })
 
-test('Expect the todoList to prioritize todos with the highest completion (id: 5 > 1 > 4 > 3 > 2)', () => {
-  const sortedTodos = sortTodosTest(TODOLIST, 'completed')
-  expect(sortedTodos[0].id).toBe('5')
-  expect(sortedTodos[1].id).toBe('1')
-  expect(sortedTodos[2].id).toBe('4')
-  expect(sortedTodos[3].id).toBe('3')
-  expect(sortedTodos[4].id).toBe('2')
-})
+  test('The todoList to prioritize todos with the highest completion (id: 5 > 1 > 4 > 3 > 2)', () => {
+    const sortedTodos = sortTodosTest(TODOLIST, 'completed')
+    expect(sortedTodos[0].id).toBe('5')
+    expect(sortedTodos[1].id).toBe('1')
+    expect(sortedTodos[2].id).toBe('4')
+    expect(sortedTodos[3].id).toBe('3')
+    expect(sortedTodos[4].id).toBe('2')
+  })
 
-test('Expect the todoList to prioritize todos by oldest creation (id: 4) when sorted by dateInverse', () => {
-  const sortedTodos = sortTodosTest(TODOLIST, 'dateInverse')
-  expect(sortedTodos[0].id).toBe('4')
-  expect(sortedTodos[1].id).toBe('1')
-  expect(sortedTodos[2].id).toBe('2')
-  expect(sortedTodos[3].id).toBe('3')
-  expect(sortedTodos[4].id).toBe('5')
-})
+  test('The todoList to prioritize todos by oldest creation (id: 4 > 1 > 2 > 3 > 5) when sorted by dateInverse', () => {
+    const sortedTodos = sortTodosTest(TODOLIST, 'dateInverse')
+    expect(sortedTodos[0].id).toBe('4')
+    expect(sortedTodos[1].id).toBe('1')
+    expect(sortedTodos[2].id).toBe('2')
+    expect(sortedTodos[3].id).toBe('3')
+    expect(sortedTodos[4].id).toBe('5')
+  })
 
-test('Expect the todoList to prioritize todos by newest (id: 5) when sorted by date', () => {
-  const sortedTodos = sortTodosTest(TODOLIST, 'date')
-  expect(sortedTodos[0].id).toBe('5')
-  expect(sortedTodos[1].id).toBe('3')
-  expect(sortedTodos[2].id).toBe('2')
-  expect(sortedTodos[3].id).toBe('1')
-  expect(sortedTodos[4].id).toBe('4')
+  test('The todoList to prioritize todos by newest (id: 5 > 3 > 2 > 1 > 4) when sorted by date', () => {
+    const sortedTodos = sortTodosTest(TODOLIST, 'date')
+    expect(sortedTodos[0].id).toBe('5')
+    expect(sortedTodos[1].id).toBe('3')
+    expect(sortedTodos[2].id).toBe('2')
+    expect(sortedTodos[3].id).toBe('1')
+    expect(sortedTodos[4].id).toBe('4')
+  })
 })
