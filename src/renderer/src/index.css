@@ -206,19 +206,6 @@ pre code {
     margin-top: 0;
   }
 
-  /* List styles */
-  /*  ul,
-  ol {
-    padding: 0 1rem;
-    margin: 1.25rem 1rem 1.25rem 0.4rem;
-
-    li p {
-      margin-top: 0.25em;
-      margin-bottom: 0.25em;
-    }
-  } */
-
-  /* Task list specific styles */
   ul[data-type='taskList'] {
     list-style: none;
     margin-left: 0;
@@ -233,10 +220,6 @@ pre code {
         margin-right: 0.5rem;
         user-select: none;
       }
-
-      /*  div {
-        flex: 1 1 auto;
-      } */
     }
 
     input[type='checkbox'] {
@@ -279,4 +262,23 @@ pre code {
     border-width: 0 0.15rem 0.15rem 0;
     transform: rotate(45deg);
   }
+}
+
+/*  Flip card animation for PeakAView */
+.card {
+  perspective: 800px;
+}
+.card__content {
+  transform-style: preserve-3d;
+}
+.card_flip .card__content {
+  transform: rotateY(0.5turn);
+}
+
+.card__front,
+.card__back {
+  backface-visibility: hidden;
+}
+.card__back {
+  transform: rotateY(0.5turn);
 }

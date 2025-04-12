@@ -6,6 +6,12 @@
     "todo": "To do",
     "journal": "Journal"
   },
+  "games": {
+    "title": "Games",
+    "peak": {
+      "title": "Peak A View"
+    }
+  },
   "journal": {
     "title": "Journal",
     "new": "New entry",

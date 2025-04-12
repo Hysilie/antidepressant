@@ -25,6 +25,8 @@ import { PreferencesProvider } from './providers/Preferences/PreferencesProvider
 import { LockProvider } from './providers/Preferences/Lock/LockProvider'
 import { ThemeProvider } from './providers/Preferences/Theme/ThemeProvider'
 import './utils/locales/i18n'
+import GamesScreen from './features/Games/GamesScreen'
+import PeakAViewScreen from './features/Games/PeakAView/PeakAViewScreen'
 
 const routeConfig = [
   // Protected Routes
@@ -38,6 +40,8 @@ const routeConfig = [
       </PageProvider>
     )
   },
+  { path: routes.games, element: <GamesScreen /> },
+  { path: routes.peak, element: <PeakAViewScreen /> },
   { path: routes.player, element: <PlayerScreen /> },
   { path: routes.preferences, element: <PreferencesScreen /> },
   { path: routes.todo, element: <TodoScreen /> },
