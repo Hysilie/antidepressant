@@ -12,19 +12,19 @@ import { useNavigate } from 'react-router-dom'
 import { isEmpty } from 'remeda'
 import clsx from 'clsx'
 import ProgressCircle from '@renderer/components/ProgressCircle'
-import { TodoList } from '@renderer/providers/Todo/types'
 import DropDownMenu from '@renderer/components/DropdownMenu'
 import { useEffect, useState } from 'react'
 
 import FeatherIcon from 'feather-icons-react'
 import Loader from '@renderer/components/Loader'
+import { sortTodos } from './sortTodo'
 
-type SortOption = 'date' | 'completed' | 'completedInverse' | 'dateInverse'
+export type SortOption = 'date' | 'completed' | 'completedInverse' | 'dateInverse'
 const SORT_OPTIONS: { label: string; value: SortOption }[] = [
   { label: 'Most completed', value: 'completed' },
   { label: 'Least completed', value: 'completedInverse' },
-  { label: 'Newest first', value: 'dateInverse' },
-  { label: 'Oldest first', value: 'date' }
+  { label: 'Newest first', value: 'date' },
+  { label: 'Oldest first', value: 'dateInverse' }
 ]
 
 const TodoScreen = (): JSX.Element => {
@@ -43,57 +43,6 @@ const TodoScreen = (): JSX.Element => {
   useEffect(() => {
     localStorage.setItem('sortOption', sortOption)
   }, [sortOption])
-
-  const sortTodos = (todoList: TodoList[], sortBy: SortOption): TodoList[] => {
-    const getTimestampInSeconds = (
-      value: { seconds: number } | Date | null | undefined
-    ): number => {
-      if (!value) return 0
-      if ('seconds' in value) return value.seconds
-      if (value instanceof Date) return Math.floor(value.getTime() / 1000)
-      return 0
-    }
-
-    return [...todoList].sort((a, b) => {
-      const docA = new DOMParser().parseFromString(a.todos, 'text/html')
-      const docB = new DOMParser().parseFromString(b.todos, 'text/html')
-
-      const itemsA = [...docA.querySelectorAll('[data-type="taskItem"]')]
-      const itemsB = [...docB.querySelectorAll('[data-type="taskItem"]')]
-
-      const totalA = itemsA.length || 1
-      const totalB = itemsB.length || 1
-
-      const completedA = itemsA.filter(
-        (item) => item.getAttribute('data-checked') === 'true'
-      ).length
-      const completedB = itemsB.filter(
-        (item) => item.getAttribute('data-checked') === 'true'
-      ).length
-
-      const ratioA = completedA / totalA
-      const ratioB = completedB / totalB
-
-      const dateA = getTimestampInSeconds(a.createdAt || a.updatedAt)
-      const dateB = getTimestampInSeconds(b.createdAt || b.updatedAt)
-      switch (sortBy) {
-        case 'completed':
-          if (ratioA === ratioB) return dateB - dateA
-          return ratioB - ratioA
-        case 'completedInverse':
-          if (ratioA === ratioB) return dateA - dateB
-          return ratioA - ratioB
-        case 'date': {
-          return dateB - dateA
-        }
-        case 'dateInverse': {
-          return dateA - dateB
-        }
-        default:
-          return 0
-      }
-    })
-  }
 
   return loading ? (
     <Loader />
