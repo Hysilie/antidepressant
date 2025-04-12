@@ -8,6 +8,7 @@ import SvgButton from '../../components/SvgButton'
 import AutoScrollText from './AutoScrollText'
 import SoundControl from './SoundControl'
 import FeatherIcon from 'feather-icons-react'
+import { formatTime } from './formatTime'
 type PlayerProps = {
   opacityColor: string
 }
@@ -28,12 +29,6 @@ const Player: FC<PlayerProps> = ({ opacityColor }): JSX.Element => {
     isShuffle,
     isReplay
   } = usePlayer()
-
-  const formatTime = (time: number): string => {
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.floor(time % 60)
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
-  }
 
   return (
     <div className="relative py-4" style={{ backgroundColor: opacityColor }}>

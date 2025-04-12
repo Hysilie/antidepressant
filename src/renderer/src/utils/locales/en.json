@@ -32,7 +32,7 @@
     "title": "Login to your account",
     "email": "Email",
     "password": "Password",
-    "submit": "Submit",
+    "submit": "Log in",
     "signupPrompt": "No account? ",
     "signupLink": "Sign Up",
     "loader": "loading…",

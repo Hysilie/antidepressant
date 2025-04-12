@@ -28,6 +28,7 @@ const SvgButton: FC<SvgButtonProps> = ({
       style={{ width: `${size}px`, height: `${size}px` }}
       className={`hover:scale-125 transition-all duration-300 ease-in-out cursor-pointer ${className && className}`}
       onClick={onClick}
+      role="button"
       onMouseOver={onMouseOver}
       onMouseLeave={onMouseLeave}
       onMouseEnter={onMouseEnter}

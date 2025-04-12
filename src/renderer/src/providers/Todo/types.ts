@@ -3,8 +3,14 @@ export interface TodoList {
   title: string
   todos: string
   userid?: number
-  createdAt: Date
-  updatedAt?: Date
+  createdAt: {
+    seconds: number
+    nanoseconds: number
+  }
+  updatedAt?: {
+    seconds: number
+    nanoseconds: number
+  }
 }
 
 export interface TodosContextData {
