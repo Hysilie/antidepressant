@@ -13,6 +13,9 @@ import bg5 from '../../../assets/backgrounds/bg-F2ABE7.png'
 import bg6 from '../../../assets/backgrounds/bg-F68052.png'
 import bg7 from '../../../assets/backgrounds/bg-F8D7A5.png'
 import bg8 from '../../../assets/backgrounds/bg-FE8D8D.png'
+import { useNavigate } from 'react-router-dom'
+import PeakAViewDialog from './Dialog'
+import monarq from '../../../assets/icons/card.svg'
 
 export type Card = {
   id: number
@@ -32,6 +35,7 @@ const BG_MAP: Record<number, string> = {
 }
 
 const PeakAViewScreen = (): JSX.Element => {
+  const navigate = useNavigate()
   const { t } = useTranslation('translation', { keyPrefix: 'games.peak' })
   const [deck, setDeck] = useState<Card[]>([])
   const [revealedCards, setRevealedCards] = useState<Card[]>([])
@@ -103,13 +107,7 @@ const PeakAViewScreen = (): JSX.Element => {
       <Header title={t('title')} icon={true} target={routes.games} />
       {isPlaying ? (
         <div className="flex flex-col flex-grow rounded-lg w-full overflow-hidden">
-          {isPartyOver ? (
-            <div className="bottom-[50%] left-[32%] absolute flex justify-center items-center bg-white border-2 border-black rounded-2xl w-32 h-20 text-sm">
-              Score : {count}
-              <Button mode="inline" label="Again ?" onClick={reloadDeck} />
-            </div>
-          ) : undefined}
-          <div className="flex flex-grow pt-4 overflow-y-auto">
+          <div className="flex flex-grow overflow-y-auto">
             <div className="flex justify-center items-center w-full h-full">
               <div className="gap-3 grid grid-cols-4 grid-rows-3">
                 {deck?.map((card) => {
@@ -137,9 +135,13 @@ const PeakAViewScreen = (): JSX.Element => {
                           isRevealedOrMatched ? 'rotate-y-180' : ''
                         )}
                       >
-                        <div className="top-0 right-0 bottom-0 left-0 absolute flex justify-center items-center bg-white border-2 border-black rounded-2xl card__front"></div>
+                        <div className="top-0 right-0 bottom-0 left-0 absolute flex justify-center items-center bg-gradient-to-br from-gray-100 via-primary to-primary border-2 border-black rounded-xl card__front">
+                          <div className="flex justify-center items-center bg-primary rounded-lg w-[90%] h-[90%]">
+                            <img src={monarq} className="opacity-30 w-[90%] h-[90%]" />
+                          </div>
+                        </div>
                         <div
-                          className="top-0 right-0 bottom-0 left-0 absolute bg-cover bg-center border-2 border-black rounded-2xl card__back"
+                          className="top-0 right-0 bottom-0 left-0 absolute bg-cover bg-center border-2 border-black rounded-xl card__back"
                           style={{
                             backgroundImage: `url(${BG_MAP[card?.value]})`,
                             backgroundSize: '130px 130px',
@@ -157,6 +159,19 @@ const PeakAViewScreen = (): JSX.Element => {
       ) : (
         <Button label="Play" onClick={() => setIsPlaying(true)} />
       )}
+
+      <PeakAViewDialog
+        scoreContent={t(count === 8 ? 'best' : count <= 20 ? 'under20' : 'more20', {
+          value: count
+        })}
+        scoreTitle={t('score')}
+        isPartyOver={isPartyOver}
+        count={count}
+        cancelLabel={t('cancel')}
+        onCancel={() => navigate(routes.games)}
+        continueLabel={t('restart')}
+        onContinue={reloadDeck}
+      />
     </Container>
   )
 }
