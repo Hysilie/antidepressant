@@ -104,7 +104,7 @@ const PeakAViewScreen = (): JSX.Element => {
 
   return (
     <Container spacing="large" primary className="flex flex-col w-full h-full overflow-x-hidden">
-      <Header title={t('title')} icon={true} target={routes.games} />
+      <Header title={t('title')} icon={true} target={routes.home} />
       {isPlaying ? (
         <div className="flex flex-col flex-grow rounded-lg w-full overflow-hidden">
           <div className="flex flex-grow overflow-y-auto">
