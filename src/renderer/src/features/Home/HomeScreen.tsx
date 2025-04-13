@@ -15,12 +15,15 @@ import SvgButton from '@renderer/components/SvgButton'
 import clsx from 'clsx'
 import { useLock } from '@renderer/providers/Preferences/Lock/useLock'
 import LockedScreen from '@renderer/LockedScreen'
-import Button from '@renderer/components/Button'
+import TodoPreview from './TodoPreview'
+import { useTodo } from '@renderer/providers/Todo/useTodo'
+import { isDefined } from 'remeda'
 
 const HomeScreen = (): JSX.Element => {
   const navigate = useNavigate()
   const { currentUser } = useAuth()
   const { isScreenLocked } = useLock()
+  const { pinnedTodo } = useTodo()
   const { t } = useTranslation('translation', { keyPrefix: 'home' })
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -61,12 +64,28 @@ const HomeScreen = (): JSX.Element => {
       </p>
       <div className="flex flex-col flex-grow rounded-lg w-full">
         <div className="flex flex-grow gap-4 py-2">
-          <div className="flex flex-col justify-center items-center p-4 border-2 border-black rounded-2xl w-full text-center">
-            🚧🚧🚧🚧🚧 <br />
-            Building <br />
-            🚧🚧🚧🚧🚧🚧
-            <Button mode="inline" onClick={() => navigate(routes.games)} label="Peak a view" />
+          <div className="z-[99] relative flex flex-col justify-end items-center border-2 border-black rounded-2xl w-96 text-center">
+            {isDefined(pinnedTodo?.id) ? (
+              <p className="bg-primary pt-1 border-b-2 border-black rounded-t-[14px] w-full h-8 text-sm">
+                {t('current')}
+              </p>
+            ) : null}
+            <button
+              onClick={() =>
+                navigate(isDefined(pinnedTodo?.id) ? routes.todoEdit(pinnedTodo?.id) : routes.todo)
+              }
+            >
+              {isDefined(pinnedTodo?.id) ? (
+                <TodoPreview />
+              ) : (
+                <div className="flex flex-col flex-1 justify-center items-center p-2 h-52">
+                  <h2 className="mb-2 font-bold text-md">{t('noCurrentTitle')}</h2>
+                  <p className="mb-6 text-gray-700 text-sm">{t('noCurrentContent')}</p>
+                </div>
+              )}
+            </button>
           </div>
+
           <div className="flex flex-col gap-4 w-full text-center">
             <button
               type="button"
@@ -82,11 +101,20 @@ const HomeScreen = (): JSX.Element => {
             >
               {t('journal')}
             </button>
-            <div className="relative flex justify-end items-end w-full h-full">
+
+            <div className="relative flex justify-between items-center w-full h-full">
+              <button
+                type="button"
+                onClick={() => navigate(routes.peak)}
+                className="z-3 p-2 rounded-2xl font-accent text-sm text-left hover:scale-105 transition-transform duration-300 cursor-pointer"
+              >
+                {t('play')}
+              </button>
+
               <SvgButton
                 src={clickCount > 5 ? sad : mascot}
                 className="rotate-12"
-                size={70}
+                size={50}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 onClick={() => setClickCount((prevCount) => prevCount + 1)}
@@ -95,8 +123,8 @@ const HomeScreen = (): JSX.Element => {
 
               <div
                 className={clsx(
-                  '-top-5 -left-10 absolute bg-white opacity-0 px-4 py-2 border-2 border-black rounded-t-2xl rounded-l-2xl min-w-20 font-accent text-lg duration-300 ease-in-out',
-                  isHovered && 'opacity-100 transition-opacity'
+                  '-top-5 -left-5 z-10 absolute bg-white opacity-0 px-4 py-2 border-2 border-black rounded-t-2xl rounded-l-2xl min-w-20 font-accent text-lg duration-300 ease-in-out',
+                  isHovered && 'opacity-100 transition-opacity z-50'
                 )}
               >
                 {clickCount > 5 ? t('sad') : t('mascot')}

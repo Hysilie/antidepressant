@@ -168,7 +168,7 @@ const PeakAViewScreen = (): JSX.Element => {
         isPartyOver={isPartyOver}
         count={count}
         cancelLabel={t('cancel')}
-        onCancel={() => navigate(routes.games)}
+        onCancel={() => navigate(routes.home)}
         continueLabel={t('restart')}
         onContinue={reloadDeck}
       />

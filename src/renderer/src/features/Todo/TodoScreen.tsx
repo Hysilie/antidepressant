@@ -34,7 +34,7 @@ const TodoScreen = (): JSX.Element => {
   const { isScreenLocked } = useLock()
 
   const navigateToEditTodo = (id?: string): void | Promise<void> => navigate(routes.todoEdit(id))
-  const { todoList, loading } = useTodo()
+  const { todoList, loading, pinnedTodo, pinATodo } = useTodo()
   const [moreOptions, setMoreOptions] = useState(false)
 
   const initialSortOption = (localStorage.getItem('sortOption') as SortOption) || 'date'
@@ -95,6 +95,7 @@ const TodoScreen = (): JSX.Element => {
                 (item) => item?.getAttribute('data-checked') === 'true'
               )?.length
               const total = items?.length
+              const isPinned = pinnedTodo?.id === list?.id
 
               return (
                 <button
@@ -110,11 +111,30 @@ const TodoScreen = (): JSX.Element => {
                   onClick={() => navigateToEditTodo(list.id)}
                 >
                   <ProgressCircle percent={(count / total) * 100} isEmpty={total === 0} />
-                  <div>
-                    <p>{list.title}</p>
-                    <p className="text-gray-400 text-xs">
+                  <div className="relative w-full">
+                    <div className="max-w-44">
+                      <p className="truncate">{list.title}</p>
+                    </div>
+                    <p className="relative text-gray-400 text-xs">
                       {total === 0 ? t('notask') : t('progress', { count: count, total })}
                     </p>
+
+                    <FeatherIcon
+                      icon="bookmark"
+                      fill={isPinned ? 'black' : undefined}
+                      color="black"
+                      size={16}
+                      className={clsx(
+                        'top-[6px] right-0 z-99 absolute hover:scale-125 transition-all duration-300 ease-in-out cursor-pointer',
+                        {
+                          'opacity-0 hover:opacity-100': !isPinned
+                        }
+                      )}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        pinATodo(list?.id)
+                      }}
+                    />
                   </div>
                 </button>
               )
