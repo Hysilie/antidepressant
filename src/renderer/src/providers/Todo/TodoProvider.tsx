@@ -13,6 +13,7 @@ export const TodoProvider: FC<PropsWithChildren> = ({ children }) => {
   const [todoList, setTodoList] = useState<TodoList[]>([])
   const [loading, setLoading] = useState(false)
   const { start, stop } = useDelayedLoader(setLoading, 300)
+  const [pinnedTodo, setPinnedTodo] = useState<TodoList>()
 
   /**
    * Fetch todolist data from userID
@@ -50,12 +51,43 @@ export const TodoProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [start, stop, userId])
 
+  const getPinnedTodo = useCallback(() => {
+    const pinnedTodoId = localStorage.getItem('pinnedTodoId')
+    if (pinnedTodoId) {
+      const todo = todoList.filter((t) => t.id === pinnedTodoId)
+      setPinnedTodo(todo[0])
+    }
+  }, [todoList])
+
+  const pinATodo = useCallback(
+    (id: string) => {
+      const currentTodo = localStorage.getItem('pinnedTodoId')
+
+      if (currentTodo === id) {
+        localStorage.removeItem('pinnedTodoId')
+        setPinnedTodo(undefined)
+        return
+      }
+
+      localStorage.setItem('pinnedTodoId', id)
+
+      const todo = todoList.filter((t) => t.id === id)
+      setPinnedTodo(todo[0])
+    },
+    [todoList]
+  )
+
+  useEffect(() => {
+    getPinnedTodo()
+  }, [getPinnedTodo])
   useEffect(() => {
     fetchTodolistData()
   }, [fetchTodolistData, userId])
 
   return (
-    <TodosContext.Provider value={{ todoList, refreshTodos: fetchTodolistData, loading }}>
+    <TodosContext.Provider
+      value={{ todoList, refreshTodos: fetchTodolistData, loading, pinATodo, pinnedTodo }}
+    >
       {children}
     </TodosContext.Provider>
   )

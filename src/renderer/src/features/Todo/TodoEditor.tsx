@@ -23,9 +23,12 @@ import Color from '@tiptap/extension-color'
 import Placeholder from '@tiptap/extension-placeholder'
 import StarterKit from '@tiptap/starter-kit'
 import Loader from '@renderer/components/Loader'
+import FeatherIcon from 'feather-icons-react'
+import { useTodo } from '@renderer/providers/Todo/useTodo'
 
 const TodoEditor = (): JSX.Element => {
-  const { title, updatedAt, todos, update, save, remove, loading } = useTask()
+  const { pinATodo, pinnedTodo } = useTodo()
+  const { title, updatedAt, todos, update, save, remove, loading, todolistId } = useTask()
   const navigate = useNavigate()
   const { t } = useTranslation('translation', { keyPrefix: 'todo' })
   const [moreOptions, setMoreOptions] = useState(false)
@@ -87,6 +90,24 @@ const TodoEditor = (): JSX.Element => {
         {!isNewTodo && (
           <>
             <Button
+              iconLeft={
+                <FeatherIcon
+                  icon="bookmark"
+                  size={16}
+                  fill={pinnedTodo?.id === todolistId ? 'black' : undefined}
+                />
+              }
+              mode="inline"
+              label={pinnedTodo?.id === todolistId ? t('unpinned') : t('pinned')}
+              type="button"
+              onClick={() => {
+                pinATodo(todolistId)
+                setMoreOptions(false)
+              }}
+              style={{ fontSize: 'small' }}
+            />
+            <Button
+              iconLeft={<FeatherIcon icon="edit-3" size={16} />}
               mode="inline"
               label={t('modify')}
               type="button"
@@ -150,52 +171,3 @@ const TodoEditor = (): JSX.Element => {
 }
 
 export default TodoEditor
-
-/*  <div>
-    
-    
-      <div className="control-group">
-        <div className="button-group">
-          <button
-            onClick={() => editor?.chain().focus().toggleTaskList().run()}
-            className={editor?.isActive('taskList') ? 'is-active' : ''}
-          >
-            Toggle task list
-          </button>
-          <button
-            onClick={() => {
-              editor
-                ?.chain()
-                .focus()
-                .insertContent({
-                  type: 'taskList',
-                  content: [
-                    {
-                      type: 'taskItem',
-                      attrs: { checked: false },
-                      content: [
-                        {
-                          type: 'paragraph',
-                          content: [
-                            {
-                              type: 'text',
-                              text: ' '
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                })
-                .run()
-            }}
-          >
-            Add task
-          </button>
-        </div>
-      </div>
-
-      <EditorContent editor={editor} />
-      <EditorContent editor={editor} className="tiptap" />
-    
-    </div> */

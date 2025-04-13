@@ -7,4 +7,5 @@ export interface TaskContextData {
   remove: () => void
   isSaved: boolean
   loading: boolean
+  todolistId: string
 }

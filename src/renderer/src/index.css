@@ -201,6 +201,10 @@ pre code {
 
 /* ---------- TIPTAP TODO CSS ---------- */
 
+.previewtodo {
+  padding-left: 0px;
+  padding-right: 0px;
+}
 .tiptaptodo {
   :first-child {
     margin-top: 0;

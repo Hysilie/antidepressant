@@ -17,4 +17,6 @@ export interface TodosContextData {
   todoList: TodoList[]
   refreshTodos: () => void
   loading: boolean
+  pinATodo: (id: string) => void
+  pinnedTodo: TodoList | undefined
 }

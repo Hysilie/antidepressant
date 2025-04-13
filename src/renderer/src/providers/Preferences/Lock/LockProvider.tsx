@@ -4,8 +4,6 @@ import { useAuth } from '@renderer/providers/Auth/useAuth'
 import { doc, updateDoc, getDoc } from 'firebase/firestore'
 import { db } from '@renderer/providers/Auth/firebase/firebase'
 
-// TODO - Validate user code
-
 export const LockProvider: FC<PropsWithChildren> = ({ children }) => {
   const { currentUser } = useAuth()
   const [isScreenLocked, setIsScreenLocked] = useState(true)
@@ -54,7 +52,6 @@ export const LockProvider: FC<PropsWithChildren> = ({ children }) => {
       setIsScreenLocked(false)
     }
     if (currentUser?.preferencesStates?.lockScreenEnabled != null) {
-      console.log('here')
       setIsScreenLocked(currentUser?.preferencesStates?.lockScreenEnabled)
     }
   }, [currentUser])
