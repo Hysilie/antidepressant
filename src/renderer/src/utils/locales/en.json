@@ -6,6 +6,18 @@
     "todo": "To do",
     "journal": "Journal"
   },
+  "games": {
+    "title": "Games",
+    "peak": {
+      "title": "Peak A View",
+      "best": "✨ You did a purrfection!",
+      "under20": "Incredible! Only {{value}} tries!",
+      "more20": "Nice! Keep trying to improve!",
+      "score": "Your Score",
+      "cancel": "Back to games",
+      "restart": "Play again"
+    }
+  },
   "journal": {
     "title": "Journal",
     "new": "New entry",

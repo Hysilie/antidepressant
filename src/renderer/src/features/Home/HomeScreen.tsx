@@ -15,7 +15,7 @@ import SvgButton from '@renderer/components/SvgButton'
 import clsx from 'clsx'
 import { useLock } from '@renderer/providers/Preferences/Lock/useLock'
 import LockedScreen from '@renderer/LockedScreen'
-import build from '../../assets/icons/build.svg'
+import Button from '@renderer/components/Button'
 
 const HomeScreen = (): JSX.Element => {
   const navigate = useNavigate()
@@ -62,10 +62,10 @@ const HomeScreen = (): JSX.Element => {
       <div className="flex flex-col flex-grow rounded-lg w-full">
         <div className="flex flex-grow gap-4 py-2">
           <div className="flex flex-col justify-center items-center p-4 border-2 border-black rounded-2xl w-full text-center">
-            <img src={build} className="pr-4 w-18 h-18" />
             🚧🚧🚧🚧🚧 <br />
             Building <br />
             🚧🚧🚧🚧🚧🚧
+            <Button mode="inline" onClick={() => navigate(routes.games)} label="Peak a view" />
           </div>
           <div className="flex flex-col gap-4 w-full text-center">
             <button

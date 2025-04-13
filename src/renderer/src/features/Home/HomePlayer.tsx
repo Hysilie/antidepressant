@@ -39,7 +39,7 @@ const HomePlayer = (): JSX.Element => {
   return (
     <div className="relative bg-primary border-2 border-black rounded-2xl h-28 hover:scale-105 transition-transform duration-300">
       <div className="flex justify-between items-center pt-0 pb-2 w-full">
-        <div className="flex-1 px-4">
+        <div className="flex-1 px-4 pt-2 pb-1">
           <AutoScrollText>{trackName || 'No track playing'}</AutoScrollText>
         </div>
         <div className="px-4">
