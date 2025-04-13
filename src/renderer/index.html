@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Antidepressant</title>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <!-- This file contains the main HTML structure for the renderer process of the application.
+    Content Security Policy (CSP) is configured to ensure secure loading of resources.
+    Firebase domains are included in the CSP to allow integration with Firebase services.
+    Blob is included in order to use Audio Player.
+  -->
+<meta
+  http-equiv="Content-Security-Policy"
+  content="
+    default-src 'self';
+    connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://identitytoolkit.googleapis.com https://wttr.in/ https://apis.google.com;
+    script-src 'self' https://sdk.scdn.co https://apis.google.com;
+    frame-src 'self' https://sdk.scdn.co https://antidepressant-c2601.firebaseapp.com;
+    style-src 'self' 'unsafe-inline';
+    media-src 'self' blob:;
+    img-src 'self' data:;
+  "
+/>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

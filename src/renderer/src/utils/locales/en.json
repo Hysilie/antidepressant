@@ -1,0 +1,159 @@
+{
+  "about": {
+    "by": "Crafted with ❤️ by Hysilie",
+    "cats": "🎨 Cats ? Cooked up by GPT & Figma!",
+    "todo": "📝 To-dos, always handy",
+    "music": "🎧 Local tunes, pure vibes",
+    "journal": "🌈 Journal, your safe space",
+    "version": "version 0.0.1"
+  },
+  "home": {
+    "hello": "Hello {{username}}!",
+    "sad": "Ouch! >w< ",
+    "mascot": "Meow~",
+    "todo": "To-dos",
+    "journal": "Journal",
+    "current": "Current to-do",
+    "noCurrentTitle": "No to-do pinned",
+    "noCurrentContent": "Pick one to keep it close!",
+    "play": "Wanna play with me ? ~"
+  },
+  "games": {
+    "title": "Games",
+    "peak": {
+      "title": "Peak A View",
+      "best": "✨ You did a purrfection!",
+      "under20": "Incredible! Only {{value}} tries!",
+      "more20": "Nice! Keep trying to improve!",
+      "score": "Your Score",
+      "cancel": "Back to home",
+      "restart": "Play again"
+    }
+  },
+  "journal": {
+    "title": "Journal",
+    "new": "New entry",
+    "page": "Page",
+    "titlePlaceholder": "Title",
+    "modify": "Modify title",
+    "lastedit": "last edited : {{time}}",
+    "contentPlaceholder": "Start writing your thoughts here…",
+    "empty": {
+      "title": "No entries yet",
+      "content": "Start writing in your journal to capture your thoughts and memories."
+    },
+    "extraButtons": {
+      "remove": "Delete the page"
+    },
+    "dialog": {
+      "title": "Delete this page",
+      "content": "Are you sure you want to delete this page?",
+      "cancel": "Cancel",
+      "confirm": "Yes, delete this page"
+    }
+  },
+  "login": {
+    "title": "Login to your account",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "signupPrompt": "No account? ",
+    "signupLink": "Sign Up",
+    "loader": "loading…",
+    "reset": "Forgotten password?",
+    "google": " Se connecter avec Google",
+    "dialog": {
+      "title": "Reset your password",
+      "content": "A reset link will be sent to your email address",
+      "cancel": "Cancel",
+      "confirm": "Send reset link",
+      "placeholder": "Your email address"
+    }
+  },
+  "player": {
+    "title": "",
+    "playlist": "Playlist - ({{number}}) tracks",
+    "playing": "playing",
+    "tooltip": {
+      "folder": "Open folder",
+      "playlist": "Open playlist",
+      "shuffle": "Shuffle the playlist",
+      "replay": "Replay current track",
+      "reset": "Remove all tracks"
+    }
+  },
+  "preferences": {
+    "title": "Preferences",
+    "autoplay": "Launch music on startup",
+    "change": "Change lock code",
+    "username": "Change username",
+    "usernameDialog": {
+      "title": "Change my username",
+      "content": "Update your username to personalize your experience.",
+      "cancel": "Cancel",
+      "confirm": "I change my username"
+    },
+    "lock": "Lock screen",
+    "lockDialog": {
+      "titleVerify": "Verify your code",
+      "titleCreate": "Set up a code",
+      "titleCreateNew": "Set up a new code",
+      "content": "Please remember your code or contact the administrator if you forget it.",
+      "placeholder": "4-digit code",
+      "cancel": "Cancel",
+      "submitVerify": "Verify your code",
+      "submitCreate": "Submit the new code"
+    },
+    "logout": "Log Out",
+    "theme": "Theme",
+    "reset": "Reset all preferences",
+    "resetDialog": {
+      "title": "Reset my preferences",
+      "content": "Resetting will restore preferences to their default values.",
+      "cancel": "Cancel",
+      "confirm": "I reset my preferences"
+    },
+    "delete": "Delete my account",
+    "deleteDialog": {
+      "title": "Delete my account",
+      "content": "Deleting your account will permanently remove all your data.",
+      "cancel": "Cancel",
+      "confirm": "I delete my account"
+    }
+  },
+  "signup": {
+    "title": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "submit": "Submit",
+    "loginPrompt": "Already have an account? ",
+    "loginLink": "Log in"
+  },
+  "todo": {
+    "title": "To-do",
+    "new": "New to-do",
+    "notask": "there are no tasks in this list",
+    "todo": "To-do List",
+    "titlePlaceholder": "Title",
+    "modify": "Modify title",
+    "lastedit": "last edited : {{time}}",
+    "contentPlaceholder": "Start adding your tasks here…",
+    "progress": "{{count}}/{{total}} tasks",
+    "pinned": "Pin to-do",
+    "unpinned": "Unpin to-do",
+    "empty": {
+      "title": "No to-dos yet",
+      "content": "Start adding tasks to your to-do list to stay organized."
+    },
+    "extraButtons": {
+      "remove": "Delete the to-do list"
+    },
+    "dialog": {
+      "title": "Delete this to-do list",
+      "content": "Are you sure you want to delete this to-do list?",
+      "cancel": "Cancel",
+      "confirm": "Yes, delete this to-do list"
+    }
+  }
+}
