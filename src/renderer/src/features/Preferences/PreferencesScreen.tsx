@@ -15,6 +15,8 @@ import { useTranslation } from 'react-i18next'
 import LockDialog from './LockDialog'
 import LockedScreen from '@renderer/LockedScreen'
 import UsernameDialog from './UsernameDialog'
+import FeatherIcon from 'feather-icons-react'
+import About from './About'
 
 const PreferencesScreen = (): JSX.Element => {
   const { deleteAccount, logout, updateUsername } = useAuth()
@@ -38,14 +40,26 @@ const PreferencesScreen = (): JSX.Element => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [showUsernameDialog, setShowUsernameDialog] = useState(false)
   const [openLockDialog, setOpenLockDialog] = useState(false)
-
+  const [showAboutDialog, setShowAboutDialog] = useState(false)
   const { t } = useTranslation('translation', { keyPrefix: 'preferences' })
 
   return isScreenLocked ? (
     <LockedScreen target={routes.preferences} />
   ) : (
     <Container spacing="large" className="flex flex-col w-full h-full overflow-x-hidden">
-      <Header icon title={t('title')} target={routes.home} />
+      <Header
+        icon
+        title={t('title')}
+        target={routes.home}
+        extraButton={
+          <FeatherIcon
+            icon="info"
+            size={24}
+            className="hover:scale-125 transition-transform duration-300 cursor-pointer"
+            onClick={() => setShowAboutDialog(true)}
+          />
+        }
+      />
 
       <div className="flex flex-col flex-grow rounded-lg w-full overflow-hidden">
         <div className="flex-grow p-4 overflow-y-auto">
@@ -153,6 +167,7 @@ const PreferencesScreen = (): JSX.Element => {
         confirmLabel={t('usernameDialog.confirm')}
         cancelLabel={t('usernameDialog.cancel')}
       />
+      <About onClose={() => setShowAboutDialog(false)} open={showAboutDialog} />
     </Container>
   )
 }

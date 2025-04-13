@@ -1,4 +1,12 @@
 {
+  "about": {
+    "by": "Crafted with ❤️ by Hysilie",
+    "cats": "🎨 Cats ? Cooked up by GPT & Figma!",
+    "todo": "📝 Todos, always handy",
+    "music": "🎧 Local tunes, pure vibes",
+    "journal": "🌈 Journal, your safe space",
+    "version": "version 0.0.1"
+  },
   "home": {
     "hello": "Hello {{username}}!",
     "sad": "Ouch! >w<",
